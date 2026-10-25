@@ -44,7 +44,9 @@ Abre la app en tu teléfono u ordenador y, si quieres, **instálala** desde el n
 
 ## ❤️ Donativos voluntarios
 
-La app es y seguirá siendo gratuita y sin fines de lucro. Desarrollarla cuesta (principalmente tokens de IA para escribir y revisar cada lección con calidad). Si LingoREA te sirve y quieres ayudar a que siga creciendo, **puedes donar voluntariamente para cubrir esos costos de desarrollo**.
+Primero, una aclaración importante: **la publicación de este sitio no necesita dinero**. La app vive en infraestructura gratuita (GitHub Pages, con su puerta en Google Sites) y su permanencia está asegurada — **no nos falta dinero para mantenerla publicada** y nadie tiene que pagar para que siga en línea.
+
+Lo que sí cuesta es **seguir desarrollándola**: escribir y revisar cada lección con calidad consume tokens de IA. Si LingoREA te sirve y quieres ayudar a que el contenido siga creciendo, **puedes donar voluntariamente para cubrir esos costos de desarrollo**.
 
 Donar es opcional, no da ninguna ventaja dentro de la app y no cambia nada para quien no dona: **la educación que recibe cada persona es la misma**.
 
