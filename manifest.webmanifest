@@ -1,0 +1,15 @@
+{
+  "name": "LingoREA Studio",
+  "short_name": "LingoREA",
+  "description": "Aprende idiomas. Libre, sin publicidad.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#08131d",
+  "theme_color": "#0b1a28",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
