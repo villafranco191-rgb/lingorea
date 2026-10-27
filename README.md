@@ -34,7 +34,7 @@ Ahí puedes reportar errores, sugerir lecciones o proponer mejoras. También ace
 ## 📚 Contenido actual
 
 - **Inglés** — ruta de A1 a B2: **12 unidades · 56 lecciones · 388 ejercicios** (selección múltiple, banco de palabras, completar, unir pares y dictado con audio), con repaso espaciado por fechas (1 · 3 · 7 · 21 días) y cuentos con preguntas de comprensión.
-  - Unidad 12: preparación académica tipo **TOEFL iBT** (en crecimiento).
+  - Unidad 12: **inglés académico y examen** (en crecimiento), con simulador de examen en doble escala (banda 1–6 · 0–120).
 - **Francés** y **portugués** — unidades iniciales reales, en crecimiento.
 - Hoja de ruta pública: llegar a **100 lecciones de inglés** y después hacia **365** (una para cada día del año), además de la práctica oral con micrófono.
 
@@ -54,7 +54,7 @@ Donar es opcional, no da ninguna ventaja dentro de la app y no cambia nada para 
 
 - El contenido de las lecciones es **original**, creado para este proyecto y revisado antes de publicarse.
 - La mascota oficial —el tucán— es una imagen **generada con IA**, elegida para este proyecto.
-- **TOEFL® es una marca registrada de ETS** (Educational Testing Service). Este proyecto es independiente: **no está afiliado a ETS ni respaldado por ETS**; la palabra se usa solo para describir que una unidad prepara para ese tipo de examen.
+- La ruta de **examen académico** sigue el formato de los exámenes internacionales de inglés académico (lectura, escucha, habla y escritura). Este proyecto es independiente: **no usa marcas de terceros y no está afiliado ni respaldado por ningún organismo examinador**. El puntaje del simulador es una estimación de práctica, no una calificación oficial: solo el organismo examinador acredita.
 - Las demás marcas que pudieran mencionarse pertenecen a sus respectivos propietarios y se nombran solo con fines descriptivos.
 - Este repositorio no contiene código ni recursos de terceros sujetos a licencia que obligue a atribución. Si en el futuro se incorpora alguno, su licencia y crédito se documentarán en esta sección.
 
