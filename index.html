@@ -238,6 +238,17 @@ body .path > .node-wrap:nth-child(even):not(:has(.node.current))::after{ left:ca
 @media (prefers-reduced-motion: reduce){ body .node.current::before{ animation:none; } }
 
 </style>
+<style id="muse-v10">
+/* ============================================================
+   LingoREA v10 · Injerto A1 — Laboratorio de Pronunciación
+   (donante: Pro de Gemini; CSS verbatim de su bloque .mic-btn/.word-chip)
+   ============================================================ */
+.mic-btn.rec{border-color:var(--error);background:var(--error-bg);color:var(--error);animation:pulse 1.4s infinite}
+.mic-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 20px;border-radius:16px;border:2px solid var(--primary);background:color-mix(in srgb,var(--primary) 12%,var(--surface));color:var(--primary);font:800 16px var(--font-ui)}
+.word-chip.miss{background:var(--error-bg);color:var(--error);border:1px solid var(--error)}
+.word-chip.ok{background:var(--success-bg);color:var(--success);border:1px solid var(--success)}
+.word-chip{display:inline-block;padding:3px 9px;border-radius:8px;margin:2px;font:700 15px var(--font-text)}
+</style>
 </head>
 <body>
 <div class="app">
@@ -385,6 +396,7 @@ const I = {
  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
  sound:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+ mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg>',
  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>',
  cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="15" rx="2.5"/><path d="M7 3h11.5A2.5 2.5 0 0 1 21 5.5V17"/></svg>',
@@ -527,10 +539,105 @@ function viewRuta(){
 const footer = () => `<footer class="foot"><p>${esc(COPY.missionShort)}</p><button class="link" data-page="mision">Nuestra misión</button> · <button class="link" data-page="colabora">Colabora</button> · <button class="link" data-act="dev">Modo creador</button></footer>`;
 
 /* ===== Vista: Práctica ===== */
+/* ===== Injerto v10 A1: Laboratorio de Pronunciación (donante Pro) ===== */
+function openSpeechLab(){
+ const pool = [];
+ allLessons(S.course).forEach(({u,l})=>l.challenges.forEach(ch=>{
+  if(ch.spokenText && ch.ipa && ch.type!=='pair_match' && ch.spokenText.length>10){
+   pool.push({text:ch.spokenText, ipa:ch.ipa, unit:u.unitNumber, title:l.title, hint:ch.canonicalAnswer||''});
+  }
+ }));
+ const items = shuffle(pool).slice(0, 12);
+ let idx = 0, lastSpoken = '';
+ openPage('speechLab', `<p class="label">Práctica Oral · ${esc(course().name)}</p><h1 class="display" style="font-size:28px">Laboratorio de Pronunciación y Voz</h1><p class="muted" style="font-size:15px">Escucha el modelo nativo, revisa la transcripción fonética (IPA) y pronuncia en voz alta para comparar palabra por palabra.</p><div id="speechBox"></div>`);
+ const draw = () => {
+  const it = items[idx];
+  const targetWords = it.text.replace(/[—]/g,' ').trim().split(/\s+/);
+  const spokenNorm = norm(lastSpoken).split(/\s+/).filter(Boolean);
+  const chipsHTML = lastSpoken ? `<div style="margin-top:12px"><p class="label">Comparación palabra por palabra:</p><div>${targetWords.map(w=>{
+   const ok = spokenNorm.includes(norm(w));
+   return `<span class="word-chip ${ok?'ok':'miss'}">${esc(w)} ${ok?'✓':''}</span>`;
+  }).join(' ')}</div><p class="muted" style="font-size:14px;margin-top:6px">Detectado: «${esc(lastSpoken)}»</p></div>` : '';
+
+  $('#speechBox').innerHTML = `<section class="card stack" style="margin-top:12px">
+   <div class="row-between"><span class="cefr">Unidad ${it.unit} · ${esc(it.title)}</span><span class="muted num">${idx+1} / ${items.length}</span></div>
+   <div style="padding:14px;border-radius:16px;background:var(--surface2);border:1px solid var(--line)">
+    <p style="font:800 22px/1.35 var(--font-display);margin:0" lang="${esc(course().langTag)}">${esc(it.text)}</p>
+    <p class="ipa" style="margin:6px 0 0;font-size:16px">${esc(it.ipa)}</p>
+   </div>
+   <div class="row wrap">
+    <button type="button" class="btn ghost" data-say="${esc(it.text)}">${I.sound} Escuchar normal</button>
+    <button type="button" class="btn ghost" data-say-slow="${esc(it.text)}">${I.turtle} Escuchar lento</button>
+   </div>
+   <div class="row wrap">
+    <button type="button" class="mic-btn" id="spMicBtn" style="flex:1">${I.mic} Hablar por micrófono</button>
+    <button type="button" class="btn ghost small" id="spSimBtn">Ya lo pronuncié en voz alta (Evaluar)</button>
+   </div>
+   ${chipsHTML}
+   <div class="row" style="margin-top:8px">
+    <button type="button" class="btn ghost" id="spPrev">← Anterior</button>
+    <button type="button" class="btn" id="spNext" style="flex:1">Siguiente frase →</button>
+   </div>
+  </section>`;
+  bindPage($('#page'));
+  $$('[data-say-slow]',$('#speechBox')).forEach(b=>b.onclick=()=>speak(b.dataset.saySlow,true));
+  $('#spMicBtn').onclick = () => startInlineMic($('#spMicBtn'), txt => {
+   lastSpoken = txt;
+   S.speechCount = (S.speechCount||0)+1;
+   addXP(5); touchStreak(); checkBadges(); save(); renderTop();
+   sfx('ok');
+   draw();
+  });
+  $('#spSimBtn').onclick = () => {
+   lastSpoken = it.text;
+   S.speechCount = (S.speechCount||0)+1;
+   addXP(5); touchStreak(); checkBadges(); save(); renderTop();
+   sfx('ok');
+   toast('¡Pronunciación registrada! +5 XP');
+   draw();
+  };
+  $('#spPrev').onclick = () => { idx = (idx - 1 + items.length) % items.length; lastSpoken = ''; draw(); };
+  $('#spNext').onclick = () => { idx = (idx + 1) % items.length; lastSpoken = ''; draw(); };
+ };
+ draw();
+}
+function startInlineMic(btn, onResult){
+ const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+ if(!SR){
+  toast('Tu navegador actual no expone SpeechRecognition directo; usa el botón de práctica fonética guiada.');
+  return;
+ }
+ try{
+  const rec = new SR();
+  rec.lang = course().langTag || 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+  btn.classList.add('rec');
+  btn.innerHTML = `${I.mic} Escuchando... habla ahora`;
+  rec.onresult = e => {
+   const t = (e.results&&e.results[0]&&e.results[0][0]) ? e.results[0][0].transcript : '';
+   if(t) onResult(t);
+  };
+  rec.onerror = () => {
+   btn.classList.remove('rec');
+   btn.innerHTML = `${I.mic} Intentar con micrófono`;
+   toast('No se pudo capturar el micrófono en este marco. Puedes usar la evaluación fonética asistida.');
+  };
+  rec.onend = () => {
+   btn.classList.remove('rec');
+   btn.innerHTML = `${I.mic} Grabar con micrófono`;
+  };
+  rec.start();
+ }catch(e){
+  toast('Micrófono bloqueado por el visor. Usa la simulación fonética guiada abajo.');
+ }
+}
+
 function viewPractica(){
  const mis=Object.values(S.mistakes).filter(m=>m.c===S.course), st=course().story;
  let h=`<h1>Práctica</h1><p class="muted" style="margin:4px 0 18px">Repasa a tu ritmo. Nada aquí se bloquea.</p><div class="stack">`;
- const lab=labItems(); h+=`<button class="tile lab-tile" data-act="lab" ${lab.length?'':'disabled aria-disabled="true"'}><span class="ic">${I.shield}</span><span class="t"><b>Laboratorio de errores</b><span>${lab.length?`${lab.length} ${lab.length===1?'ejercicio se te resiste':'ejercicios se te resisten'}. Primero vemos por qué, luego lo resuelves sin pistas.`:'Vacío por ahora. Aquí llega lo que falles 3 veces, para entenderlo con calma.'}</span></span></button>`;
+ const lab=labItems(); h+=`<button class="tile" data-act="speech"><span class="ic">${I.mic}</span><span class="t"><b>Práctica oral con reconocimiento de voz</b><span>Pronuncia frases de ${esc(course().name.toLowerCase())} con retroalimentación palabra por palabra</span></span></button>`;
+  h+=`<button class="tile lab-tile" data-act="lab" ${lab.length?'':'disabled aria-disabled="true"'}><span class="ic">${I.shield}</span><span class="t"><b>Laboratorio de errores</b><span>${lab.length?`${lab.length} ${lab.length===1?'ejercicio se te resiste':'ejercicios se te resisten'}. Primero vemos por qué, luego lo resuelves sin pistas.`:'Vacío por ahora. Aquí llega lo que falles 3 veces, para entenderlo con calma.'}</span></span></button>`;
  h+= mis.filter(m=>!m.due||m.due<=srsTodayStr()).length ? `<button class="tile" data-act="review"><span class="ic">${I.redo}</span><span class="t"><b>Repasar mis errores</b><span>${mis.filter(m=>!m.due||m.due<=srsTodayStr()).length} ${mis.filter(m=>!m.due||m.due<=srsTodayStr()).length===1?'ejercicio listo para hoy':'ejercicios listos para hoy'}</span></span></button>`
   : `<div class="card empty">${masc('m-rest',120,MASCOT.name+' descansa')}<h2>${mis.length?'Hoy no toca repaso':'Aún no hay errores para repasar'}</h2><p class="muted">${mis.length?('Tus errores están programados para volver justo cuando estás a punto de olvidarlos: mañana, a los 3 días, a la semana y a los 21 días. El próximo regresa el '+(mis.map(m=>m.due).filter(Boolean).sort()[0]||'pronto')+'.'):'Cuando te equivoques en una lección, aquí los encontrarás para practicarlos otra vez.'}</p></div>`;
  const ustories=course().units.filter(u=>u.story); if(ustories.length) h+=`<h2 style="margin-top:10px">Cuentos</h2>`+ustories.map(u=>`<button class="tile" data-story="${u.unitNumber}"><span class="ic">${I.book}</span><span class="t"><b>${esc(u.story.title)}</b><span>Unidad ${u.unitNumber} · ${esc(u.cefr)} · lee, escucha y responde ${(u.story.questions||[1]).length} preguntas</span></span></button>`).join(''); else if(st) h+=`<button class="tile" data-act="story"><span class="ic">${I.book}</span><span class="t"><b>Cuento: ${esc(st.title.replace(/^Mini-Cuento:\s*/,''))}</b><span>Lee, escucha y responde una pregunta</span></span></button>`;
@@ -586,7 +693,7 @@ function bindView(){ $$('[data-jump]').forEach(b=>b.onclick=()=>{ const t=$('#u'
  $$('[data-theme-set]').forEach(b=>b.onclick=()=>{ S.theme=b.dataset.themeSet; save(); applyTheme(); renderView(); });
  const sw=$('#soundSw'); if(sw) sw.onchange=()=>{ S.sound=sw.checked; save(); if(S.sound) sfx('ok'); }; const iw=$('#introSw'); if(iw) iw.onchange=()=>{ S.intros=iw.checked; save(); sfx('tap'); }; const vw=$('#vibeSw'); if(vw) vw.onchange=()=>{ S.vibe=vw.checked; save(); sfx('tap'); };
  $$('.tap-masc').forEach(m=>m.onclick=()=>{ setPose(m,'ok','r-hop'); sfx('tap'); setTimeout(()=>setPose(m,m.closest('#view')&&tab==='perfil'?'read':'idle'),1100); });
- $$('[data-act]').forEach(b=>b.onclick=()=>({ review:startReview, lab:startLab, story:openStory, flash:openFlash, reset:askReset, backup:()=>{ exportFile(); const g=checkBadges(); save(); toast('Copia descargada. Guárdala donde no se pierda.'); if(g.length) setTimeout(()=>toast('Logro: '+g[0].n),2700); renderView(); }, code:showCode, import:showImport, dev:()=>{ const u=new URL(location.href); u.searchParams.set('dev','1'); location.href=u.toString(); } })[b.dataset.act]());
+ $$('[data-act]').forEach(b=>b.onclick=()=>({ speech:openSpeechLab, review:startReview, lab:startLab, story:openStory, flash:openFlash, reset:askReset, backup:()=>{ exportFile(); const g=checkBadges(); save(); toast('Copia descargada. Guárdala donde no se pierda.'); if(g.length) setTimeout(()=>toast('Logro: '+g[0].n),2700); renderView(); }, code:showCode, import:showImport, dev:()=>{ const u=new URL(location.href); u.searchParams.set('dev','1'); location.href=u.toString(); } })[b.dataset.act]());
 }
 function askReset(){ const d=$('#dlg'); d.hidden=false; d.innerHTML=`<div class="card" role="dialog" aria-modal="true" aria-labelledby="dlgT"><h2 id="dlgT">¿Borrar tu avance?</h2><p>Esto borra tu avance en este dispositivo. ¿Continuar?</p><div class="row"><button class="btn ghost" id="dNo">Cancelar</button><button class="btn bad" id="dYes">Borrar</button></div></div>`; $('#dNo').focus(); $('#dNo').onclick=()=>d.hidden=true; $('#dYes').onclick=()=>{ const keep={theme:S.theme,welcomed:true,sound:S.sound,vibe:S.vibe}; S=Object.assign(fresh(),keep); save(); d.hidden=true; renderAll(); toast('Tu avance se reinició.'); }; }
 
