@@ -240,14 +240,31 @@ body .path > .node-wrap:nth-child(even):not(:has(.node.current))::after{ left:ca
 </style>
 <style id="muse-v10">
 /* ============================================================
-   LingoREA v10 · Injerto A1 — Laboratorio de Pronunciación
-   (donante: Pro de Gemini; CSS verbatim de su bloque .mic-btn/.word-chip)
+   LingoREA v10 · Injerto Fase A — Laboratorio de Pronunciación
+   y Simulador TOEFL iBT (donante: Pro de Gemini; CSS verbatim)
    ============================================================ */
 .mic-btn.rec{border-color:var(--error);background:var(--error-bg);color:var(--error);animation:pulse 1.4s infinite}
 .mic-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 20px;border-radius:16px;border:2px solid var(--primary);background:color-mix(in srgb,var(--primary) 12%,var(--surface));color:var(--primary);font:800 16px var(--font-ui)}
 .word-chip.miss{background:var(--error-bg);color:var(--error);border:1px solid var(--error)}
 .word-chip.ok{background:var(--success-bg);color:var(--success);border:1px solid var(--success)}
 .word-chip{display:inline-block;padding:3px 9px;border-radius:8px;margin:2px;font:700 15px var(--font-text)}
+.essay-ta{width:100%;min-height:150px;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface2);color:var(--text);font:400 16px/1.55 var(--font-text);resize:vertical}
+.passage-box p{margin:0 0 10px}
+.passage-box{max-height:290px;overflow-y:auto;padding:14px 16px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);font-size:15.5px;line-height:1.65;margin-bottom:14px}
+.sim-tab[aria-selected="true"]{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 14%,var(--surface));color:var(--primary)}
+.sim-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0}
+.sim-tab{padding:10px 6px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font:800 13px/1.2 var(--font-ui);text-align:center}
+.timer-pill.urgent{border-color:var(--error);color:var(--error);background:var(--error-bg)}
+.timer-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--surface2);border:1.5px solid var(--line);font:800 15px var(--font-ui);font-variant-numeric:tabular-nums}
+.toefl-hero-card {
+  background:linear-gradient(168deg, var(--surface), color-mix(in srgb, var(--surface2) 44%, var(--surface)));
+  border:1.5px solid color-mix(in srgb, var(--line) 85%, transparent);
+  box-shadow:var(--shadow-1), inset 0 1px 0 color-mix(in srgb, #FFFFFF 55%, transparent);
+}
+.toefl-hero-card {
+  box-shadow:var(--shadow-1), inset 0 1px 0 rgba(255,255,255,.07);
+}
+.toefl-hero-card{position:relative;overflow:hidden;border-radius:22px;padding:18px;margin-top:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--en) 18%,var(--surface)),color-mix(in srgb,var(--sun) 12%,var(--surface)));border:1.5px solid color-mix(in srgb,var(--en) 40%,var(--line));box-shadow:var(--shadow-2)}
 </style>
 </head>
 <body>
@@ -397,6 +414,7 @@ const I = {
  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
  sound:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></svg>',
+ grad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12.5V17c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5M22 10v6"/></svg>',
  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h7a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H2zM22 5h-7a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h8z"/></svg>',
  cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="15" rx="2.5"/><path d="M7 3h11.5A2.5 2.5 0 0 1 21 5.5V17"/></svg>',
@@ -523,7 +541,7 @@ function viewRuta(){
  ${nx?`<p class="hero-next">${done?'Sigue':'Empieza'} con <b>${esc(nx.l.title)}</b> · Unidad ${nx.u.unitNumber}</p>`:''}
  <div class="goal-pill"><div class="goal-row"><span>Meta del día</span><span class="num">${dailyXP}/${S.goal} XP</span></div><div class="goal" role="progressbar" aria-label="Meta del día" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
  ${nx?`<button class="btn" style="margin-top:16px" data-lesson="${nx.l.lessonId}">${done?'Continuar lección':'Empezar'}</button>`:''}</div>${masc('m-hero tap-masc',128,MASCOT.name+' te acompaña',done?'point':'idle')}</div></section>`;
- h+=levelPath(c);
+ h+=levelPath(c); if(S.course==='en') h+=renderToeflBanner();
  if(S.sinceBackup>=5) h+=`<div class="nudge"><span class="ico-inline">${I.shield}</span><span>Llevas ${S.sinceBackup} lecciones desde tu última copia. Guarda tu avance en un archivo: toma dos segundos.</span><button class="btn small" data-act="backup">Guardar copia</button></div>`;
  const xs=[0,-62,-92,-62,0,62,92,62];
  c.units.forEach((u,ui)=>{
@@ -539,6 +557,304 @@ function viewRuta(){
 const footer = () => `<footer class="foot"><p>${esc(COPY.missionShort)}</p><button class="link" data-page="mision">Nuestra misión</button> · <button class="link" data-page="colabora">Colabora</button> · <button class="link" data-act="dev">Modo creador</button></footer>`;
 
 /* ===== Vista: Práctica ===== */
+/* ===== Injerto v10 A2: Simulador TOEFL iBT (donante Pro) ===== */
+const TOEFL_MOCK = {
+ reading: {
+  title: 'Reading Section · Urban Heat Islands and Green Infrastructure',
+  timeSec: 360,
+  passage: [
+   'As metropolitan areas expand, natural vegetation is systematically replaced with impervious surfaces such as asphalt, concrete, and dark roofing materials. Consequently, cities experience the "urban heat island" (UHI) phenomenon, wherein metropolitan temperatures rise between 2°C and 5°C higher than those of surrounding rural regions.',
+   'Whereas conventional mitigation strategies have relied heavily on air conditioning—which paradoxically exacerbates outdoor heat by releasing waste thermal energy—urban planners now advocate vegetative infrastructure. Specifically, extensive green roofs and urban tree canopies absorb solar radiation and cool the surrounding air through evapotranspiration.',
+   'Empirical studies conducted in Chicago and Toronto corroborate that vegetated rooftops can reduce surface temperatures by up to 30% during peak summer months. Nevertheless, municipal governments often hesitate to mandate green roofs due to high initial installation costs. Recent lifecycle analyses, however, substantiate that energy savings and extended roof longevity offset these upfront expenses within six to eight years, making green infrastructure an economically feasible long-term policy.'
+  ],
+  questions: [
+   {
+    q: '1. The word «impervious» in paragraph 1 is closest in meaning to:',
+    opts: [
+     {id:'r1_a', t:'Impenetrable to water (que no permite filtrar el agua)', ok:true},
+     {id:'r1_b', t:'Temporary and fragile (temporal y frágil)', ok:false},
+     {id:'r1_c', t:'Artificially cooled (enfriado artificialmente)', ok:false}
+    ],
+    exp: '«Impervious surfaces» como el asfalto y el concreto impiden el paso del agua hacia el subsuelo.'
+   },
+   {
+    q: '2. According to paragraph 2, why is relying on air conditioning problematic as a mitigation strategy?',
+    opts: [
+     {id:'r2_a', t:'It releases waste heat outside, which worsens the urban heat island effect.', ok:true},
+     {id:'r2_b', t:'It prevents rooftop plants from performing evapotranspiration.', ok:false},
+     {id:'r2_c', t:'It only works in rural areas with low humidity.', ok:false}
+    ],
+    exp: 'El texto señala que el aire acondicionado «paradoxically exacerbates outdoor heat by releasing waste thermal energy».'
+   },
+   {
+    q: '3. Why does the author mention «Chicago and Toronto» in paragraph 3?',
+    opts: [
+     {id:'r3_a', t:'To provide empirical evidence that green roofs significantly lower temperatures.', ok:true},
+     {id:'r3_b', t:'To argue that green roofs only work in cold northern climates.', ok:false},
+     {id:'r3_c', t:'To illustrate cities that banned green roof mandates.', ok:false}
+    ],
+    exp: 'En preguntas de «Rhetorical Purpose», los estudios de Chicago y Toronto sirven para respaldar empíricamente la eficacia de las azoteas verdes.'
+   },
+   {
+    q: '4. According to paragraph 3, what makes green roofs economically feasible despite high initial costs?',
+    opts: [
+     {id:'r4_a', t:'Energy savings and longer roof lifespan recover the investment in 6–8 years.', ok:true},
+     {id:'r4_b', t:'Private homeowners pay no taxes when installing asphalt roofs.', ok:false},
+     {id:'r4_c', t:'Green roofs require no soil or maintenance once planted.', ok:false}
+    ],
+    exp: '«Energy savings and extended roof longevity offset these upfront expenses within six to eight years».'
+   }
+  ]
+ },
+ listening: {
+  title: 'Listening Section · Environmental Science Lecture (Algae Biofuels)',
+  timeSec: 240,
+  transcript: 'Professor: Today we are examining third-generation biofuels derived from microalgae. Reading passages often claim that microalgae will immediately replace fossil fuels because algae grow rapidly and do not compete with food crops for arable land. While that is true in theory, we must examine two major practical bottlenecks. First, harvesting microscopic algae from millions of liters of water requires massive energy for centrifugation and drying—sometimes consuming more energy than the fuel itself yields! Second, open-pond cultivation is highly vulnerable to temperature fluctuations and invasive bacteria. Consequently, unless photobioreactor costs drop significantly, commercial algae biofuel remains a long-term goal rather than an immediate replacement.',
+  questions: [
+   {
+    q: '1. What is the main purpose of the professor’s lecture?',
+    opts: [
+     {id:'l1_a', t:'To explain technical and economic challenges that limit commercial algae biofuels.', ok:true},
+     {id:'l1_b', t:'To prove that corn ethanol is superior to all renewable energy sources.', ok:false},
+     {id:'l1_c', t:'To describe how marine algae evolved in ancient oceans.', ok:false}
+    ],
+    exp: 'El profesor contrasta el optimismo teórico con dos cuellos de botella reales («two major practical bottlenecks»).'
+   },
+   {
+    q: '2. According to the professor, why is harvesting microalgae problematic?',
+    opts: [
+     {id:'l2_a', t:'Separating and drying the algae from water consumes a vast amount of energy.', ok:true},
+     {id:'l2_b', t:'Microalgae destroy fertile agricultural land used for food crops.', ok:false},
+     {id:'l2_c', t:'Algae cannot grow in water that contains sunlight.', ok:false}
+    ],
+    exp: 'El proceso de centrifugado y secado («centrifugation and drying») consume muchísima energía.'
+   },
+   {
+    q: '3. What is the professor’s attitude toward the immediate commercialization of algae biofuels?',
+    opts: [
+     {id:'l3_a', t:'Skeptical, unless the cost of photobioreactors decreases substantially.', ok:true},
+     {id:'l3_b', t:'Completely enthusiastic about replacing all fossil fuels this year.', ok:false},
+     {id:'l3_c', t:'Indifferent to renewable energy research.', ok:false}
+    ],
+    exp: 'Concluye que sigue siendo una meta a largo plazo («a long-term goal») a menos que bajen los costos.'
+   }
+  ]
+ },
+ speaking: {
+  title: 'Speaking Section · Integrated Campus & Academic Task (60s)',
+  timeSec: 60,
+  prompt: 'State whether you agree or disagree with the following statement and give specific reasons and examples: «Universities should require all students to complete at least one semester of community service or internship before graduating.»',
+  template: 'From my perspective, universities should definitely require a semester of practical internship. First and foremost, it allows students to apply theoretical concepts in real-world scenarios. To illustrate this point, when I worked on a community project, I developed leadership skills that textbooks alone cannot teach. Furthermore, internships substantiate a graduate’s resume, making it much more feasible to secure employment.'
+ },
+ writing: {
+  title: 'Writing for an Academic Discussion · 10-Minute Essay',
+  timeSec: 600,
+  professorPrompt: 'Prof. Gupta: Many cities are considering congestion pricing—charging drivers a fee to enter busy downtown areas during peak hours. Do you think congestion pricing is a feasible policy for major cities, or does it unfairly burden commuters? Write at least 80–100 words using academic connectors.',
+  sampleModel: 'While I understand the concern that congestion pricing may burden daily commuters, I firmly believe that it is a feasible and necessary policy for modern metropolises. First and foremost, charging a peak-hour fee directly mitigates traffic congestion and lowers carbon emissions. Nevertheless, to ensure fairness, municipal governments must reinvest the collected revenue into expanding public transit. Not only does this approach provide a viable alternative for workers, but empirical evidence from cities like London and Stockholm also corroborates that air quality improves significantly.'
+ }
+};
+let simState = null, simTimer = null;
+function openToeflSim(){
+ clearSimTimer();
+ simState = { secIdx:0, rAns:{}, lAns:{}, spkText:'', spkRubric:{fluency:true,vocab:true,structure:true}, wrtText:'', secLeft:TOEFL_MOCK.reading.timeSec };
+ openPage('toeflSim', `<div id="simRoot"></div>`);
+ const backBtn = $('#pBack');
+ if(backBtn) backBtn.onclick = ()=>{ clearSimTimer(); closePage(); };
+ renderToeflSim();
+ startSimTimer();
+}
+function renderToeflSim(){
+ const root = $('#simRoot'); if(!root || !simState) return;
+ const tabs = ['1. Reading','2. Listening','3. Speaking','4. Writing','5. Resultados'];
+ let h = `<div class="row-between"><p class="label">Simulador Académico Estilo TOEFL iBT® · Práctica Independiente (Score 25 → 95+)</p><span class="timer-pill" id="simTimerPill">⏱ ${fmtSec(simState.secLeft)}</span></div>
+ <h1 class="display" style="font-size:28px;margin-top:4px">Entrenamiento TOEFL iBT (4 Habilidades)</h1>
+ <div class="sim-tabs" role="tablist">${tabs.map((t,i)=>`<button type="button" class="sim-tab" role="tab" aria-selected="${simState.secIdx===i}" data-sim-tab="${i}">${t}</button>`).join('')}</div>`;
+
+ if(simState.secIdx===0){
+  const R = TOEFL_MOCK.reading;
+  h += `<section class="card stack"><h2>${esc(R.title)}</h2>
+   <div class="passage-box" lang="en">${R.passage.map((p,i)=>`<p><b>[Párrafo ${i+1}]</b> ${esc(p)}</p>`).join('')}</div>
+   ${R.questions.map((q,qi)=>`<div class="stack" style="margin-top:12px"><p style="font-weight:700;margin:0" lang="en">${esc(q.q)}</p>
+    <div class="opts">${q.opts.map((o,oi)=>`<button type="button" class="opt ${simState.rAns[qi]===o.id?(o.ok?'is-ok':'is-bad'):''}" data-r-q="${qi}" data-r-id="${o.id}" data-r-ok="${o.ok?1:0}"><span class="k">${oi+1}</span><span>${esc(o.t)}</span></button>`).join('')}</div>
+    ${simState.rAns[qi]?`<p class="muted" style="font-size:14.5px;margin:4px 0 0">${esc(q.exp)}</p>`:''}
+   </div>`).join('')}
+   <button type="button" class="btn block" id="simNextSec">Continuar a Listening →</button>
+  </section>`;
+ } else if(simState.secIdx===1){
+  const L = TOEFL_MOCK.listening;
+  h += `<section class="card stack"><h2>${esc(L.title)}</h2>
+   <p class="muted" style="margin:0;font-size:15px">Escucha la cátedra universitaria (puedes oírla a velocidad normal o lenta y tomar notas como en el centro ETS).</p>
+   <div class="row wrap">
+    <button type="button" class="btn" data-say="${esc(L.transcript)}">${I.sound} Reproducir Cátedra</button>
+    <button type="button" class="btn ghost" data-say-slow="${esc(L.transcript)}">${I.turtle} Velocidad Lenta</button>
+   </div>
+   <details class="acc"><summary>Ver transcripción de apoyo (Estudio guiado)</summary><div class="body"><p lang="en" style="font-size:15px;line-height:1.6">${esc(L.transcript)}</p></div></details>
+   ${L.questions.map((q,qi)=>`<div class="stack" style="margin-top:12px"><p style="font-weight:700;margin:0" lang="en">${esc(q.q)}</p>
+    <div class="opts">${q.opts.map((o,oi)=>`<button type="button" class="opt ${simState.lAns[qi]===o.id?(o.ok?'is-ok':'is-bad'):''}" data-l-q="${qi}" data-l-id="${o.id}" data-l-ok="${o.ok?1:0}"><span class="k">${oi+1}</span><span>${esc(o.t)}</span></button>`).join('')}</div>
+    ${simState.lAns[qi]?`<p class="muted" style="font-size:14.5px;margin:4px 0 0">${esc(q.exp)}</p>`:''}
+   </div>`).join('')}
+   <button type="button" class="btn block" id="simNextSec">Continuar a Speaking →</button>
+  </section>`;
+ } else if(simState.secIdx===2){
+  const SP = TOEFL_MOCK.speaking;
+  h += `<section class="card stack"><h2>${esc(SP.title)}</h2>
+   <div class="tip"><b lang="en">Prompt:</b> <span lang="en">${esc(SP.prompt)}</span></div>
+   <div class="gnote"><p class="label">Plantilla de Alto Puntaje (26–30/30) · Escúchala y úsala de guía</p><p lang="en">${esc(SP.template)}</p>
+    <button type="button" class="link" data-say="${esc(SP.template)}">${I.sound} Escuchar respuesta modelo</button>
+   </div>
+   <div class="row wrap">
+    <button type="button" class="mic-btn" id="simMicBtn">${I.mic} Grabar respuesta con micrófono</button>
+    <button type="button" class="btn ghost small" id="simFillModel">Usar plantilla guiada para practicar</button>
+   </div>
+   <textarea class="essay-ta" id="simSpkTa" placeholder="Tu transcripción oral aparecerá aquí al hablar (o puedes redactar tu guion de 45–60 segundos)...">${esc(simState.spkText)}</textarea>
+   <div class="stack" style="gap:6px">
+    <p class="label">Autoevaluación de Rúbrica ETS Speaking:</p>
+    <label class="switch"><span>Incluí conector de postura («From my perspective / First and foremost»)</span><input type="checkbox" id="spkR1" ${simState.spkRubric.fluency?'checked':''}></label>
+    <label class="switch"><span>Usé vocabulario académico AWL («feasible, substantiate, illustrate»)</span><input type="checkbox" id="spkR2" ${simState.spkRubric.vocab?'checked':''}></label>
+    <label class="switch"><span>Desarrollé al menos 1 ejemplo concreto sin pausas largas</span><input type="checkbox" id="spkR3" ${simState.spkRubric.structure?'checked':''}></label>
+   </div>
+   <button type="button" class="btn block" id="simNextSec">Continuar a Writing →</button>
+  </section>`;
+ } else if(simState.secIdx===3){
+  const W = TOEFL_MOCK.writing;
+  const words = (simState.wrtText.trim()?simState.wrtText.trim().split(/\s+/).length:0);
+  const awlTarget = ['nevertheless','consequently','furthermore','whereas','albeit','mitigate','feasible','empirical','substantiate','corroborate','viable','foster','not only'];
+  const lower = simState.wrtText.toLowerCase();
+  const usedAwl = awlTarget.filter(w=>lower.includes(w));
+  h += `<section class="card stack"><h2>${esc(W.title)}</h2>
+   <div class="tip"><span lang="en">${esc(W.professorPrompt)}</span></div>
+   <div class="row-between"><span class="pill" id="wrtWordCount">Palabras: <b>${words}</b> / meta 80+</span><span class="pill" id="wrtAwlCount">Conectores AWL detectados: <b>${usedAwl.length}</b></span></div>
+   <textarea class="essay-ta" id="simWrtTa" rows="7" placeholder="Escribe tu respuesta académica en inglés aquí (usa conectores como nevertheless, consequently, furthermore, feasible, mitigate)...">${esc(simState.wrtText)}</textarea>
+   <div class="row wrap">
+    <button type="button" class="btn ghost small" id="simInsertModel">Insertar ensayo modelo C1 para analizar</button>
+   </div>
+   <button type="button" class="btn block" id="simFinishBtn">${I.grad} Calificar Simulacro TOEFL iBT (0–120)</button>
+  </section>`;
+ } else {
+  // Results computation (0-30 each section = 0-120 total)
+  const rCorrect = TOEFL_MOCK.reading.questions.filter((q,i)=>simState.rAns[i]===(q.opts.find(o=>o.ok)||{}).id).length;
+  const rScore = Math.round((rCorrect / TOEFL_MOCK.reading.questions.length)*30);
+  const lCorrect = TOEFL_MOCK.listening.questions.filter((q,i)=>simState.lAns[i]===(q.opts.find(o=>o.ok)||{}).id).length;
+  const lScore = Math.round((lCorrect / TOEFL_MOCK.listening.questions.length)*30);
+  const spkWords = (simState.spkText.trim()?simState.spkText.trim().split(/\s+/).length:0);
+  const spkChecks = (simState.spkRubric.fluency?1:0)+(simState.spkRubric.vocab?1:0)+(simState.spkRubric.structure?1:0);
+  const sScore = Math.min(30, Math.round((spkChecks/3)*18 + Math.min(12, (spkWords/40)*12)));
+  const wrtWords = (simState.wrtText.trim()?simState.wrtText.trim().split(/\s+/).length:0);
+  const awlTarget = ['nevertheless','consequently','furthermore','whereas','albeit','mitigate','feasible','empirical','substantiate','corroborate','viable','foster','not only'];
+  const usedAwl = awlTarget.filter(w=>simState.wrtText.toLowerCase().includes(w)).length;
+  const wScore = Math.min(30, Math.round(Math.min(18, (wrtWords/80)*18) + Math.min(12, usedAwl*3)));
+  const total120 = Math.max(25, rScore + lScore + sScore + wScore);
+  const cefrBand = total120>=95?'C1 Avanzado (Acreditado)':total120>=72?'B2 Intermedio-Alto (Acreditado)':total120>=42?'B1 Intermedio':'A2 en progreso';
+  h += `<section class="card stack" style="text-align:center">
+   <p class="label">Reporte de Simulacro Académico · Escala 0–120 (Práctica Independiente)</p>
+   <h2 class="display" style="font-size:38px;color:var(--primary)">${total120} / 120 pts</h2>
+   <p style="margin:4px 0;font-weight:700">Nivel Equivalente MCER: <span class="cefr">${cefrBand}</span></p>
+   <div class="stats" style="margin-top:12px">
+    <div class="stat"><span class="num">${rScore}/30</span><span>Reading (${rCorrect}/${TOEFL_MOCK.reading.questions.length})</span></div>
+    <div class="stat"><span class="num">${lScore}/30</span><span>Listening (${lCorrect}/${TOEFL_MOCK.listening.questions.length})</span></div>
+    <div class="stat"><span class="num">${sScore}/30</span><span>Speaking (${spkWords} pal.)</span></div>
+    <div class="stat"><span class="num">${wScore}/30</span><span>Writing (${wrtWords} pal. · ${usedAwl} AWL)</span></div>
+   </div>
+   <p class="muted" style="font-size:15px">Tu mejor puntaje TOEFL iBT se actualizó en tu barra de progreso general (+40 XP sumados).</p>
+   <div class="row wrap">
+    <button type="button" class="btn ghost" id="simRetryBtn">Reintentar Simulacro</button>
+    <button type="button" class="btn" id="simDoneClose">Volver a mi Ruta</button>
+   </div>
+  </section>`;
+ }
+ root.innerHTML = h;
+ bindPage($('#page'));
+ $$('[data-sim-tab]',root).forEach(b=>b.onclick=()=>switchSimTab(+b.dataset.simTab));
+ $$('[data-say-slow]',root).forEach(b=>b.onclick=()=>speak(b.dataset.saySlow,true));
+ $$('[data-r-q]',root).forEach(b=>b.onclick=()=>{
+  simState.rAns[+b.dataset.rQ]=b.dataset.rId;
+  feedbackFx(b.dataset.rOk==='1');
+  renderToeflSim();
+ });
+ $$('[data-l-q]',root).forEach(b=>b.onclick=()=>{
+  simState.lAns[+b.dataset.lQ]=b.dataset.lId;
+  feedbackFx(b.dataset.lOk==='1');
+  renderToeflSim();
+ });
+ if($('#simSpkTa')) $('#simSpkTa').oninput=e=>{ simState.spkText=e.target.value; };
+ if($('#spkR1')) $('#spkR1').onchange=e=>{ simState.spkRubric.fluency=e.target.checked; };
+ if($('#spkR2')) $('#spkR2').onchange=e=>{ simState.spkRubric.vocab=e.target.checked; };
+ if($('#spkR3')) $('#spkR3').onchange=e=>{ simState.spkRubric.structure=e.target.checked; };
+ if($('#simFillModel')) $('#simFillModel').onclick=()=>{ simState.spkText=TOEFL_MOCK.speaking.template; renderToeflSim(); toast('Plantilla modelo cargada. Léela en voz alta para entrenar tu ritmo de 60 segundos.'); };
+ if($('#simMicBtn')) $('#simMicBtn').onclick=()=>startInlineMic($('#simMicBtn'), txt=>{ simState.spkText = (simState.spkText?simState.spkText+' ':'')+txt; renderToeflSim(); });
+ if($('#simWrtTa')) $('#simWrtTa').oninput=e=>{
+  simState.wrtText=e.target.value;
+  const w=(simState.wrtText.trim()?simState.wrtText.trim().split(/\s+/).length:0);
+  const awlTarget=['nevertheless','consequently','furthermore','whereas','albeit','mitigate','feasible','empirical','substantiate','corroborate','viable','foster','not only'];
+  const u=awlTarget.filter(k=>simState.wrtText.toLowerCase().includes(k)).length;
+  if($('#wrtWordCount')) $('#wrtWordCount').innerHTML=`Palabras: <b>${w}</b> / meta 80+`;
+  if($('#wrtAwlCount')) $('#wrtAwlCount').innerHTML=`Conectores AWL detectados: <b>${u}</b>`;
+ };
+ if($('#simInsertModel')) $('#simInsertModel').onclick=()=>{ simState.wrtText=TOEFL_MOCK.writing.sampleModel; renderToeflSim(); toast('Ensayo modelo insertado. Observa cómo integra nevertheless, mitigate, viable y corroborate.'); };
+ if($('#simNextSec')) $('#simNextSec').onclick=()=>switchSimTab(simState.secIdx+1);
+ if($('#simFinishBtn')) $('#simFinishBtn').onclick=()=>{
+  const rCorrect = TOEFL_MOCK.reading.questions.filter((q,i)=>simState.rAns[i]===(q.opts.find(o=>o.ok)||{}).id).length;
+  const rScore = Math.round((rCorrect / TOEFL_MOCK.reading.questions.length)*30);
+  const lCorrect = TOEFL_MOCK.listening.questions.filter((q,i)=>simState.lAns[i]===(q.opts.find(o=>o.ok)||{}).id).length;
+  const lScore = Math.round((lCorrect / TOEFL_MOCK.listening.questions.length)*30);
+  const spkWords = (simState.spkText.trim()?simState.spkText.trim().split(/\s+/).length:0);
+  const spkChecks = (simState.spkRubric.fluency?1:0)+(simState.spkRubric.vocab?1:0)+(simState.spkRubric.structure?1:0);
+  const sScore = Math.min(30, Math.round((spkChecks/3)*18 + Math.min(12, (spkWords/40)*12)));
+  const wrtWords = (simState.wrtText.trim()?simState.wrtText.trim().split(/\s+/).length:0);
+  const awlTarget = ['nevertheless','consequently','furthermore','whereas','albeit','mitigate','feasible','empirical','substantiate','corroborate','viable','foster','not only'];
+  const usedAwl = awlTarget.filter(w=>simState.wrtText.toLowerCase().includes(w)).length;
+  const wScore = Math.min(30, Math.round(Math.min(18, (wrtWords/80)*18) + Math.min(12, usedAwl*3)));
+  const total120 = Math.max(25, rScore + lScore + sScore + wScore);
+  S.toeflBest = Math.max(S.toeflBest||25, total120);
+  addXP(40); touchStreak(); checkBadges(); save(); renderTop();
+  sfx('done'); confetti();
+  switchSimTab(4);
+ };
+ if($('#simRetryBtn')) $('#simRetryBtn').onclick=openToeflSim;
+ if($('#simDoneClose')) $('#simDoneClose').onclick=()=>{ clearSimTimer(); closePage(); renderAll(); };
+}
+function startSimTimer(){
+ clearSimTimer();
+ simTimer = setInterval(()=>{
+  if(!simState || !$('#simRoot')){ clearSimTimer(); return; }
+  if(simState.secLeft>0){
+   simState.secLeft--;
+   const el=$('#simTimerPill');
+   if(el){ el.textContent='⏱ '+fmtSec(simState.secLeft); el.classList.toggle('urgent', simState.secLeft<=30); }
+  }
+ },1000);
+}
+function clearSimTimer(){ if(simTimer){ clearInterval(simTimer); simTimer=null; } }
+function switchSimTab(idx){
+ if(!simState) return;
+ simState.secIdx = idx;
+ const secs = [TOEFL_MOCK.reading.timeSec, TOEFL_MOCK.listening.timeSec, TOEFL_MOCK.speaking.timeSec, TOEFL_MOCK.writing.timeSec, 0];
+ simState.secLeft = secs[idx]||180;
+ renderToeflSim();
+}
+function calcToeflEstimate(){
+ const ls=allLessons('en'), dn=ls.filter(x=>isDone(x.l.lessonId)).length, tot=ls.length||1;
+ const courseBoost=Math.round((dn/tot)*65);
+ const simBest=S.toeflBest||25;
+ return Math.min(120, Math.max(25 + courseBoost, simBest));
+}
+function renderToeflBanner(){
+ const est = calcToeflEstimate();
+ return `<section class="toefl-hero-card" aria-label="Simulador TOEFL iBT">
+  <div class="row-between">
+   <div><p class="label" style="color:var(--en)">Certificación Académica · 4 Habilidades</p>
+   <h2>Simulador TOEFL iBT Completo</h2></div>
+   <span class="cefr">Mejor: ${S.toeflBest||25}/120</span>
+  </div>
+  <p class="muted" style="margin:6px 0 12px;font-size:15px">Entrena las 4 secciones reales con cronómetro oficial (Reading, Listening, Speaking con micrófono y Writing con detector AWL) para subir de tu Score 25 hacia 95+ pts (B2/C1).</p>
+  <div class="row wrap">
+   <button type="button" class="btn" data-act="toefl">${I.grad} Abrir Simulador TOEFL iBT</button>
+   <button type="button" class="btn ghost" data-act="speech">${I.mic} Laboratorio de Pronunciación</button>
+  </div>
+ </section>`;
+}
+function fmtSec(s){ s=Math.max(0,s|0); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+
 /* ===== Injerto v10 A1: Laboratorio de Pronunciación (donante Pro) ===== */
 function openSpeechLab(){
  const pool = [];
@@ -636,7 +952,8 @@ function startInlineMic(btn, onResult){
 function viewPractica(){
  const mis=Object.values(S.mistakes).filter(m=>m.c===S.course), st=course().story;
  let h=`<h1>Práctica</h1><p class="muted" style="margin:4px 0 18px">Repasa a tu ritmo. Nada aquí se bloquea.</p><div class="stack">`;
- const lab=labItems(); h+=`<button class="tile" data-act="speech"><span class="ic">${I.mic}</span><span class="t"><b>Práctica oral con reconocimiento de voz</b><span>Pronuncia frases de ${esc(course().name.toLowerCase())} con retroalimentación palabra por palabra</span></span></button>`;
+ const lab=labItems(); if(S.course==='en'){ h+=`<button class="tile" data-act="toefl" style="border-color:color-mix(in srgb,var(--en) 45%,var(--line))"><span class="ic">${I.grad}</span><span class="t"><b>Simulador TOEFL iBT Completo</b><span>Reading, Listening, Speaking y Writing con temporizadores · Mejor puntaje: ${S.toeflBest||25}/120</span></span></button>`; }
+  h+=`<button class="tile" data-act="speech"><span class="ic">${I.mic}</span><span class="t"><b>Práctica oral con reconocimiento de voz</b><span>Pronuncia frases de ${esc(course().name.toLowerCase())} con retroalimentación palabra por palabra</span></span></button>`;
   h+=`<button class="tile lab-tile" data-act="lab" ${lab.length?'':'disabled aria-disabled="true"'}><span class="ic">${I.shield}</span><span class="t"><b>Laboratorio de errores</b><span>${lab.length?`${lab.length} ${lab.length===1?'ejercicio se te resiste':'ejercicios se te resisten'}. Primero vemos por qué, luego lo resuelves sin pistas.`:'Vacío por ahora. Aquí llega lo que falles 3 veces, para entenderlo con calma.'}</span></span></button>`;
  h+= mis.filter(m=>!m.due||m.due<=srsTodayStr()).length ? `<button class="tile" data-act="review"><span class="ic">${I.redo}</span><span class="t"><b>Repasar mis errores</b><span>${mis.filter(m=>!m.due||m.due<=srsTodayStr()).length} ${mis.filter(m=>!m.due||m.due<=srsTodayStr()).length===1?'ejercicio listo para hoy':'ejercicios listos para hoy'}</span></span></button>`
   : `<div class="card empty">${masc('m-rest',120,MASCOT.name+' descansa')}<h2>${mis.length?'Hoy no toca repaso':'Aún no hay errores para repasar'}</h2><p class="muted">${mis.length?('Tus errores están programados para volver justo cuando estás a punto de olvidarlos: mañana, a los 3 días, a la semana y a los 21 días. El próximo regresa el '+(mis.map(m=>m.due).filter(Boolean).sort()[0]||'pronto')+'.'):'Cuando te equivoques en una lección, aquí los encontrarás para practicarlos otra vez.'}</p></div>`;
@@ -693,7 +1010,7 @@ function bindView(){ $$('[data-jump]').forEach(b=>b.onclick=()=>{ const t=$('#u'
  $$('[data-theme-set]').forEach(b=>b.onclick=()=>{ S.theme=b.dataset.themeSet; save(); applyTheme(); renderView(); });
  const sw=$('#soundSw'); if(sw) sw.onchange=()=>{ S.sound=sw.checked; save(); if(S.sound) sfx('ok'); }; const iw=$('#introSw'); if(iw) iw.onchange=()=>{ S.intros=iw.checked; save(); sfx('tap'); }; const vw=$('#vibeSw'); if(vw) vw.onchange=()=>{ S.vibe=vw.checked; save(); sfx('tap'); };
  $$('.tap-masc').forEach(m=>m.onclick=()=>{ setPose(m,'ok','r-hop'); sfx('tap'); setTimeout(()=>setPose(m,m.closest('#view')&&tab==='perfil'?'read':'idle'),1100); });
- $$('[data-act]').forEach(b=>b.onclick=()=>({ speech:openSpeechLab, review:startReview, lab:startLab, story:openStory, flash:openFlash, reset:askReset, backup:()=>{ exportFile(); const g=checkBadges(); save(); toast('Copia descargada. Guárdala donde no se pierda.'); if(g.length) setTimeout(()=>toast('Logro: '+g[0].n),2700); renderView(); }, code:showCode, import:showImport, dev:()=>{ const u=new URL(location.href); u.searchParams.set('dev','1'); location.href=u.toString(); } })[b.dataset.act]());
+ $$('[data-act]').forEach(b=>b.onclick=()=>({ toefl:openToeflSim, speech:openSpeechLab, review:startReview, lab:startLab, story:openStory, flash:openFlash, reset:askReset, backup:()=>{ exportFile(); const g=checkBadges(); save(); toast('Copia descargada. Guárdala donde no se pierda.'); if(g.length) setTimeout(()=>toast('Logro: '+g[0].n),2700); renderView(); }, code:showCode, import:showImport, dev:()=>{ const u=new URL(location.href); u.searchParams.set('dev','1'); location.href=u.toString(); } })[b.dataset.act]());
 }
 function askReset(){ const d=$('#dlg'); d.hidden=false; d.innerHTML=`<div class="card" role="dialog" aria-modal="true" aria-labelledby="dlgT"><h2 id="dlgT">¿Borrar tu avance?</h2><p>Esto borra tu avance en este dispositivo. ¿Continuar?</p><div class="row"><button class="btn ghost" id="dNo">Cancelar</button><button class="btn bad" id="dYes">Borrar</button></div></div>`; $('#dNo').focus(); $('#dNo').onclick=()=>d.hidden=true; $('#dYes').onclick=()=>{ const keep={theme:S.theme,welcomed:true,sound:S.sound,vibe:S.vibe}; S=Object.assign(fresh(),keep); save(); d.hidden=true; renderAll(); toast('Tu avance se reinició.'); }; }
 
