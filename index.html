@@ -739,6 +739,189 @@ html[data-daypart="night"] #door17 .d17-fog{ background:radial-gradient(ellipse 
   #door17 .d17-vid, #door17 .d17-heroBg, #door17 .d17-plate{ display:none; }
 }
 </style>
+<style id="muse-v18">
+/* ---------- v18 · el relevo: la presentación v17 se silencia ---------- */
+#door17{ display:none !important; }
+
+/* ---------- v18 · INTRO PÓSTER ----------
+   La gramática de la referencia (kicker, póster, tagline, crédito) con el
+   arte real de la casa: ella, más grande, en su selva viva. */
+html.d18-lock, html.d18-lock body{ overflow:hidden; }
+#door18{ position:fixed; inset:0; z-index:900; background:#05080a; overflow:hidden;
+  font-family:var(--font-text); -webkit-tap-highlight-color:transparent; cursor:pointer; }
+#door18 .d18-scene{ position:absolute; inset:0; overflow:hidden;
+  background:linear-gradient(180deg,#FFE3B3 0%,#FFCE9A 34%,#93C25C 78%,#679A3E 100%); }
+html[data-daypart="dusk"] #door18 .d18-scene{ background:linear-gradient(180deg,#FFC98A 0%,#FF9A5C 38%,#7FAE4E 80%,#51782F 100%); }
+html[data-daypart="night"] #door18 .d18-scene{ background:linear-gradient(180deg,#0D1B33 0%,#16281F 55%,#153218 100%); }
+#door18 .d18-heroBg{ position:absolute; inset:-6%; width:112%; height:112%; object-fit:cover;
+  filter:blur(16px) brightness(.85) saturate(1.05); opacity:0; transition:opacity 1s ease;
+  animation:d18dolly 7.5s linear both; }
+@keyframes d18dolly{ from{ transform:scale(1); } to{ transform:scale(1.08); } }
+#door18.d18-vidon .d18-heroBg{ opacity:1; }
+html[data-daypart="night"] #door18 .d18-heroBg{ filter:blur(16px) brightness(.5) saturate(.85) hue-rotate(5deg); }
+html[data-daypart="dusk"] #door18 .d18-heroBg{ filter:blur(16px) brightness(.8) saturate(1.1); }
+/* Ella, protagonista de póster: cuadro de 108vw — recorte lateral ≈3.7%
+   que no toca ni su cara ni el ala del saludo en ningún fotograma del
+   arco. El escenario baja (inset superior 15.5vh) y la pila de textos se
+   compacta para que el saludo por franja respire en el hueco limpio entre
+   la tagline y su cabeza: medido sobre el arco completo, su cima más alta
+   es la del saludo con el ala (rastas al 11.4% del cuadro, ~4.0–4.2 s) y
+   el saludo le queda ~23px por encima incluso en ese fotograma (medido en
+   captura real a 390×844; en el fotograma del póster, ~44px). */
+#door18 .d18-stage{ position:absolute; inset:15.5vh 0 7.5vh; display:flex; align-items:center; justify-content:center;
+  animation:d18stage 7.5s linear both; }
+@keyframes d18stage{ from{ transform:scale(1); } to{ transform:scale(1.02); } }
+#door18 .d18-poster, #door18 .d18-vid{ width:min(108vw,82vh); height:min(108vw,82vh); object-fit:cover;
+  box-shadow:0 24px 70px rgba(0,0,0,.45); background:#1C3824; }
+#door18 .d18-vid{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  opacity:0; transition:opacity .8s ease; }
+#door18.d18-vidon .d18-vid{ opacity:1; }
+html[data-daypart="night"] #door18 .d18-stage{ filter:brightness(.66) saturate(.88) hue-rotate(4deg); }
+html[data-daypart="dusk"] #door18 .d18-stage{ filter:saturate(1.05) brightness(.97); }
+#door18 .d18-plate{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  display:none; animation:d18dolly 7.5s linear both; }
+#door18.d18-fallback .d18-plate{ display:block; }
+#door18.d18-fallback .d18-heroBg, #door18.d18-fallback .d18-stage{ display:none; }
+html[data-daypart="night"] #door18 .d18-plate{ filter:brightness(.52) saturate(.82) hue-rotate(6deg); }
+html[data-daypart="dusk"] #door18 .d18-plate{ filter:saturate(1.06) brightness(.97); }
+#door18 .d18-tint{ position:absolute; inset:0; pointer-events:none; }
+html[data-daypart="dusk"] #door18 .d18-tint{ background:linear-gradient(180deg,rgba(255,132,56,.10),rgba(64,28,4,.16)); }
+html[data-daypart="night"] #door18 .d18-tint{ background:linear-gradient(180deg,rgba(13,27,51,.30),rgba(9,17,12,.26)); }
+#door18 .d18-moon{ position:absolute; top:6%; right:6%; width:190px; height:190px; border-radius:50%;
+  background:radial-gradient(circle,rgba(244,233,188,.55) 0%,rgba(244,233,188,.14) 42%,transparent 70%); opacity:0; }
+html[data-daypart="night"] #door18 .d18-moon{ opacity:1; }
+#door18 .d18-rays{ position:absolute; inset:-12% -32%; pointer-events:none; mix-blend-mode:screen;
+  background:linear-gradient(112deg,transparent 42%,rgba(255,216,150,.20) 50%,rgba(255,236,190,.30) 54%,transparent 64%);
+  animation:d18rays 5.5s ease-in-out infinite alternate; }
+@keyframes d18rays{ from{ transform:translateX(-3.5%); } to{ transform:translateX(3.5%); } }
+html[data-daypart="night"] #door18 .d18-rays{ opacity:.22; }
+#door18 .d18-fog{ position:absolute; left:-25%; right:-25%; height:34%; bottom:5%; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 60%,rgba(255,250,238,.34),transparent 65%);
+  filter:blur(6px); mix-blend-mode:screen; animation:d18fog 9s ease-in-out infinite alternate; }
+#door18 .d18-fog.f2{ bottom:auto; top:14%; height:26%; opacity:.55; animation-duration:12s; animation-delay:-6s; }
+@keyframes d18fog{ from{ transform:translateX(-2.5%); } to{ transform:translateX(2.5%); } }
+html[data-daypart="night"] #door18 .d18-fog{ background:radial-gradient(ellipse at 50% 60%,rgba(178,199,235,.20),transparent 65%); }
+#door18 .d18-vig{ position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(120% 92% at 50% 42%,transparent 55%,rgba(0,0,0,.42) 100%); }
+/* Barras letterbox: la superior lleva «Saltar intro»; la inferior, el crédito */
+#door18 .d18-bar{ position:absolute; left:0; right:0; height:11.5vh; background:#000; z-index:5; }
+#door18 .d18-bar.t{ top:0; transform:translateY(-102%); animation:d18barT .95s var(--v16-out) .05s both; }
+#door18 .d18-bar.b{ bottom:0; transform:translateY(102%); animation:d18barB .95s var(--v16-out) .05s both;
+  display:flex; align-items:center; justify-content:center; }
+@keyframes d18barT{ to{ transform:translateY(0); } }
+@keyframes d18barB{ to{ transform:translateY(0); } }
+#door18.d18-out .d18-bar.t{ animation:d18barTout .65s cubic-bezier(.5,0,.75,0) both; }
+#door18.d18-out .d18-bar.b{ animation:d18barBout .65s cubic-bezier(.5,0,.75,0) both; }
+@keyframes d18barTout{ from{ transform:translateY(0); } to{ transform:translateY(-102%); } }
+@keyframes d18barBout{ from{ transform:translateY(0); } to{ transform:translateY(102%); } }
+#door18.d18-out{ opacity:0; transition:opacity .8s ease .18s; }
+#door18.d18-rm.d18-out{ transition-duration:.3s; transition-delay:0s; }
+#door18 .d18-credit{ font-size:10.5px; font-weight:600; letter-spacing:.32em; text-transform:uppercase;
+  color:rgba(255,248,234,.78); padding-left:.32em; white-space:nowrap; }
+#door18 .d18-skip{ position:absolute; z-index:7; top:calc(11.5vh / 2); right:14px; transform:translateY(-50%);
+  font-family:var(--font-text); font-size:12.5px; font-weight:600; letter-spacing:.04em; color:#FFF8EA;
+  background:rgba(255,248,234,.10); border:1px solid rgba(255,248,234,.38); border-radius:999px;
+  padding:8px 15px; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  opacity:0; animation:d18skip 1s ease 1.15s both; }
+@keyframes d18skip{ from{ opacity:0; } to{ opacity:1; } }
+#door18.d18-out .d18-skip{ animation:none; opacity:0; transition:opacity .25s ease; }
+/* El bloque de póster: kicker con su línea, título, tagline y saludo */
+#door18 .d18-core{ position:absolute; inset:0; z-index:4; display:flex; flex-direction:column;
+  align-items:center; justify-content:flex-start; padding-top:13.2vh; text-align:center; pointer-events:none; }
+#door18 .d18-kick{ font-size:11px; font-weight:600; letter-spacing:.38em; text-transform:uppercase;
+  color:rgba(255,248,234,.94); text-shadow:0 1px 12px rgba(24,32,8,.6); padding-left:.38em;
+  opacity:0; transform:translateY(8px); transition:opacity .7s ease .3s,transform .7s var(--v16-out) .3s; }
+#door18 .d18-kick::after{ content:""; display:block; width:38px; height:1px; margin:8px auto 0;
+  background:rgba(255,248,234,.6); }
+#door18.d18-lit .d18-kick{ opacity:1; transform:none; }
+#door18 .d18-title{ margin-top:11px; font-family:var(--font-display); font-weight:800;
+  font-size:min(17vw,72px); letter-spacing:-.02em; line-height:1; color:#FFF8EA;
+  text-shadow:0 2px 30px rgba(24,32,8,.55),0 1px 3px rgba(24,32,8,.5); }
+#door18 .d18-word{ display:inline-block; white-space:nowrap; }
+#door18 .d18-ltr{ display:inline-block; opacity:0; transform:translateY(.34em) rotate(2deg);
+  transition:opacity .5s var(--v16-out),transform .65s var(--v16-spring);
+  transition-delay:calc(var(--i)*45ms + 250ms); }
+#door18 .d18-ltr.acc{ color:#A9E37A; }
+#door18.d18-lit .d18-ltr{ opacity:1; transform:none; }
+#door18 .d18-tag{ margin-top:9px; font-family:var(--font-display); font-style:italic; font-weight:500;
+  font-size:15.5px; color:rgba(255,248,234,.96); text-shadow:0 1px 14px rgba(24,32,8,.65);
+  opacity:0; transform:translateY(8px); transition:opacity .7s ease 1s,transform .7s var(--v16-out) 1s; }
+#door18.d18-lit .d18-tag{ opacity:1; transform:none; }
+#door18 .d18-hi{ margin-top:2px; font-size:13px; font-weight:600; letter-spacing:.34em;
+  text-transform:uppercase; color:rgba(255,248,234,.95); text-shadow:0 1px 12px rgba(24,32,8,.6);
+  opacity:0; transform:translateY(8px); transition:opacity .7s ease 1.25s,transform .7s var(--v16-out) 1.25s; }
+#door18.d18-lit .d18-hi{ opacity:1; transform:none; }
+/* Sprite de respaldo: su arte real del build, solo si su video no corre */
+#door18 .d18-tuc{ position:absolute; z-index:4; right:5vw; bottom:calc(11.5vh + 1.2vh); width:min(37vw,150px);
+  display:none; animation:d18tucin .8s var(--v16-out) .3s both; }
+#door18.d18-fallback .d18-tuc{ display:block; }
+#door18.d18-posteronly .d18-tuc, #door18.d18-posteronly .d18-plate{ display:none; }
+@keyframes d18tucin{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
+#door18 .d18-tuc img{ width:100%; height:auto; display:block; transform-origin:50% 100%;
+  animation:d18breath 4.8s ease-in-out infinite alternate;
+  filter:drop-shadow(0 12px 16px rgba(20,26,6,.35)); }
+@keyframes d18breath{ from{ transform:translateY(0) scale(1); } to{ transform:translateY(-4px) scale(1.018); } }
+#door18 .d18-tuc::after{ content:""; position:absolute; left:10%; right:10%; bottom:-8px; height:15px;
+  border-radius:50%; background:radial-gradient(ellipse at center,rgba(10,16,4,.45),transparent 70%); z-index:-1; }
+/* Reapertura el mismo día: fundido breve con su póster, sin letterbox */
+#door18.d18-brief{ animation:d18brief .62s ease both; }
+#door18.d18-brief .d18-bar, #door18.d18-brief .d18-core, #door18.d18-brief .d18-skip,
+#door18.d18-brief .d18-tuc, #door18.d18-brief .d18-vid, #door18.d18-brief .d18-heroBg,
+#door18.d18-brief .d18-plate{ display:none; }
+#door18.d18-brief .d18-stage{ animation:none; }
+@keyframes d18brief{ 0%{ opacity:1; } 55%{ opacity:1; } 100%{ opacity:0; } }
+/* Movimiento reducido: póster y textos estáticos; salida rápida */
+@media (prefers-reduced-motion: reduce){
+  #door18 .d18-stage, #door18 .d18-heroBg, #door18 .d18-plate, #door18 .d18-fog,
+  #door18 .d18-rays, #door18 .d18-tuc img{ animation:none !important; }
+  #door18 .d18-bar.t, #door18 .d18-bar.b{ animation:none; transform:translateY(0); }
+  #door18 .d18-kick, #door18 .d18-tag, #door18 .d18-hi{ transition:none; opacity:1; transform:none; }
+  #door18 .d18-ltr{ transition:none; opacity:1; transform:none; }
+  #door18 .d18-skip{ animation:none; opacity:1; }
+  #door18 .d18-tuc{ animation:none; }
+  #door18 .d18-vid, #door18 .d18-heroBg, #door18 .d18-plate{ display:none; }
+}
+
+/* ---------- v18 · DESPEDIDA «cuando sales» ----------
+   La puerta se muda al cierre del día: cuando la meta de hoy queda
+   cumplida y el alumno vuelve al home, ella saluda con el ala y se
+   despide. Tarjeta de escena: nunca bloquea, nunca castiga. */
+#bye18{ position:fixed; inset:0; z-index:880; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-text); -webkit-tap-highlight-color:transparent; }
+#bye18 .b18-scrim{ position:absolute; inset:0; background:rgba(5,9,6,.58);
+  backdrop-filter:blur(3px) saturate(1.05); -webkit-backdrop-filter:blur(3px) saturate(1.05);
+  opacity:0; transition:opacity .4s ease; }
+#bye18.b18-in .b18-scrim{ opacity:1; }
+#bye18 .b18-card{ position:relative; width:min(88vw,380px); border-radius:24px; overflow:hidden;
+  background:#0C1710; border:1px solid rgba(255,248,234,.14);
+  box-shadow:0 30px 80px rgba(0,0,0,.55); text-align:center;
+  opacity:0; transform:translateY(16px) scale(.97); transition:opacity .45s ease,transform .55s var(--v16-spring); }
+#bye18.b18-in .b18-card{ opacity:1; transform:none; }
+#bye18.b18-out .b18-scrim{ opacity:0; }
+#bye18.b18-out .b18-card{ opacity:0; transform:translateY(10px) scale(.98); transition-duration:.28s; }
+#bye18 .b18-bar{ height:27px; background:#000; display:flex; align-items:center; justify-content:center;
+  font-size:9.5px; font-weight:600; letter-spacing:.3em; text-transform:uppercase;
+  color:rgba(255,248,234,.75); padding-left:.3em; white-space:nowrap; }
+#bye18 .b18-scene{ position:relative; aspect-ratio:1/1; background:#1C3824; overflow:hidden; }
+#bye18 .b18-poster, #bye18 .b18-vid{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+#bye18 .b18-vid{ opacity:0; transition:opacity .7s ease; }
+#bye18.b18-vidon .b18-vid{ opacity:1; }
+html[data-daypart="night"] #bye18 .b18-scene{ filter:brightness(.7) saturate(.9) hue-rotate(4deg); }
+html[data-daypart="dusk"] #bye18 .b18-scene{ filter:saturate(1.05) brightness(.97); }
+#bye18 .b18-body{ padding:19px 22px 21px; }
+#bye18 .b18-h{ font-family:var(--font-display); font-weight:800; font-size:24px; line-height:1.15;
+  color:#FFF8EA; letter-spacing:-.01em; }
+#bye18 .b18-p{ margin-top:8px; font-size:14.5px; line-height:1.45; color:rgba(255,248,234,.86); }
+#bye18 .b18-go{ margin-top:16px; font-family:var(--font-text); font-size:15px; font-weight:700;
+  color:#14260C; background:#A9E37A; border:0; border-radius:999px; padding:12px 24px; cursor:pointer;
+  box-shadow:0 8px 22px rgba(120,180,60,.35); }
+#bye18 .b18-go:active{ transform:scale(.97); }
+#bye18 .b18-hint{ margin-top:11px; font-size:11px; color:rgba(255,248,234,.55); }
+@media (prefers-reduced-motion: reduce){
+  #bye18 .b18-scrim, #bye18 .b18-card{ transition:none; }
+  #bye18 .b18-vid{ display:none; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -2072,6 +2255,281 @@ window.addEventListener('load', () => {
     if (brief) setTimeout(cleanup, 700);
     else setTimeout(exit, reduce ? 1100 : 3900);
   }catch(e){ cleanup(); }
+})();
+</script>
+<script id="muse-v18-js">
+/* v18 · INTRO PÓSTER + DESPEDIDA — toma el relevo de la puerta v17.
+   La v17 ya corrió (su capa va antes en el documento): escribió la clave
+   `lingorea_door_day` si tocaba puerta completa y decidió el modo. Esta
+   capa lee ese modo del nodo v17, lo retira antes de pintar y presenta la
+   intro de póster con la misma ingeniería (mismos tiempos, mismo
+   respaldo, videos solo en la puerta completa). Jamás toca `lingorea_v5`.
+   Después vigila el home: la primera vez del día con la meta de hoy
+   cumplida, ella se despide (clave propia `lingorea_bye_day`). Todo es
+   defensivo: si algo falla, la app sigue como siempre. */
+(function(){
+  function $(s, r){ return (r || document).querySelector(s); }
+
+  /* ---------- 0 · Relevo de la puerta v17 ---------- */
+  var modeBrief = false, modeRM = false;
+  try{
+    var old = document.getElementById('door17');
+    if (old){
+      modeBrief = old.classList.contains('d17-brief');
+      modeRM = old.classList.contains('d17-rm');
+      if (old.parentNode) old.parentNode.removeChild(old);
+      document.documentElement.classList.remove('d17-lock');
+    } else {
+      /* v17 no dejó nodo (falló antes de presentarse): se decide aquí con
+         la misma regla — breve solo si la clave ya trae la fecha de hoy. */
+      var n0 = new Date();
+      var t0 = n0.getFullYear() + '-' + (n0.getMonth() + 1) + '-' + n0.getDate();
+      var seen0 = null;
+      try{ seen0 = localStorage.getItem('lingorea_door_day'); }catch(e){}
+      modeBrief = (seen0 === t0);
+    }
+  }catch(e){}
+  try{
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) modeRM = true;
+  }catch(e){}
+
+  /* ---------- 1 · Intro póster ---------- */
+  var door = null;
+  function cleanupDoor(){
+    document.documentElement.classList.remove('d18-lock');
+    if (door && door.parentNode) door.parentNode.removeChild(door);
+    door = null;
+  }
+  try{
+    var now = new Date();
+    function part(){ var h = now.getHours() + now.getMinutes() / 60;
+      return h >= 5 && h < 8.5 ? 'dawn' : h >= 8.5 && h < 17.75 ? 'day' : h >= 17.75 && h < 20 ? 'dusk' : 'night'; }
+    var p = document.documentElement.dataset.daypart || part();
+    var GREET = { dawn: 'Buenos días', day: 'Buen día', dusk: 'Buenas tardes', night: 'Buenas noches' };
+
+    door = document.createElement('div');
+    door.id = 'door18';
+    door.setAttribute('role', 'button');
+    door.setAttribute('aria-label', 'Entrar a LingoRea');
+    if (modeBrief) door.classList.add('d18-brief');
+    if (modeRM) door.classList.add('d18-rm');
+    door.innerHTML =
+      '<div class="d18-scene">' +
+        '<video class="d18-heroBg" muted loop playsinline preload="none" data-src="puerta-tucana.mp4"></video>' +
+        '<div class="d18-stage">' +
+          '<img class="d18-poster" src="puerta-poster.jpg" alt="">' +
+          '<video class="d18-vid" muted loop playsinline preload="none" data-src="puerta-tucana.mp4" poster="puerta-poster.jpg"></video>' +
+        '</div>' +
+        '<video class="d18-plate" muted loop playsinline preload="none" data-src="puerta-cine.mp4"></video>' +
+      '<div class="d18-tint"></div><div class="d18-moon"></div>' +
+      '<div class="d18-rays"></div><div class="d18-fog"></div><div class="d18-fog f2"></div>' +
+      '<div class="d18-vig"></div></div>' +
+      '<div class="d18-core"><div class="d18-kick">Un viaje por los idiomas</div>' +
+      '<div class="d18-title" role="heading" aria-level="1"></div>' +
+      '<div class="d18-tag">Aprende a tu ritmo, con calma y compañía.</div>' +
+      '<div class="d18-hi"></div></div>' +
+      '<div class="d18-tuc"><img alt=""></div>' +
+      '<div class="d18-bar t"></div>' +
+      '<div class="d18-bar b"><span class="d18-credit">Con LingoRea como guía</span></div>' +
+      '<button class="d18-skip" type="button">Saltar intro</button>';
+    document.body.appendChild(door);
+    document.documentElement.classList.add('d18-lock');
+
+    var vid = $('.d18-vid', door), bgv = $('.d18-heroBg', door), plate = $('.d18-plate', door);
+    var poster = $('.d18-poster', door), timg = $('.d18-tuc img', door);
+    var vidOn = false;
+
+    function setTuc(src){ if (src && timg && !timg.getAttribute('src')) timg.src = src; }
+    function armTuc(){
+      try{
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img){
+          setTuc((p === 'night' && typeof POSE !== 'undefined' && POSE && POSE.rest) ? POSE.rest : MASCOT.img);
+        }
+      }catch(e){}
+      if (timg && !timg.getAttribute('src')){
+        var tries = 0;
+        var iv = setInterval(function(){
+          var h = document.querySelector('.m-hero');
+          if (h && h.getAttribute('src')){ setTuc(h.getAttribute('src')); clearInterval(iv); }
+          if (++tries > 40 || !door) clearInterval(iv);
+        }, 100);
+      }
+    }
+    function fallback(){
+      if (!door || door.classList.contains('d18-fallback')) return;
+      door.classList.add('d18-fallback');
+      armTuc();
+      if (plate && !plate.getAttribute('src')){
+        plate.src = plate.getAttribute('data-src');
+        try{ var pr = plate.play(); if (pr && pr.catch) pr.catch(function(){}); }catch(e){}
+      }
+    }
+    if (plate) plate.addEventListener('error', function(){
+      if (door){ door.classList.remove('d18-fallback'); door.classList.add('d18-posteronly'); }
+    }, true);
+    if (poster) poster.addEventListener('error', function(){
+      poster.style.display = 'none';
+      if (!vidOn) fallback();
+    });
+    if (vid){
+      vid.addEventListener('playing', function(){ vidOn = true; if (door) door.classList.add('d18-vidon'); });
+      vid.addEventListener('error', fallback, true);
+    }
+    setTimeout(function(){ if (door && !vidOn && !modeBrief && vid && vid.readyState < 2) fallback(); }, 3000);
+
+    var title = $('.d18-title', door);
+    var T = 'LingoRea';
+    title.setAttribute('aria-label', T);
+    var w = document.createElement('span'); w.className = 'd18-word';
+    T.split('').forEach(function(ch, idx){
+      var s = document.createElement('span');
+      s.className = 'd18-ltr' + (idx >= 5 ? ' acc' : '');
+      s.style.setProperty('--i', idx);
+      s.setAttribute('aria-hidden', 'true');
+      s.textContent = ch; w.appendChild(s);
+    });
+    title.appendChild(w);
+    $('.d18-hi', door).textContent = GREET[p] || 'Buen día';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      if (door) door.classList.add('d18-lit');
+    }); });
+
+    if (!modeBrief && !modeRM){
+      [vid, bgv].forEach(function(v){
+        if (v && !v.getAttribute('src')){
+          v.src = v.getAttribute('data-src');
+          try{ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }catch(e){}
+        }
+      });
+    }
+
+    var gone = false;
+    function exit(){
+      if (gone) return; gone = true;
+      if (modeBrief){ cleanupDoor(); return; }
+      if (door) door.classList.add('d18-out');
+      setTimeout(cleanupDoor, modeRM ? 380 : 980);
+    }
+    door.addEventListener('pointerdown', exit);
+    var skip = $('.d18-skip', door);
+    if (skip) skip.addEventListener('pointerdown', function(ev){
+      if (ev && ev.stopPropagation) ev.stopPropagation();
+      exit();
+    });
+    if (modeBrief) setTimeout(cleanupDoor, 700);
+    else setTimeout(exit, modeRM ? 1100 : 3900);
+  }catch(e){ cleanupDoor(); }
+
+  /* ---------- 2 · Despedida: la puerta se muda a «cuando sales» ---------- */
+  var BKEY = 'lingorea_bye_day';
+  var byeNode = null, byePending = false, byeDone = false;
+  function todayStr(){
+    try{ if (typeof today === 'function') return today(); }catch(e){}
+    var n = new Date();
+    return n.getFullYear() + '-' + (n.getMonth() + 1) + '-' + n.getDate();
+  }
+  function goalMet(){
+    try{
+      if (typeof S === 'undefined' || !S || !S.daily) return false;
+      return S.daily.date === todayStr() && (S.daily.xp || 0) >= (S.goal || 50);
+    }catch(e){ return false; }
+  }
+  function byeSeen(){
+    if (byeDone) return true;
+    try{ return localStorage.getItem(BKEY) === todayStr(); }catch(e){ return true; }
+  }
+  function markBye(){
+    byeDone = true;
+    try{ localStorage.setItem(BKEY, todayStr()); }catch(e){}
+  }
+  function closeBye(){
+    if (!byeNode) return;
+    var n = byeNode; byeNode = null;
+    n.classList.remove('b18-in');
+    n.classList.add('b18-out');
+    setTimeout(function(){ if (n.parentNode) n.parentNode.removeChild(n); }, 340);
+  }
+  function showBye(){
+    byePending = false;
+    /* Revalidación al mostrar: si ya no estamos en el home, no se muestra
+       (y el día NO se marca: lo intentará en el próximo home). */
+    if (byeNode || byeSeen() || !goalMet()) return;
+    if (document.getElementById('door18') || document.getElementById('door17')) return;
+    if (busyOverlay()) return;
+    if (!document.querySelector('.goal-pill')) return;
+    markBye();
+    var reduce = false;
+    try{ reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); }catch(e){}
+    var el = document.createElement('div');
+    el.id = 'bye18';
+    el.innerHTML =
+      '<div class="b18-scrim"></div>' +
+      '<div class="b18-card" role="dialog" aria-modal="false" aria-label="Despedida del día">' +
+        '<div class="b18-bar">Con LingoRea como guía</div>' +
+        '<div class="b18-scene">' +
+          '<img class="b18-poster" src="puerta-poster.jpg" alt="">' +
+          '<video class="b18-vid" muted loop playsinline preload="none" data-src="puerta-tucana.mp4" poster="puerta-poster.jpg"></video>' +
+        '</div>' +
+        '<div class="b18-body"><div class="b18-h">¡Buen trabajo hoy!</div>' +
+        '<p class="b18-p">Eso es todo por hoy. Ella te espera mañana.</p>' +
+        '<button class="b18-go" type="button">Seguir practicando</button>' +
+        '<div class="b18-hint">o toca fuera de la tarjeta para cerrar</div></div>' +
+      '</div>';
+    document.body.appendChild(el);
+    byeNode = el;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      if (byeNode === el) el.classList.add('b18-in');
+    }); });
+    var v = $('.b18-vid', el);
+    if (v && !reduce){
+      /* Su arco termina saludando: la despedida vive en ese tramo y lo
+         repite (2.35s → el final), para que ella se despida saludando. */
+      v.addEventListener('loadedmetadata', function(){
+        try{ v.currentTime = 2.35; }catch(e){}
+      });
+      v.addEventListener('timeupdate', function(){
+        if (v.currentTime >= 4.18){ try{ v.currentTime = 2.35; }catch(e){} }
+      });
+      v.addEventListener('playing', function(){ if (byeNode === el) el.classList.add('b18-vidon'); });
+      v.addEventListener('error', function(){ v.style.display = 'none'; }, true);
+      v.src = v.getAttribute('data-src');
+      try{ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }catch(e){}
+    }
+    $('.b18-go', el).addEventListener('click', closeBye);
+    $('.b18-scrim', el).addEventListener('pointerdown', closeBye);
+    el.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') closeBye(); });
+  }
+  /* El reproductor de lecciones (#lesson) y los diálogos (#dlg) son
+     sobrecapas: debajo de ellas el #view CONSERVA el home con su píldora.
+     Sin esta guarda, la despedida podría nacer a media lección. */
+  function busyOverlay(){
+    try{
+      var les = document.getElementById('lesson');
+      if (les && !les.hidden) return true;
+      var dg = document.getElementById('dlg');
+      if (dg && !dg.hidden) return true;
+      if (typeof L !== 'undefined' && L) return true;
+    }catch(e){}
+    return false;
+  }
+  function maybeBye(){
+    if (byeNode || byePending || byeSeen() || !goalMet()) return;
+    if (document.getElementById('door18') || document.getElementById('door17')) return;
+    if (busyOverlay()) return;
+    if (!document.querySelector('.goal-pill')) return;
+    byePending = true;
+    setTimeout(showBye, 650);
+  }
+  try{
+    var scheduled = false;
+    var mo = new MutationObserver(function(){
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(function(){ scheduled = false; try{ maybeBye(); }catch(e){} });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+    maybeBye();
+  }catch(e){}
 })();
 </script>
 </body>
