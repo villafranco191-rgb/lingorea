@@ -1216,6 +1216,106 @@ html.v23-hidden body .unit-banner .v23-her::before, html.v23-hidden body .unit-b
   body .unit-banner .v23-veil{ opacity:.7; }
 }
 </style>
+<style id="muse-v24">
+/* ---------- v24 · EJERCICIOS EN LA LUZ DEL LUGAR ----------
+   La pantalla de ejercicios vive dentro del lugar de su unidad: una
+   banda de escena a ancho completo entre la cabecera y los retos,
+   con la luz de la franja y la maestra de pie en el lugar. Ningún
+   texto ni control va sobre la escena: los retos quedan sobre las
+   superficies sólidas de siempre. Solo transform/opacity; la escena
+   sigue nítida (regla de la casa: cero desenfoque sobre imagen). */
+
+/* 0 · La luz del lugar tiñe el lavado de la pantalla (la geometría
+   es la del lavado de v16; encima, el tinte propio de cada escena,
+   tomado de su misma paleta, ya graduada por franja en .lesson) */
+body .lesson[data-v24kind]{
+  background-image:
+    linear-gradient(180deg, color-mix(in srgb, var(--v24tint, var(--sky1)) 16%, transparent) 0, transparent 320px),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 36%, var(--bg)) 0, var(--bg) 320px); }
+body .lesson[data-v24kind="beach"]{ --v24tint:var(--sea, #8FC3CE); }
+body .lesson[data-v24kind="market"]{ --v24tint:var(--beak, #F98232); }
+body .lesson[data-v24kind="airport"]{ --v24tint:var(--tipC, #2F8FB0); }
+body .lesson[data-v24kind="park"]{ --v24tint:var(--leafD, #43A83B); }
+body .lesson[data-v24kind="school"]{ --v24tint:var(--leaf2, #83C24E); }
+body .lesson[data-v24kind="library"]{ --v24tint:var(--wood, #B07A52); }
+body .lesson[data-v24kind="cafe"]{ --v24tint:var(--sun, #FFAF52); }
+body .lesson[data-v24kind="home"]{ --v24tint:var(--sun, #FFAF52); }
+body .lesson[data-v24kind="stage"]{ --v24tint:var(--sun, #FFAF52); }
+body .lesson[data-v24kind="city"]{ --v24tint:var(--far, #DCC7A0); }
+
+/* 1 · La banda del lugar: escena viva entre cabecera y retos */
+body .lesson .v24-stage{ position:relative; flex:none; z-index:0; overflow:hidden;
+  height:clamp(88px, 14.5vh, 126px); pointer-events:none;
+  animation:v24in .55s var(--ease-out) both; }
+@keyframes v24in{ from{ opacity:0; transform:translateY(-7px); }
+  to{ opacity:1; transform:none; } }
+body .lesson .v24-bg{ position:absolute; inset:0; width:100%; height:100%;
+  transition:opacity .18s ease; animation:v24kb 26s ease-in-out infinite alternate; }
+@keyframes v24kb{ from{ transform:scale(1.04) translate(0,0); }
+  to{ transform:scale(1.12) translate(-1.4%,-2%); } }
+body .lesson .v24-stage.v24-swap .v24-bg{ opacity:0; }
+/* Su borde inferior se disuelve hacia la página (degradado sobre la
+   capa decorativa; la escena no se desenfoca jamás) */
+body .lesson .v24-stage::after{ content:""; position:absolute; left:0; right:0;
+  bottom:0; height:42px; z-index:2;
+  background:linear-gradient(180deg, transparent, var(--bg)); }
+
+/* 2 · El velo de luz que respira (tinte por franja, el reloj de la casa) */
+body .lesson .v24-veil{ position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(255,236,190,.18), rgba(255,236,190,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(255,244,214,.14), transparent 70%);
+  animation:v24breath 7.5s ease-in-out infinite alternate; }
+html[data-daypart="dusk"] body .lesson .v24-veil{
+  background:linear-gradient(180deg, rgba(255,166,88,.20), rgba(255,166,88,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(255,190,110,.14), transparent 70%); }
+html[data-daypart="night"] body .lesson .v24-veil{
+  background:linear-gradient(180deg, rgba(190,214,255,.11), rgba(190,214,255,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(210,228,255,.09), transparent 70%); }
+@keyframes v24breath{ from{ opacity:.45; } to{ opacity:1; } }
+
+/* 3 · Ella, de pie en el lugar, a la derecha de la escena */
+body .lesson .v24-her{ position:absolute; right:10px; bottom:0; z-index:3;
+  height:94%; animation:v24herin .65s var(--ease-out) both; }
+@keyframes v24herin{ from{ opacity:0; transform:translateY(12px); }
+  to{ opacity:1; transform:none; } }
+body .lesson .v24-her::before{ content:""; position:absolute; left:50%; top:42%;
+  width:170px; height:170px; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
+  background:radial-gradient(circle, rgba(255,240,200,.55) 0%, rgba(255,240,200,.18) 45%, transparent 70%);
+  animation:v24halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] body .lesson .v24-her::before{
+  background:radial-gradient(circle, rgba(214,230,255,.42) 0%, rgba(214,230,255,.14) 45%, transparent 70%); }
+@keyframes v24halo{ from{ opacity:.65; } to{ opacity:1; } }
+body .lesson .v24-her::after{ content:""; position:absolute; left:12%; right:12%;
+  bottom:-2px; height:12px; border-radius:50%; z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(10,16,4,.40), transparent 70%); }
+body .lesson .v24-her img{ height:100%; width:auto; display:block;
+  transform-origin:50% 100%; animation:v24bob 4.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 8px 12px rgba(20,26,6,.35)); }
+@keyframes v24bob{ from{ transform:translateY(0) scale(1); }
+  to{ transform:translateY(-3px) scale(1.015); } }
+/* Su reacción al acierto/error: un saltito con la propiedad `scale`,
+   independiente del transform de su respiro (no se pelean) */
+body .lesson .v24-her.v24-pop img{ animation:v24bob 4.6s ease-in-out infinite alternate,
+  v24pop .45s var(--ease-spring); }
+@keyframes v24pop{ 0%{ scale:1; } 35%{ scale:1.07; } 100%{ scale:1; } }
+
+/* 4 · Intro y fin ya traen su propia escena: la banda se retira
+   (precedente :has() de v16 para las superficies con escena) */
+body .lesson:has(.intro) .v24-stage, body .lesson:has(.end) .v24-stage{ display:none; }
+
+/* 5 · Pausa con la pestaña oculta */
+html.v24-hidden body .lesson .v24-bg, html.v24-hidden body .lesson .v24-veil,
+html.v24-hidden body .lesson .v24-her::before, html.v24-hidden body .lesson .v24-her img{
+  animation-play-state:paused !important; }
+
+/* 6 · Movimiento reducido: el lugar vive quieto; ella, presente */
+@media (prefers-reduced-motion: reduce){
+  body .lesson .v24-stage, body .lesson .v24-bg, body .lesson .v24-veil,
+  body .lesson .v24-her, body .lesson .v24-her::before, body .lesson .v24-her img{
+    animation:none !important; }
+  body .lesson .v24-veil{ opacity:.7; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -3272,6 +3372,181 @@ window.addEventListener('load', () => {
     document.addEventListener('visibilitychange', function(){
       document.documentElement.classList.toggle('v23-hidden', document.hidden);
     });
+  }catch(e){}
+})();
+</script>
+<script id="muse-v24-js">
+/* v24 · EJERCICIOS EN LA LUZ DEL LUGAR — decoración en runtime.
+   La lección se reconstruye entera en cada apertura (openLesson
+   reescribe #lesson); esta capa observa el DOM y mantiene UNA banda
+   .v24-stage entre .l-top y #lBody con la escena del lugar de la
+   unidad (SCN.svg de la casa), el velo de luz y a la tucana con su
+   arte real oficial (POSE.point; respaldos MASCOT.img y .m-hero).
+   Ella reacciona con la hoja de retroalimentación (POSE.ok/POSE.bad).
+   El lugar: el de la unidad de la lección (findLesson+unitKinds, el
+   cálculo de renderIntro); sin L.id (repaso/laboratorio/examen de
+   confirmación), el de origen del reto en turno (caché por reto).
+   Todo defensivo y coalescido por rAF: si algo falla, la lección
+   queda como en v23. Jamás se toca `lingorea_v5` ni se escribe
+   clave alguna; la lógica de retos no se toca. */
+(function(){
+  try{
+    var stage = null, stageKind = null, sheetObs = null, sheetEl = null,
+        herImg = null, herPose = null, swapTimer = 0, ticking = false;
+    var kindCache = {};
+
+    function poseSrc(name){
+      try{
+        if (typeof POSE !== 'undefined' && POSE){
+          if (name && POSE[name]) return POSE[name];
+          if (POSE.point) return POSE.point;
+        }
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img) return MASCOT.img;
+      }catch(e){}
+      return null;
+    }
+    function setHer(name){
+      if (!herImg || herPose === name) return;
+      var src = poseSrc(name);
+      if (!src) return;
+      herPose = name;
+      herImg.src = src;
+      var wrap = herImg.parentElement;
+      if (wrap && (name === 'ok' || name === 'bad')){
+        wrap.classList.remove('v24-pop'); void wrap.offsetWidth; wrap.classList.add('v24-pop');
+      }
+    }
+    function kindNow(){
+      try{
+        if (typeof L === 'undefined' || !L) return null;
+        if (typeof findLesson !== 'function' || typeof course !== 'function'
+            || typeof unitKinds !== 'function') return null;
+        if (L.id){
+          var f = findLesson(L.id);
+          if (f){
+            var ui = course().units.indexOf(f.u), ks = unitKinds();
+            if (ui >= 0 && ks[ui]) return ks[ui];
+          }
+          return null;
+        }
+        var q = (L.queue && L.queue[0]) || null;
+        var ch = q && q.ch;
+        if (ch && ch.id){
+          if (kindCache[ch.id]) return kindCache[ch.id];
+          if (typeof allLessons === 'function' && typeof S !== 'undefined'){
+            var ls = allLessons(S.course);
+            for (var i = 0; i < ls.length; i++){
+              var chs = (ls[i].l && ls[i].l.challenges) || [];
+              for (var j = 0; j < chs.length; j++){
+                if (chs[j].id === ch.id){
+                  var ui2 = course().units.indexOf(ls[i].u), ks2 = unitKinds();
+                  var k = (ui2 >= 0 && ks2[ui2]) || 'park';
+                  kindCache[ch.id] = k;
+                  return k;
+                }
+              }
+            }
+          }
+          return 'park';
+        }
+      }catch(e){}
+      return null;
+    }
+    function buildStage(lesson, kind){
+      var st = document.createElement('div');
+      st.className = 'v24-stage';
+      st.setAttribute('aria-hidden', 'true');
+      st.setAttribute('data-kind', kind);
+      var holder = document.createElement('div');
+      holder.innerHTML = (typeof SCN !== 'undefined' && SCN && SCN.svg) ? SCN.svg(kind, 'v24-bg') : '';
+      var svg = holder.firstElementChild;
+      if (svg) st.appendChild(svg);
+      var veil = document.createElement('div');
+      veil.className = 'v24-veil';
+      st.appendChild(veil);
+      var wrap = document.createElement('div');
+      wrap.className = 'v24-her';
+      var img = document.createElement('img');
+      img.alt = '';
+      var src = poseSrc('point');
+      if (src){ img.src = src; herPose = 'point'; }
+      else {
+        var tries = 0;
+        var iv = setInterval(function(){
+          var hEl = document.querySelector('.m-hero');
+          if (hEl && hEl.getAttribute('src')){ img.src = hEl.getAttribute('src'); herPose = 'point'; clearInterval(iv); }
+          if (++tries > 40) clearInterval(iv);
+        }, 100);
+      }
+      wrap.appendChild(img);
+      st.appendChild(wrap);
+      herImg = img;
+      var top = lesson.querySelector('.l-top');
+      if (top && top.nextSibling) lesson.insertBefore(st, top.nextSibling);
+      else if (top) lesson.appendChild(st);
+      else lesson.insertBefore(st, lesson.firstChild);
+      return st;
+    }
+    function swapScene(kind){
+      if (!stage) return;
+      stage.classList.add('v24-swap');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function(){
+        try{
+          var holder = document.createElement('div');
+          holder.innerHTML = (typeof SCN !== 'undefined' && SCN && SCN.svg) ? SCN.svg(kind, 'v24-bg') : '';
+          var svg = holder.firstElementChild, old = stage.querySelector('.v24-bg');
+          if (svg){
+            if (old) stage.replaceChild(svg, old); else stage.insertBefore(svg, stage.firstChild);
+          }
+          stage.setAttribute('data-kind', kind);
+          stage.classList.remove('v24-swap');
+        }catch(e){ stage.classList.remove('v24-swap'); }
+      }, 180);
+    }
+    function syncHer(){
+      var sh = document.querySelector('#lesson #sheet');
+      if (!sh){ return; }
+      if (sheetEl !== sh){
+        sheetEl = sh;
+        if (sheetObs) sheetObs.disconnect();
+        sheetObs = new MutationObserver(function(){ syncHer(); });
+        sheetObs.observe(sh, { attributes: true, attributeFilter: ['class'] });
+      }
+      var cn = sh.className || '';
+      if (/\bok\b/.test(cn)) setHer('ok');
+      else if (/\bbad\b/.test(cn)) setHer('bad');
+      else setHer('point');
+    }
+    function decorate(){
+      ticking = false;
+      try{
+        var lesson = document.querySelector('#lesson');
+        if (!lesson || lesson.hidden || !lesson.querySelector('.l-body')){ return; }
+        var kind = kindNow();
+        if (!kind) return;
+        lesson.setAttribute('data-v24kind', kind);
+        if (!stage || !lesson.contains(stage)){
+          stage = buildStage(lesson, kind);
+          stageKind = kind;
+        } else if (stageKind !== kind){
+          stageKind = kind;
+          swapScene(kind);
+        }
+        syncHer();
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('visibilitychange', function(){
+      document.documentElement.classList.toggle('v24-hidden', document.hidden);
+    });
+    schedule();
   }catch(e){}
 })();
 </script>
