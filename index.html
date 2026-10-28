@@ -1445,6 +1445,149 @@ html.v25-hidden #page .v25-her::before, html.v25-hidden #page .v25-her img{
   #page .v25-veil{ opacity:.7; }
 }
 </style>
+<style id="muse-v26">
+/* ---------- v26 · AMBIENTE DEL SIMULADOR ----------
+   Sala de examen serena: el simulador recibe la luz académica de
+   la biblioteca (tinte --wood, el de biblioteca en v24/v25) sobre
+   #page. En examen (secciones, cronómetro corriendo) el lavado es
+   mínimo y estático: cero elementos nuevos, cero movimiento,
+   ella ausente — la concentración manda. En resultados el lavado
+   es pleno y un panel de escena con ella preside el reporte.
+   Ningún texto ni control va sobre la escena: preguntas,
+   opciones, cronómetro y resultados quedan sobre sus superficies
+   sólidas de siempre. La escena jamás se desenfoca. */
+
+/* 0 · El lavado académico (la geometría es la del lavado de la
+   casa de v16/v25; el tinte genérico se cambia por el de la
+   biblioteca). Esta primera regla es la intensidad de
+   RESULTADOS (examen ya cerrado). */
+#page[data-v26sim]{
+  --v26tint:var(--wood, #B07A52);
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 30%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 58%, var(--bg)) 0,
+      color-mix(in srgb, var(--v26tint) 30%, var(--bg)) 200px,
+      color-mix(in srgb, var(--v26tint) 7%, var(--bg)) 420px,
+      color-mix(in srgb, var(--v26tint) 4%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v26tint) 4%, var(--bg)) 100%); }
+/* En EXAMEN el lavado se retira a su mínimo: misma geometría,
+   tinte débil y cola corta. Estático por construcción. */
+#page[data-v26sim="exam"]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 20%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 40%, var(--bg)) 0,
+      color-mix(in srgb, var(--v26tint) 16%, var(--bg)) 200px,
+      color-mix(in srgb, var(--v26tint) 4%, var(--bg)) 420px,
+      color-mix(in srgb, var(--v26tint) 2%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v26tint) 2%, var(--bg)) 100%); }
+/* En tema oscuro el tinte ACLARA el fondo tras el texto claro:
+   la cola va aún más débil (receta medida de v25); el lugar lo
+   carga el panel de resultados */
+html[data-theme="dark"] #page[data-v26sim]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 22%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 40%, var(--bg)) 0,
+      color-mix(in srgb, var(--v26tint) 20%, var(--bg)) 200px,
+      color-mix(in srgb, var(--v26tint) 5%, var(--bg)) 420px,
+      color-mix(in srgb, var(--v26tint) 3%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v26tint) 2%, var(--bg)) 100%); }
+html[data-theme="dark"] #page[data-v26sim="exam"]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 16%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 30%, var(--bg)) 0,
+      color-mix(in srgb, var(--v26tint) 10%, var(--bg)) 200px,
+      color-mix(in srgb, var(--v26tint) 3%, var(--bg)) 420px,
+      color-mix(in srgb, var(--v26tint) 2%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v26tint) 1%, var(--bg)) 100%); }
+/* De noche con interfaz clara, la atenuación crepuscular de v16
+   con el tinte académico (misma especificidad, capa posterior) */
+html:not([data-theme="dark"])[data-daypart="night"] #page[data-v26sim]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 14%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 24%, var(--bg)) 0,
+      color-mix(in srgb, var(--v26tint) 18%, var(--bg)) 240px,
+      color-mix(in srgb, var(--v26tint) 9%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v26tint) 5%, var(--bg)) 100%); }
+html:not([data-theme="dark"])[data-daypart="night"] #page[data-v26sim="exam"]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 10%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 18%, var(--bg)) 0,
+      color-mix(in srgb, var(--v26tint) 10%, var(--bg)) 240px,
+      color-mix(in srgb, var(--v26tint) 5%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v26tint) 3%, var(--bg)) 100%); }
+
+/* 0b · Corrección tipo M1 (la de v25, desde el diseño): la
+   etiqueta de cabecera del simulador vive sobre el lavado justo
+   donde el tinte es más fuerte; en tema claro adopta un paso más
+   oscuro de la misma familia (#48524A por #5A665C), solo dentro
+   del ámbito del simulador. En tema oscuro la etiqueta ya es
+   clara y esta regla no la alcanza. */
+html:not([data-theme="dark"]) #page[data-v26sim] .label{ color:#48524A; }
+
+/* 1 · El panel de resultados: la biblioteca preside el reporte
+   (contenido en el flujo, con el radio y la sombra del precedente
+   .mission-hero de esta página y de las placas v23) */
+#page #simRoot .v26-stage{ position:relative; overflow:hidden; flex:none;
+  height:clamp(120px, 19vh, 160px); border-radius:24px;
+  box-shadow:var(--shadow-2); margin:2px 0 14px; pointer-events:none;
+  animation:v26in .55s var(--ease-out) both; }
+@keyframes v26in{ from{ opacity:0; transform:translateY(-7px); }
+  to{ opacity:1; transform:none; } }
+#page #simRoot .v26-bg{ position:absolute; inset:0; width:100%; height:100%;
+  animation:v26kb 26s ease-in-out infinite alternate; }
+@keyframes v26kb{ from{ transform:scale(1.04) translate(0,0); }
+  to{ transform:scale(1.12) translate(-1.4%,-2%); } }
+
+/* 2 · El velo de luz que respira (tinte por franja, el reloj de la casa) */
+#page #simRoot .v26-veil{ position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(255,236,190,.18), rgba(255,236,190,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(255,244,214,.14), transparent 70%);
+  animation:v26breath 7.5s ease-in-out infinite alternate; }
+html[data-daypart="dusk"] #page #simRoot .v26-veil{
+  background:linear-gradient(180deg, rgba(255,166,88,.20), rgba(255,166,88,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(255,190,110,.14), transparent 70%); }
+html[data-daypart="night"] #page #simRoot .v26-veil{
+  background:linear-gradient(180deg, rgba(190,214,255,.11), rgba(190,214,255,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(210,228,255,.09), transparent 70%); }
+@keyframes v26breath{ from{ opacity:.45; } to{ opacity:1; } }
+
+/* 3 · Ella, sobria, dentro de la biblioteca, a la derecha del panel */
+#page #simRoot .v26-her{ position:absolute; right:10px; bottom:0; z-index:3;
+  height:94%; animation:v26herin .65s var(--ease-out) both; }
+@keyframes v26herin{ from{ opacity:0; transform:translateY(12px); }
+  to{ opacity:1; transform:none; } }
+#page #simRoot .v26-her::before{ content:""; position:absolute; left:50%; top:42%;
+  width:170px; height:170px; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
+  background:radial-gradient(circle, rgba(255,240,200,.55) 0%, rgba(255,240,200,.18) 45%, transparent 70%);
+  animation:v26halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] #page #simRoot .v26-her::before{
+  background:radial-gradient(circle, rgba(214,230,255,.42) 0%, rgba(214,230,255,.14) 45%, transparent 70%); }
+@keyframes v26halo{ from{ opacity:.65; } to{ opacity:1; } }
+#page #simRoot .v26-her::after{ content:""; position:absolute; left:12%; right:12%;
+  bottom:-2px; height:12px; border-radius:50%; z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(10,16,4,.40), transparent 70%); }
+#page #simRoot .v26-her img{ height:100%; width:auto; display:block;
+  transform-origin:50% 100%; animation:v26bob 4.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 8px 12px rgba(20,26,6,.35)); }
+@keyframes v26bob{ from{ transform:translateY(0) scale(1); }
+  to{ transform:translateY(-3px) scale(1.015); } }
+
+/* 4 · Pausas: panel fuera de pantalla y pestaña oculta */
+#page #simRoot .v26-stage.v26-off .v26-bg, #page #simRoot .v26-stage.v26-off .v26-veil,
+#page #simRoot .v26-stage.v26-off .v26-her::before, #page #simRoot .v26-stage.v26-off .v26-her img{
+  animation-play-state:paused !important; }
+html.v26-hidden #page #simRoot .v26-bg, html.v26-hidden #page #simRoot .v26-veil,
+html.v26-hidden #page #simRoot .v26-her::before, html.v26-hidden #page #simRoot .v26-her img{
+  animation-play-state:paused !important; }
+
+/* 5 · Movimiento reducido: la biblioteca vive quieta; ella, presente */
+@media (prefers-reduced-motion: reduce){
+  #page #simRoot .v26-stage, #page #simRoot .v26-bg, #page #simRoot .v26-veil,
+  #page #simRoot .v26-her, #page #simRoot .v26-her::before, #page #simRoot .v26-her img{
+    animation:none !important; }
+  #page #simRoot .v26-veil{ opacity:.7; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -3845,6 +3988,154 @@ window.addEventListener('load', () => {
     mo.observe(document.body, { childList: true, subtree: true });
     document.addEventListener('visibilitychange', function(){
       document.documentElement.classList.toggle('v25-hidden', document.hidden);
+    });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v26-js">
+/* v26 · AMBIENTE DEL SIMULADOR — decoración en runtime.
+   El simulador vive en #page y se re-renderiza entero en cada
+   interacción (renderToeflSim reescribe #simRoot); esta capa
+   observa el DOM y, SOLO cuando #page contiene #simRoot, marca
+   la página con data-v26sim ("exam" en las secciones 0–3,
+   "results" en la pantalla de resultados, detectada por su
+   botón #simRetryBtn) para que el CSS ponga el lavado académico.
+   En resultados mantiene además UN panel .v26-stage con la
+   escena 'library' de la casa (SCN.svg) y a la tucana con su
+   arte real oficial: POSE.ok si el total renderizado es ≥ 86
+   (banda 4.5), POSE.bad (anima) si es menor, POSE.point si el
+   total no se puede leer; respaldos MASCOT.img y sondeo a
+   .m-hero, como en v22–v25. En examen NO se inserta nada: ni
+   panel, ni ella, ni movimiento — solo el lavado estático del
+   CSS. Todo defensivo y coalescido por rAF: si algo falla, el
+   simulador queda como en v25. La lógica del simulador
+   (temporizador, puntajes, doble escala) no se toca; jamás se
+   toca `lingorea_v5` ni se escribe clave alguna. */
+(function(){
+  try{
+    var stage = null, stageRoot = null, stagePose = null,
+        io = null, ticking = false;
+    var KIND = 'library', OK_MIN = 86;
+
+    function poseSrc(key){
+      try{
+        if (typeof POSE !== 'undefined' && POSE){
+          if (POSE[key]) return POSE[key];
+          if (POSE.point) return POSE.point;
+        }
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img) return MASCOT.img;
+      }catch(e){}
+      return null;
+    }
+    function totalNow(root){
+      try{
+        var hs = root.querySelectorAll('h2');
+        for (var i = 0; i < hs.length; i++){
+          var m = /(\d+)\s*\/\s*120/.exec(hs[i].textContent || '');
+          if (m) return +m[1];
+        }
+      }catch(e){}
+      return null;
+    }
+    function poseKeyFor(total){
+      if (total == null) return 'point';
+      return total >= OK_MIN ? 'ok' : 'bad';
+    }
+    function sceneSvg(){
+      try{
+        if (typeof SCN !== 'undefined' && SCN && SCN.svg) return SCN.svg(KIND, 'v26-bg');
+      }catch(e){}
+      return '';
+    }
+    function buildStage(root, key){
+      var st = document.createElement('div');
+      st.className = 'v26-stage';
+      st.setAttribute('aria-hidden', 'true');
+      st.setAttribute('data-kind', KIND);
+      var holder = document.createElement('div');
+      holder.innerHTML = sceneSvg();
+      var svg = holder.firstElementChild;
+      if (svg) st.appendChild(svg);
+      var veil = document.createElement('div');
+      veil.className = 'v26-veil';
+      st.appendChild(veil);
+      var wrap = document.createElement('div');
+      wrap.className = 'v26-her';
+      var img = document.createElement('img');
+      img.alt = '';
+      img.setAttribute('data-pose', key);
+      var src = poseSrc(key);
+      if (src){ img.src = src; }
+      else {
+        var tries = 0;
+        var iv = setInterval(function(){
+          var hEl = document.querySelector('.m-hero');
+          if (hEl && hEl.getAttribute('src')){ img.src = hEl.getAttribute('src'); clearInterval(iv); }
+          if (++tries > 40) clearInterval(iv);
+        }, 100);
+      }
+      wrap.appendChild(img);
+      st.appendChild(wrap);
+      var section = root.querySelector('section');
+      if (section && section.parentNode === root) root.insertBefore(st, section);
+      else root.appendChild(st);
+      if (io) io.observe(st);
+      return st;
+    }
+    function decorate(){
+      ticking = false;
+      try{
+        var page = document.querySelector('#page');
+        if (!page) return;
+        var root = (!page.hidden) ? page.querySelector('#simRoot') : null;
+        if (!root){
+          page.removeAttribute('data-v26sim');
+          stage = null; stageRoot = null; stagePose = null;
+          return;
+        }
+        var results = !!root.querySelector('#simRetryBtn');
+        page.setAttribute('data-v26sim', results ? 'results' : 'exam');
+        if (!results){
+          if (stage && stage.isConnected && root.contains(stage)) stage.remove();
+          stage = null; stageRoot = null; stagePose = null;
+          return;
+        }
+        var key = poseKeyFor(totalNow(root));
+        if (!stage || stageRoot !== root || !root.contains(stage)){
+          stage = buildStage(root, key);
+          stageRoot = root;
+          stagePose = key;
+        } else {
+          var section = root.querySelector('section');
+          if (section && stage.nextElementSibling !== section && section.parentNode === root){
+            root.insertBefore(stage, section);
+          }
+          if (stagePose !== key){
+            stagePose = key;
+            var img = stage.querySelector('.v26-her img');
+            var src = poseSrc(key);
+            if (img && src){ img.src = src; img.setAttribute('data-pose', key); }
+          }
+        }
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    if (typeof IntersectionObserver !== 'undefined'){
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          en.target.classList.toggle('v26-off', !en.isIntersecting);
+        });
+      }, { threshold: 0 });
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('visibilitychange', function(){
+      document.documentElement.classList.toggle('v26-hidden', document.hidden);
     });
     schedule();
   }catch(e){}
