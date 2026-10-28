@@ -1316,6 +1316,135 @@ html.v24-hidden body .lesson .v24-her::before, html.v24-hidden body .lesson .v24
   body .lesson .v24-veil{ opacity:.7; }
 }
 </style>
+<style id="muse-v25">
+/* ---------- v25 · ESCENA POR CUENTO ----------
+   Cada cuento se lee dentro de su lugar: la cabecera es el panel de
+   escena de SU unidad (la misma SCN de placas y lecciones) con la
+   luz de la franja y ella narrando desde dentro; el lavado de v16
+   toma el tinte del lugar. Ningún texto ni control va sobre la
+   escena: las líneas y la pregunta quedan sobre sus superficies de
+   siempre. Solo transform/opacity; la escena sigue nítida (regla
+   de la casa: cero desenfoque sobre imagen). */
+
+/* 0 · La luz del lugar tiñe el lavado de la pantalla (la geometría
+   es la del lavado de cuentos de v16; el tinte genérico --far se
+   cambia por el color propio de cada escena, de su misma paleta,
+   ya graduada por franja en #page) */
+#page[data-v25kind]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 30%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 58%, var(--bg)) 0,
+      color-mix(in srgb, var(--v25tint, var(--far)) 30%, var(--bg)) 200px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 7%, var(--bg)) 420px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 4%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 4%, var(--bg)) 100%); }
+/* En tema oscuro el tinte ACLARA el fondo tras el texto claro: la
+   cola va aún más débil para que el contraste quede ≥ al de la
+   base (medido); el lugar lo carga el panel de escena */
+html[data-theme="dark"] #page[data-v25kind]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 22%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 40%, var(--bg)) 0,
+      color-mix(in srgb, var(--v25tint, var(--far)) 20%, var(--bg)) 200px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 5%, var(--bg)) 420px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 3%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 2%, var(--bg)) 100%); }
+#page[data-v25kind="beach"]{ --v25tint:var(--sea, #8FC3CE); }
+#page[data-v25kind="market"]{ --v25tint:var(--beak, #F98232); }
+#page[data-v25kind="airport"]{ --v25tint:var(--tipC, #2F8FB0); }
+#page[data-v25kind="park"]{ --v25tint:var(--leafD, #43A83B); }
+#page[data-v25kind="school"]{ --v25tint:var(--leaf2, #83C24E); }
+#page[data-v25kind="library"]{ --v25tint:var(--wood, #B07A52); }
+#page[data-v25kind="cafe"]{ --v25tint:var(--sun, #FFAF52); }
+#page[data-v25kind="home"]{ --v25tint:var(--sun, #FFAF52); }
+#page[data-v25kind="stage"]{ --v25tint:var(--sun, #FFAF52); }
+#page[data-v25kind="city"]{ --v25tint:var(--far, #DCC7A0); }
+/* De noche con interfaz clara, la atenuación crepuscular de v16
+   con el tinte del lugar (misma especificidad, capa posterior) */
+html:not([data-theme="dark"])[data-daypart="night"] #page[data-v25kind]{
+  background:
+    radial-gradient(115% 300px at 50% -50px, color-mix(in srgb, var(--sun) 14%, transparent) 0%, transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--sky1) 24%, var(--bg)) 0,
+      color-mix(in srgb, var(--v25tint, var(--far)) 18%, var(--bg)) 240px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 9%, var(--bg)) 640px,
+      color-mix(in srgb, var(--v25tint, var(--far)) 5%, var(--bg)) 100%); }
+
+/* 0b · Corrección M1 (auditoría v25): el kicker del cuento
+   («Cuento · Unidad N», 13px/700 en var(--muted)) vive sobre el
+   lavado justo donde el tinte del lugar es más fuerte, y DE DÍA
+   perdía contraste frente a la base en mercado/playa/ciudad
+   (4.92→3.93 en mercado). En tema claro adopta un paso más oscuro
+   de la misma familia (#48524A por #5A665C), solo dentro del
+   ámbito del cuento: medido, el kicker queda ≥ base en los tres
+   lugares (5.32/5.78/6.27) y las líneas, la pregunta y las
+   opciones no se tocan. En tema oscuro la etiqueta ya es clara
+   y la capa la mejora: esta regla no la alcanza. */
+html:not([data-theme="dark"]) #page[data-v25kind] .label{ color:#48524A; }
+
+/* 1 · El panel de escena: cabecera del cuento (contenido, con el
+   radio y la sombra del precedente .mission-hero de esta página) */
+#page .v25-stage{ position:relative; overflow:hidden; flex:none;
+  height:clamp(104px, 17vh, 148px); border-radius:24px;
+  box-shadow:var(--shadow-2); margin:2px 0 14px; pointer-events:none;
+  animation:v25in .55s var(--ease-out) both; }
+@keyframes v25in{ from{ opacity:0; transform:translateY(-7px); }
+  to{ opacity:1; transform:none; } }
+#page .v25-bg{ position:absolute; inset:0; width:100%; height:100%;
+  transition:opacity .18s ease; animation:v25kb 26s ease-in-out infinite alternate; }
+@keyframes v25kb{ from{ transform:scale(1.04) translate(0,0); }
+  to{ transform:scale(1.12) translate(-1.4%,-2%); } }
+#page .v25-stage.v25-swap .v25-bg{ opacity:0; }
+
+/* 2 · El velo de luz que respira (tinte por franja, el reloj de la casa) */
+#page .v25-veil{ position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg, rgba(255,236,190,.18), rgba(255,236,190,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(255,244,214,.14), transparent 70%);
+  animation:v25breath 7.5s ease-in-out infinite alternate; }
+html[data-daypart="dusk"] #page .v25-veil{
+  background:linear-gradient(180deg, rgba(255,166,88,.20), rgba(255,166,88,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(255,190,110,.14), transparent 70%); }
+html[data-daypart="night"] #page .v25-veil{
+  background:linear-gradient(180deg, rgba(190,214,255,.11), rgba(190,214,255,0) 52%),
+             radial-gradient(90% 72% at 50% 0%, rgba(210,228,255,.09), transparent 70%); }
+@keyframes v25breath{ from{ opacity:.45; } to{ opacity:1; } }
+
+/* 3 · Ella, narradora dentro del lugar, a la derecha del panel */
+#page .v25-her{ position:absolute; right:10px; bottom:0; z-index:3;
+  height:94%; animation:v25herin .65s var(--ease-out) both; }
+@keyframes v25herin{ from{ opacity:0; transform:translateY(12px); }
+  to{ opacity:1; transform:none; } }
+#page .v25-her::before{ content:""; position:absolute; left:50%; top:42%;
+  width:170px; height:170px; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
+  background:radial-gradient(circle, rgba(255,240,200,.55) 0%, rgba(255,240,200,.18) 45%, transparent 70%);
+  animation:v25halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] #page .v25-her::before{
+  background:radial-gradient(circle, rgba(214,230,255,.42) 0%, rgba(214,230,255,.14) 45%, transparent 70%); }
+@keyframes v25halo{ from{ opacity:.65; } to{ opacity:1; } }
+#page .v25-her::after{ content:""; position:absolute; left:12%; right:12%;
+  bottom:-2px; height:12px; border-radius:50%; z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(10,16,4,.40), transparent 70%); }
+#page .v25-her img{ height:100%; width:auto; display:block;
+  transform-origin:50% 100%; animation:v25bob 4.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 8px 12px rgba(20,26,6,.35)); }
+@keyframes v25bob{ from{ transform:translateY(0) scale(1); }
+  to{ transform:translateY(-3px) scale(1.015); } }
+
+/* 4 · Pausas: panel fuera de pantalla y pestaña oculta */
+#page .v25-stage.v25-off .v25-bg, #page .v25-stage.v25-off .v25-veil,
+#page .v25-stage.v25-off .v25-her::before, #page .v25-stage.v25-off .v25-her img{
+  animation-play-state:paused !important; }
+html.v25-hidden #page .v25-bg, html.v25-hidden #page .v25-veil,
+html.v25-hidden #page .v25-her::before, html.v25-hidden #page .v25-her img{
+  animation-play-state:paused !important; }
+
+/* 5 · Movimiento reducido: el lugar vive quieto; ella, presente */
+@media (prefers-reduced-motion: reduce){
+  #page .v25-stage, #page .v25-bg, #page .v25-veil,
+  #page .v25-her, #page .v25-her::before, #page .v25-her img{
+    animation:none !important; }
+  #page .v25-veil{ opacity:.7; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -3545,6 +3674,177 @@ window.addEventListener('load', () => {
     mo.observe(document.body, { childList: true, subtree: true });
     document.addEventListener('visibilitychange', function(){
       document.documentElement.classList.toggle('v24-hidden', document.hidden);
+    });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v25-js">
+/* v25 · ESCENA POR CUENTO — decoración en runtime.
+   La página se reconstruye entera en cada apertura (openPage
+   reescribe #page); esta capa observa el DOM y, SOLO cuando la
+   página es un cuento (.story-line dentro de #page), mantiene UN
+   panel .v25-stage como primer hijo de .stack con la escena del
+   lugar de la unidad del cuento (SCN.svg de la casa), el velo de
+   luz y a la tucana narradora con su arte real oficial (POSE.read;
+   respaldos POSE.point, MASCOT.img y .m-hero). La unidad se
+   resuelve por la etiqueta renderizada («Cuento · Unidad N»), con
+   respaldo en el clic capturado en [data-story] y en el título;
+   el kind sale de unitKinds(). Todo defensivo y coalescido por
+   rAF: si algo falla, el cuento queda como en v24. Jamás se toca
+   `lingorea_v5` ni se escribe clave alguna; la lógica de
+   preguntas y XP del cuento no se toca. */
+(function(){
+  try{
+    var stage = null, stageKind = null, stageStack = null,
+        pendingUn = null, io = null, swapTimer = 0, ticking = false;
+
+    document.addEventListener('click', function(e){
+      try{
+        var t = e.target && e.target.closest ? e.target.closest('[data-story]') : null;
+        if (t) pendingUn = +t.getAttribute('data-story');
+      }catch(err){}
+    }, true);
+
+    function poseSrc(){
+      try{
+        if (typeof POSE !== 'undefined' && POSE){
+          if (POSE.read) return POSE.read;
+          if (POSE.point) return POSE.point;
+        }
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img) return MASCOT.img;
+      }catch(e){}
+      return null;
+    }
+    function unitNow(page){
+      try{
+        if (typeof course !== 'function') return null;
+        var units = course().units || [];
+        var lab = page.querySelector('.stack .label');
+        var m = lab && /Unidad\s+(\d+)/.exec(lab.textContent || '');
+        if (m){
+          var byLabel = units.find(function(x){ return x.unitNumber === +m[1]; });
+          if (byLabel) return byLabel;
+        }
+        if (pendingUn != null){
+          var byClick = units.find(function(x){ return x.unitNumber === pendingUn; });
+          if (byClick) return byClick;
+        }
+        var h1 = page.querySelector('.stack h1');
+        var title = h1 ? (h1.textContent || '').trim() : '';
+        if (title){
+          for (var i = 0; i < units.length; i++){
+            var st = units[i].story;
+            if (st && (st.title || '').replace(/^Mini-Cuento:\s*/, '') === title) return units[i];
+          }
+        }
+      }catch(e){}
+      return null;
+    }
+    function kindNow(page){
+      try{
+        var u = unitNow(page);
+        if (!u) return 'park';
+        if (typeof unitKinds !== 'function' || typeof course !== 'function') return 'park';
+        var idx = course().units.indexOf(u), ks = unitKinds();
+        return (idx >= 0 && ks[idx]) || 'park';
+      }catch(e){ return 'park'; }
+    }
+    function sceneSvg(kind){
+      try{
+        if (typeof SCN !== 'undefined' && SCN && SCN.svg) return SCN.svg(kind, 'v25-bg');
+      }catch(e){}
+      return '';
+    }
+    function buildStage(stack, kind){
+      var st = document.createElement('div');
+      st.className = 'v25-stage';
+      st.setAttribute('aria-hidden', 'true');
+      st.setAttribute('data-kind', kind);
+      var holder = document.createElement('div');
+      holder.innerHTML = sceneSvg(kind);
+      var svg = holder.firstElementChild;
+      if (svg) st.appendChild(svg);
+      var veil = document.createElement('div');
+      veil.className = 'v25-veil';
+      st.appendChild(veil);
+      var wrap = document.createElement('div');
+      wrap.className = 'v25-her';
+      var img = document.createElement('img');
+      img.alt = '';
+      var src = poseSrc();
+      if (src){ img.src = src; }
+      else {
+        var tries = 0;
+        var iv = setInterval(function(){
+          var hEl = document.querySelector('.m-hero');
+          if (hEl && hEl.getAttribute('src')){ img.src = hEl.getAttribute('src'); clearInterval(iv); }
+          if (++tries > 40) clearInterval(iv);
+        }, 100);
+      }
+      wrap.appendChild(img);
+      st.appendChild(wrap);
+      stack.insertBefore(st, stack.firstChild);
+      if (io) io.observe(st);
+      return st;
+    }
+    function swapScene(kind){
+      if (!stage) return;
+      stage.classList.add('v25-swap');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function(){
+        try{
+          var holder = document.createElement('div');
+          holder.innerHTML = sceneSvg(kind);
+          var svg = holder.firstElementChild, old = stage.querySelector('.v25-bg');
+          if (svg){
+            if (old) stage.replaceChild(svg, old); else stage.insertBefore(svg, stage.firstChild);
+          }
+          stage.setAttribute('data-kind', kind);
+          stage.classList.remove('v25-swap');
+        }catch(e){ stage.classList.remove('v25-swap'); }
+      }, 180);
+    }
+    function decorate(){
+      ticking = false;
+      try{
+        var page = document.querySelector('#page');
+        if (!page) return;
+        if (page.hidden || !page.querySelector('.story-line')){
+          page.removeAttribute('data-v25kind');
+          stage = null; stageKind = null; stageStack = null;
+          return;
+        }
+        var stack = page.querySelector('.stack');
+        if (!stack) return;
+        var kind = kindNow(page);
+        page.setAttribute('data-v25kind', kind);
+        if (!stage || stageStack !== stack || !stack.contains(stage)){
+          stage = buildStage(stack, kind);
+          stageKind = kind;
+          stageStack = stack;
+        } else if (stageKind !== kind){
+          stageKind = kind;
+          swapScene(kind);
+        }
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    if (typeof IntersectionObserver !== 'undefined'){
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          en.target.classList.toggle('v25-off', !en.isIntersecting);
+        });
+      }, { threshold: 0 });
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('visibilitychange', function(){
+      document.documentElement.classList.toggle('v25-hidden', document.hidden);
     });
     schedule();
   }catch(e){}
