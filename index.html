@@ -933,6 +933,56 @@ html[data-daypart="dusk"] #bye18 .b18-scene{ filter:saturate(1.05) brightness(.9
   #bye18 .b18-vid{ display:none; }
 }
 </style>
+<style id="muse-v20">
+/* === V20: la ruta se pinta al aprender — nodos con el tema de su lección === */
+body .node .ng{ display:grid; place-items:center; line-height:0; color:var(--gc,#878C82); }
+body .node .ng svg{ width:37px; height:37px; }
+body .node .ng .ga{ fill:var(--ga,#F98232); stroke:none; }
+body .node .ng .gs{ stroke:var(--ga,#F98232); fill:none; }
+/* Pendiente: el dibujo espera en blanco y negro */
+body .node.todo{ background:radial-gradient(120% 120% at 30% 22%, #FFFFFF, var(--surface2) 74%);
+  box-shadow:0 6px 0 var(--line), 0 10px 16px -10px rgba(28,43,34,.28), inset 0 2px 0 rgba(255,255,255,.65); }
+body .node.todo .ng{ color:#878C82; filter:grayscale(1); opacity:.85; }
+body .node.todo:active{ box-shadow:0 0 0 var(--line); }
+/* Acreditada: a todo color, con halo suave de luz y su insignia */
+body .node.done{ background:radial-gradient(120% 120% at 30% 22%, #FFFFFF, color-mix(in srgb, var(--lang) 15%, var(--surface)) 78%);
+  box-shadow:0 6px 0 color-mix(in srgb, var(--lang) 55%, #000), 0 0 24px color-mix(in srgb, var(--lang) 42%, transparent),
+  0 14px 22px -12px rgba(28,43,34,.35), inset 0 2px 0 rgba(255,255,255,.7); }
+/* (La acreditada conserva además la insignia ✓ de la casa, v9:
+   .node:not(.current):not(.todo)::after — no se duplica.) */
+/* Sembrada por importación: a color, anillo en el color «tip» e insignia
+   de descarga en la esquina libre (la ✓ de la casa ocupa la otra) */
+body .node.seeded{ background:radial-gradient(120% 120% at 30% 22%, #FFFFFF, color-mix(in srgb, var(--tip) 13%, var(--surface)) 78%);
+  box-shadow:0 6px 0 color-mix(in srgb, var(--lang) 45%, #000), 0 0 0 2px color-mix(in srgb, var(--tip) 60%, transparent),
+  0 0 16px color-mix(in srgb, var(--lang) 26%, transparent), inset 0 2px 0 rgba(255,255,255,.65); }
+body .node .nseed{ position:absolute; bottom:-5px; left:-5px; width:23px; height:23px; border-radius:50%; z-index:2;
+  background:var(--tip); color:#fff; display:grid; place-items:center;
+  box-shadow:0 2px 7px rgba(10,25,30,.4), inset 0 1px 0 rgba(255,255,255,.45); }
+body .node .nseed svg{ width:12px; height:12px; }
+/* Actual: el único brillo protagonista de la pantalla */
+body .node.current{ background:radial-gradient(120% 120% at 30% 22%, #FFFFFF, color-mix(in srgb, var(--lang) 19%, var(--surface)) 78%);
+  box-shadow:0 6px 0 color-mix(in srgb, var(--lang) 58%, #000), 0 0 0 6px color-mix(in srgb, var(--lang) 24%, transparent),
+  0 0 38px color-mix(in srgb, var(--lang) 58%, transparent), 0 16px 26px -10px color-mix(in srgb, var(--lang) 55%, transparent),
+  inset 0 2px 0 rgba(255,255,255,.75); }
+/* Modo oscuro: los medallones se releen sobre la superficie oscura */
+[data-theme="dark"] body .node.todo{ background:radial-gradient(120% 120% at 30% 22%, var(--surface2), var(--surface) 78%); }
+[data-theme="dark"] body .node.done{ background:radial-gradient(120% 120% at 30% 22%, var(--surface2), color-mix(in srgb, var(--lang) 17%, var(--surface)) 80%); }
+[data-theme="dark"] body .node.seeded{ background:radial-gradient(120% 120% at 30% 22%, var(--surface2), color-mix(in srgb, var(--tip) 15%, var(--surface)) 80%); }
+[data-theme="dark"] body .node.current{ background:radial-gradient(120% 120% at 30% 22%, var(--surface2), color-mix(in srgb, var(--lang) 21%, var(--surface)) 80%); }
+/* === V20: placas sin desenfoque — la escena del banner, nítida === */
+body .unit-banner .txt{ margin:0; border-radius:0; padding:46px 18px 14px; box-shadow:none;
+  background:linear-gradient(0deg, rgba(7,17,11,.80) 0%, rgba(7,17,11,.48) 44%, rgba(7,17,11,0) 100%);
+  backdrop-filter:none; -webkit-backdrop-filter:none; }
+/* El globo «Aquí sigues» nunca tapa el caption de la lección anterior:
+   medido sobre el render — el caption previo termina 17px sobre el nodo
+   actual y el globo ocupa −67..−33 respecto a ese nodo —, cuando la
+   lección actual NO abre su unidad, su renglón baja 60px y el globo
+   flota en el hueco con 10px libres (6px en el pico del balanceo bob).
+   La relación globo↔medallón↔tucana no cambia; el caso fresco (la
+   actual es la primera lección, :first-child de su ruta) queda intacto. */
+body .path .node-wrap:has(> .bubble):not(:first-child){ margin-top:60px; }
+
+</style>
 </head>
 <body>
 <div class="app">
@@ -1376,6 +1426,125 @@ function levelPath(c){ const us=c.units, fr=us.map(u=>u.lessons.filter(l=>isDone
  return `<section class="lvl card" aria-label="Tu camino de A1 a B1"><div class="row-between"><div><p class="label">Tu camino</p><h2>De ${course().units[0].cefr} a ${course().units[course().units.length-1].cefr} <span class="muted lvl-pct">${pct}%</span></h2></div><span class="lvl-now">Ahora: <b>${curLv}</b></span></div>
  <div class="lvl-track" role="progressbar" aria-label="Avance hacia B1" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}">${seg.map((g,j)=>`<div class="lvl-seg" style="flex:${g.length}"><span class="lvl-k">${lv[j]}</span><div class="lvl-dots">${g.map(([u,i])=>`<button class="lvl-dot ${fr[i]>=1?'full':fr[i]>0?'part':''}${fr[i]<1&&(fr[i]+sfr[i])>=1?' seededfull':sfr[i]>0?' seeded':''}" style="--f:${Math.round(fr[i]*100)}%" data-jump="${i}" aria-label="Unidad ${u.unitNumber}: ${esc(u.title)}, ${Math.round(fr[i]*100)}%${(fr[i]+sfr[i])>=1&&fr[i]<1?', dominado (importado)':sfr[i]>0?', con avance importado':''}"><i></i></button>`).join('')}</div></div>`).join('')}<span class="lvl-goal" aria-hidden="true">${I.star}</span></div>
  <p class="muted lvl-cap">${pct>=100?'Llegaste al final de esta ruta. Ahora a repasar y disfrutar.':'Cada punto es una unidad. Toca uno para ir a ella.'}</p></section>`; }
+
+/* === V20: cada nodo, el dibujo de SU lección === */
+const GL20 = {
+
+wave:{g:'#E8873A',a:'#FFD84A',s:'<path d="M7.5 12.5V7a1.5 1.5 0 0 1 3 0V5.2a1.5 1.5 0 0 1 3 0v1.3a1.5 1.5 0 0 1 3 0V12c0 4.4-2.9 7.5-6.8 7.5S6 16.9 4.9 13.9L3.7 10.6c-.4-1 .3-2 1.3-1.7.6.2 2.5 2.4 2.5 3.6z"/><path class="gs" d="M17.8 3.2a6.2 6.2 0 0 1 2.2 3.8M20 1.5a9 9 0 0 1 3 5.4"/>'},
+nametag:{g:'#2A5BD7',a:'#F98232',s:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.3" cy="10.8" r="1.7"/><path d="M5.8 15.8c.5-1.5 4.5-1.5 5 0M14 9.3h4.5M14 12.8h4.5"/>'},
+pin:{g:'#C2362F',a:'#FFD84A',s:'<path d="M12 21.2S5.8 15.7 5.8 10.6a6.2 6.2 0 0 1 12.4 0c0 5.1-6.2 10.6-6.2 10.6z"/><circle class="ga" cx="12" cy="10.4" r="2.3"/>'},
+numbers:{g:'#1F6E8C',a:'#F98232',s:'<path d="M5.1 9.3 L7.5 6.5 V17.9 M5.6 17.9 H9.4"/><path d="M10.35 9 C10.35 5.8 14.55 5.8 14.55 9 C14.55 12.7 10.9 14.7 10.35 17.9 H14.75"/><path d="M16.6 6.4 A2.15 2.5 0 0 1 16.6 11.4 A2.35 3.2 0 0 1 16.6 17.8"/>'},
+family:{g:'#1E7B34',a:'#F98232',s:'<circle cx="6.6" cy="7.6" r="2.1"/><circle cx="17.4" cy="7.6" r="2.1"/><path d="M3.8 20v-5.2a2.8 2.8 0 0 1 5.6 0V20M14.6 20v-5.2a2.8 2.8 0 0 1 5.6 0V20"/><circle class="ga" cx="12" cy="11.3" r="1.7"/><path d="M9.7 20v-3.6a2.3 2.3 0 0 1 4.6 0V20"/>'},
+person:{g:'#9B3BB5',a:'#FFD84A',s:'<circle cx="12" cy="7.4" r="2.7"/><path d="M4.8 20.4c.8-3.9 3.7-5.9 7.2-5.9s6.4 2 7.2 5.9"/>'},
+chat:{g:'#1F6E8C',a:'#A9DB48',s:'<path d="M20.5 11.3a8.3 8.3 0 0 1-8.3 8.2c-1.3 0-2.6-.3-3.7-.8L3.5 20l1.3-4.8a8.2 8.2 0 1 1 15.7-3.9z"/><circle class="ga" cx="8.3" cy="11.2" r="1.1"/><circle class="ga" cx="12.2" cy="11.2" r="1.1"/><circle class="ga" cx="16.1" cy="11.2" r="1.1"/>'},
+quest:{g:'#B04A0C',a:'#2A5BD7',s:'<circle cx="12" cy="12" r="8.6"/><path d="M9.6 9.4A2.6 2.6 0 1 1 14 11.2c-.8.35-2 .95-2 2.3"/><circle class="ga" cx="12" cy="16.8" r="1.1"/>'},
+clock:{g:'#B04A0C',a:'#2A5BD7',s:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3.2 2"/><circle class="ga" cx="12" cy="12" r="1.2"/>'},
+briefcase:{g:'#734E3C',a:'#FFD84A',s:'<rect x="3" y="8" width="18" height="11.5" rx="2.5"/><path d="M9 8V6.2A2.7 2.7 0 0 1 11.7 3.5h.6A2.7 2.7 0 0 1 15 6.2V8M3 13h18"/><rect class="ga" x="10.6" y="11.6" width="2.8" height="2.8" rx=".8"/>'},
+book:{g:'#2A5BD7',a:'#C2362F',s:'<path d="M5 4.8A2.3 2.3 0 0 1 7.3 2.5H19v15H7.3A2.3 2.3 0 0 0 5 19.8z"/><path d="M5 17.5V4.8"/><path class="ga" d="M14.3 2.5h2.8v5.2l-1.4-1-1.4 1z"/>'},
+cart:{g:'#1E7B34',a:'#F98232',s:'<circle cx="9.6" cy="20" r="1.6"/><circle cx="16.8" cy="20" r="1.6"/><path d="M2.6 3.4h2.2l2.5 11.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.6L20.4 7H6"/><path class="gs" d="M8.6 10.5h9.8"/>'},
+shirt:{g:'#9B3BB5',a:'#7FC4E0',s:'<path d="M8.6 4.2L4 7.2l1.9 3.4 2.1-1.3v10.2h8V9.3l2.1 1.3L20 7.2l-4.6-3a3.6 3.6 0 0 1-6.8 0z"/><path class="gs" d="M14.3 14.3h2.6v2.6h-2.6z"/>'},
+money:{g:'#1D7A48',a:'#FFD84A',s:'<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.7"/><path d="M6.2 9.5h.01M17.8 14.5h.01"/>'},
+card:{g:'#0E7A68',a:'#FFD84A',s:'<rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 9.8h19"/><rect class="ga" x="6" y="13.8" width="4.2" height="2.6" rx=".7"/>'},
+plane:{g:'#2A5BD7',a:'#F98232',s:'<path d="M12 2.6l1.9 6.3 6.6 3.4v2.1L13.9 12v4.9l2.4 1.9v1.6l-4.3-1-4.3 1v-1.6l2.4-1.9V12L3.5 14.4v-2.1L10.1 8.9z" fill="currentColor" stroke="none"/>'},
+suitcase:{g:'#B04A0C',a:'#2A5BD7',s:'<rect x="4" y="8" width="16" height="11.5" rx="2.5"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path class="gs" d="M4 12.5h16"/>'},
+hotel:{g:'#1F6E8C',a:'#FFD84A',s:'<path d="M5.5 20.5v-15L12 3l6.5 2.5v15"/><path d="M3 20.5h18"/><rect class="ga" x="10.3" y="14.8" width="3.4" height="5.7" rx=".8"/><path d="M9 8.2h.01M15 8.2h.01M9 11.4h.01M15 11.4h.01"/>'},
+phone:{g:'#1E7B34',a:'#FFD84A',s:'<path d="M21.2 16.9v2.6a2 2 0 0 1-2.2 2A19.5 19.5 0 0 1 2.5 5.2 2 2 0 0 1 4.4 3.2h2.6a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 10.9a16 16 0 0 0 5.9 5.9l1.15-1.15a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7a2 2 0 0 1 1.7 2z"/>'},
+mail:{g:'#C2362F',a:'#2A5BD7',s:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3.8 7.4L12 13.2l8.2-5.8"/><path d="M3.8 16.8l5.4-4.2M20.2 16.8l-5.4-4.2"/>'},
+mic:{g:'#9B3BB5',a:'#F98232',i:'mic'},
+headphones:{g:'#B04A0C',a:'#1F6E8C',s:'<path d="M4 14.8v-2.3a8 8 0 0 1 16 0v2.3"/><rect x="3" y="13.8" width="4.2" height="6.4" rx="2"/><rect x="16.8" y="13.8" width="4.2" height="6.4" rx="2"/><path class="gs" d="M19 20.2a3.6 3.6 0 0 1-3.6 2.4h-2.2"/>'},
+pen:{g:'#2A5BD7',a:'#F98232',s:'<path d="M4.2 19.8l.9-3.9L16.4 4.6a2.06 2.06 0 0 1 2.9 0l.1.1a2.06 2.06 0 0 1 0 2.9L8.1 18.9z"/><path d="M14.6 6.4l2.9 2.9"/><path class="gs" d="M3.2 21.2h6.5"/>'},
+exam:{g:'#734E3C',a:'#1D7A48',s:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path class="gs" d="M9.3 14.6l2 2 3.6-4.2"/>'},
+heart:{g:'#C2362F',a:'#FFD84A',s:'<path d="M12 20.3C6.2 16.6 3 13.4 3 9.7A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 9 3.6c0 3.7-3.2 6.9-9 10.6z"/><path class="gs" d="M6.3 11.8h2.6l1.4-2.4 2.1 4 1.4-1.6h2.6"/>'},
+body:{g:'#0E7A68',a:'#F98232',s:'<circle cx="12" cy="4.8" r="2.1"/><path d="M12 7.6v5.6M7.6 10.2l4.4-1.8 4.4 1.8M12 13.2L9.3 20M12 13.2l2.7 6.8"/>'},
+pill:{g:'#C2362F',a:'#1F6E8C',s:'<rect x="3.2" y="8.6" width="15.5" height="7.8" rx="3.9" transform="rotate(-45 11 12.5)"/><path d="M7.6 7.6l6.3 6.3"/><circle cx="17.9" cy="17.9" r="2.6"/><path class="gs" d="M17.9 16.1v3.6M16.1 17.9h3.6"/>'},
+food:{g:'#E8873A',a:'#1E7B34',s:'<path d="M4 16.8a8 8 0 0 1 16 0"/><path d="M2.5 20.2h19M12 8.8V7.6"/><circle class="ga" cx="12" cy="6" r="1.1"/><path class="gs" d="M8.8 4.4c0-1 .7-1.2.7-2.2M14.5 4.4c0-1 .7-1.2.7-2.2"/>'},
+cook:{g:'#B04A0C',a:'#7FC4E0',s:'<path d="M4.5 10.5h15V16a4.5 4.5 0 0 1-4.5 4.5H9A4.5 4.5 0 0 1 4.5 16z"/><path d="M2.5 10.5h19M4.5 13.2H2.7M21.3 13.2h-1.8"/><path class="gs" d="M9.5 6.8c0-1.2 1-1.4 1-2.6M13.8 6.8c0-1.2 1-1.4 1-2.6"/>'},
+coffee:{g:'#734E3C',a:'#F98232',s:'<path d="M5 9.5h10.5V15a5 5 0 0 1-5 5h-.5a5 5 0 0 1-5-5z"/><path d="M15.5 10.8h1.3a2.9 2.9 0 0 1 0 5.8h-1.6"/><path class="gs" d="M8.3 6.2c0-1.1.9-1.3.9-2.4M12 6.2c0-1.1.9-1.3.9-2.4"/>'},
+home:{g:'#1E7B34',a:'#F98232',s:'<path d="M3.8 11.2L12 4l8.2 7.2"/><path d="M5.8 9.3v10.2h12.4V9.3"/><rect class="ga" x="10.3" y="14" width="3.4" height="5.5" rx=".7"/><path d="M15.8 4.8v2.8"/>'},
+paw:{g:'#B04A0C',a:'#FFD84A',s:'<circle cx="5.4" cy="10.6" r="1.5"/><circle cx="9.2" cy="7.8" r="1.6"/><circle cx="14.8" cy="7.8" r="1.6"/><circle cx="18.6" cy="10.6" r="1.5"/><path class="ga" d="M12 12.9c2.7 0 4.9 2.2 4.9 4.2 0 1.8-1.4 3-3.3 3-1 0-1.7-.4-3.2-.4s-2.2.4-3.2.4c-1.9 0-3.3-1.2-3.3-3 0-2 2.2-4.3 4.9-4.3z"/>'},
+city:{g:'#2A5BD7',a:'#FFD84A',s:'<path d="M4 20.5V8.5l5-1.8v13.8"/><path d="M9 20.5V3.8h7v16.7"/><path d="M16 20.5v-9.8h4v9.8"/><path d="M2.5 20.5h19"/><path class="gs" d="M11.4 7.2h.01M13.9 7.2h.01M11.4 10.7h.01M13.9 10.7h.01M11.4 14.2h.01M13.9 14.2h.01M6.5 10.2h.01M6.5 13.7h.01M18 14.7h.01"/>'},
+bus:{g:'#0E7A68',a:'#FFD84A',s:'<rect x="4" y="4" width="16" height="13.5" rx="2.5"/><path d="M4 11h16"/><circle cx="8" cy="19.8" r="1.7"/><circle cx="16" cy="19.8" r="1.7"/><rect class="ga" x="7" y="6.3" width="10" height="3" rx="1"/>'},
+calendar:{g:'#C2362F',a:'#1E7B34',s:'<rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3.5v4M16 3.5v4"/><circle class="ga" cx="8.2" cy="14.2" r="1.2"/><circle class="ga" cx="12" cy="14.2" r="1.2"/><circle class="ga" cx="15.8" cy="14.2" r="1.2"/>'},
+music:{g:'#9B3BB5',a:'#FFD84A',s:'<path d="M9.5 18.3V6.2L19.5 4v11.3"/><circle cx="7" cy="18.3" r="2.5"/><circle cx="17" cy="15.3" r="2.5"/><path class="gs" d="M9.5 9.7l10-2.1"/>'},
+tech:{g:'#1F6E8C',a:'#A9DB48',s:'<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M10 20.3h4M12 16.5v3.8"/><path class="gs" d="M7 8.3l2.6 2.6L7 13.5M12.8 13.8h4.4"/>'},
+wifi:{g:'#2A5BD7',a:'#F98232',s:'<path d="M3.8 9.8a12.5 12.5 0 0 1 16.4 0M6.6 13.4a8.4 8.4 0 0 1 10.8 0M9.5 16.9a4.2 4.2 0 0 1 5 0"/><circle class="ga" cx="12" cy="19.6" r="1.3"/>'},
+shield:{g:'#1D7A48',a:'#FFD84A',i:'shield'},
+key:{g:'#B04A0C',a:'#2A5BD7',s:'<circle cx="8.3" cy="14.8" r="4.6"/><path d="M11.8 11.3L20 3.2"/><path d="M16.8 6.4l2.6 2.6M14.2 9l2.4 2.4"/><circle class="ga" cx="8.3" cy="14.8" r="1.2"/>'},
+video:{g:'#C2362F',a:'#FFD84A',s:'<rect x="3" y="6.5" width="12.5" height="11" rx="2.5"/><path d="M15.5 10.6l5.5-3.1v9L15.5 13.4"/><circle class="ga" cx="9.2" cy="12" r="1.6"/>'},
+alert:{g:'#C2362F',a:'#FFD84A',s:'<path d="M12 3.6L21.8 20H2.2z"/><path d="M12 9.8v4.4"/><circle class="ga" cx="12" cy="17.1" r="1.1"/>'},
+flask:{g:'#0E7A68',a:'#7FC4E0',s:'<path d="M10 3h4M10.6 3v5L5.2 17.8A2 2 0 0 0 7 20.8h10a2 2 0 0 0 1.8-3L13.4 8V3"/><path class="gs" d="M7.3 13.8h9.4"/><circle class="ga" cx="10.4" cy="16.8" r="1"/><circle class="ga" cx="13.6" cy="18.2" r=".8"/>'},
+chart:{g:'#1F6E8C',a:'#F98232',s:'<path d="M4 3.8V20h16.2"/><rect class="ga" x="7" y="13.5" width="3" height="6.5"/><rect class="ga" x="11.7" y="9.8" width="3" height="10.2"/><rect class="ga" x="16.4" y="6.8" width="3" height="13.2"/>'},
+scale:{g:'#734E3C',a:'#F98232',s:'<path d="M12 5v14M8 20h8"/><path d="M4.5 6.5h15"/><path d="M6.8 6.5L4.6 12a3.3 3.3 0 0 0 4.4 0zM17.2 6.5L15 12a3.3 3.3 0 0 0 4.4 0z"/><circle class="ga" cx="12" cy="5" r="1.1"/>'},
+bulb:{g:'#B04A0C',a:'#FFD84A',s:'<path d="M12 3.5a6.2 6.2 0 0 1 3.7 11.2c-.6.5-1 1-1.2 1.7l-.2.9H9.7l-.2-.9c-.2-.7-.6-1.2-1.2-1.7A6.2 6.2 0 0 1 12 3.5z"/><path d="M9.9 19.8h4.2M10.7 21.9h2.6"/>'},
+news:{g:'#47617B',a:'#C2362F',s:'<rect x="3.5" y="5" width="14" height="14" rx="1.5"/><path d="M17.5 8.5H19a1.5 1.5 0 0 1 1.5 1.5v7A2 2 0 0 1 18.5 19h-1"/><path class="gs" d="M6.8 9h7.4M6.8 12.3h7.4M6.8 15.6h4.6"/>'},
+globe:{g:'#0E7A68',a:'#FFD84A',s:'<circle cx="12" cy="12" r="8.6"/><path d="M3.4 12h17.2"/><ellipse cx="12" cy="12" rx="4" ry="8.6"/>'},
+lens:{g:'#1F6E8C',a:'#F98232',s:'<circle cx="10.5" cy="10.5" r="6.2"/><path d="M15.2 15.2L21 21"/><path class="gs" d="M8 10.5a2.5 2.5 0 0 1 2.5-2.5"/>'},
+receipt:{g:'#B04A0C',a:'#1D7A48',s:'<path d="M6 3h12v17.2l-2-1.3-2 1.3-2-1.3-2 1.3-2-1.3L6 20.2z"/><path class="gs" d="M9 7.8h6M9 11.3h6"/><path d="M9 14.8h3.5"/>'},
+sun:{g:'#E8873A',a:'#FFD84A',s:'<circle class="ga" cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M5.2 18.8l1.4-1.4M17.4 6.6l1.4-1.4"/>'},
+refresh:{g:'#0E7A68',a:'#F98232',s:'<path d="M20.2 12.2a8.2 8.2 0 1 1-2.4-5.8"/><path d="M20.4 3.4v4.6h-4.6"/><circle class="ga" cx="12" cy="12" r="1.2"/>'},
+link:{g:'#2A5BD7',a:'#F98232',s:'<path d="M10.2 13.8a4.4 4.4 0 0 0 6.2 0l2.8-2.8a4.4 4.4 0 1 0-6.2-6.2l-1.4 1.4"/><path d="M13.8 10.2a4.4 4.4 0 0 0-6.2 0l-2.8 2.8a4.4 4.4 0 1 0 6.2 6.2l1.4-1.4"/>'},
+list:{g:'#1F6E8C',a:'#F98232',s:'<path d="M9.5 6.2h10.8M9.5 12h10.8M9.5 17.8h10.8"/><circle class="ga" cx="5" cy="6.2" r="1.3"/><circle class="ga" cx="5" cy="12" r="1.3"/><circle class="ga" cx="5" cy="17.8" r="1.3"/>'},
+box:{g:'#734E3C',a:'#FFD84A',s:'<path d="M3.5 7.8L12 3.4l8.5 4.4v8.4L12 20.6l-8.5-4.4z"/><path d="M3.5 7.8L12 12.2l8.5-4.4M12 12.2v8.4"/><path class="gs" d="M7.8 5.6l8.5 4.4"/>'}
+
+};
+const GL20_UNITS = { en_u1:'wave', en_u2:'family', en_u3:'cart', en_u4:'clock', en_u5:'pin', en_u6:'shirt', en_u7:'briefcase', en_u8:'heart', en_u9:'plane', en_u10:'phone', en_u12:'book', en_u13:'money', en_u14:'pill', en_u15:'briefcase', en_u16:'chat', en_u17:'cook', en_u18:'plane', en_u19:'tech', en_u20:'book', en_u21:'news', en_u22:'book', en_u23:'scale', en_u24:'headphones', en_u25:'pen', en_u26:'flask', en_u11_toefl:'exam',
+ fr_u1:'coffee', fr_u2:'pin', fr_u3:'plane', fr_u4:'cart', fr_u5:'briefcase', fr_u6:'globe',
+ pt_u1:'coffee', pt_u2:'pin', pt_u3:'plane', pt_u4:'card', pt_u5:'briefcase', pt_u6:'globe' };
+const GL20_RULES = [
+ [/padaria|boulangerie/,'coffee'], [/numeros/,'numbers'],
+ [/me llamo|presentarse|presentaciones|verbo ser|etre/,'nametag'],
+ [/saludos|despedidas/,'wave'], [/de donde eres/,'pin'],
+ [/familia/,'family'], [/mascotas/,'paw'], [/como es/,'person'], [/^su, sus/,'person'],
+ [/preguntas y negativos/,'quest'], [/pedir ayuda/,'quest'], [/pedir con cortesia/,'chat'],
+ [/mercado|feria|supermercado/,'cart'], [/restaurante|bistro|almoco/,'food'],
+ [/pedir en un|pedir exactamente/,'food'], [/comida mexicana/,'food'], [/sabores/,'food'],
+ [/cuenta/,'receipt'], [/cuanto|cuantos|precios/,'money'],
+ [/cocina|cocinar|recetas/,'cook'],
+ [/que hora|hora es/,'clock'], [/manana/,'sun'], [/rutina/,'clock'], [/domingos/,'calendar'],
+ [/siempre/,'refresh'], [/lugares de la ciudad/,'city'],
+ [/transporte|metro/,'bus'], [/direcciones/,'pin'], [/donde esta|onde fica|banco por aqui/,'pin'],
+ [/ropa|roupa|tallas|probadores/,'shirt'], [/comparar|comparativ/,'scale'], [/devoluciones/,'refresh'],
+ [/pix|tarjeta|pagar, gastar/,'card'],
+ [/a que te dedicas|profesiones|profissoes/,'briefcase'], [/curricul/,'pen'], [/buscar trabajo/,'lens'],
+ [/entrevista/,'mic'], [/logistica|envios|soporte/,'box'], [/oficina|reuniones/,'briefcase'],
+ [/telefon|llamadas/,'phone'], [/correo/,'mail'], [/mensajes/,'chat'],
+ [/cuerpo/,'body'], [/farmacia/,'pill'], [/sintomas|fiebre|resfriado|duele/,'heart'],
+ [/consultorio|medico/,'heart'], [/emergencias/,'alert'], [/consejos/,'chat'],
+ [/pasado|passe/,'clock'],
+ [/aeropuerto/,'plane'], [/hotel/,'hotel'], [/problemas de internet/,'wifi'], [/problemas/,'alert'],
+ [/maletas/,'suitcase'], [/retrasos|cancelaciones/,'clock'], [/reclamar/,'chat'],
+ [/experiencias|alguna vez/,'globe'], [/predicciones/,'globe'],
+ [/planes|futuro|futur/,'calendar'],
+ [/contrasenas/,'key'], [/videollamadas/,'video'], [/internet/,'wifi'], [/privacidad|estafas/,'shield'],
+ [/romper el hielo/,'chat'], [/pasatiempos/,'music'], [/gust/,'heart'],
+ [/invitar|proponer/,'calendar'], [/aceptar, rechazar|reprogramar/,'refresh'], [/conversacion/,'chat'],
+ [/investigacion/,'lens'], [/inferir|entre lineas/,'lens'], [/matiz/,'scale'],
+ [/debat|discusion/,'scale'], [/conceder/,'scale'], [/hendidas|enfatizar/,'bulb'],
+ [/inversion negativa/,'refresh'], [/senales del discurso/,'list'], [/mundo natural/,'globe'],
+ [/historia|cuando era nino/,'book'], [/primero, luego/,'list'], [/que paso/,'quest'], [/salio bien/,'sun'],
+ [/banco|cajero|quincena|ahorrar|dinero/,'money'], [/recibos/,'receipt'], [/compras en linea|comercio electronico/,'tech'],
+ [/equipo/,'family'], [/examenes|calificaciones/,'exam'], [/escuela|materias|universidad|campus/,'book'],
+ [/habitos de estudio|aprender mejor|pensar en ingles/,'bulb'],
+ [/cultura|francofonia|saudade/,'globe'], [/noticias|titulares|prensa/,'news'], [/opinion|opiniones/,'bulb'],
+ [/lectura/,'book'], [/escucha/,'headphones'], [/escritura/,'pen'], [/respuesta|oral/,'mic'],
+ [/subjuntivo/,'pen'], [/conectores|sintetizar/,'link'], [/parafrasear/,'refresh'],
+ [/apuntes|registro formal|parrafo/,'pen'], [/revisar/,'exam'],
+ [/pasiva de reporte/,'news'], [/datos/,'chart'], [/causa y efecto/,'link'], [/ciencia/,'flask'],
+ [/horarios/,'clock'], [/reservaciones|reservas/,'calendar'], [/paseos/,'pin'],
+ [/estas haciendo/,'chat'], [/sabes hacer/,'bulb'], [/hogar/,'home'], [/metas/,'bulb']
+];
+function gl20norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function gl20key(l,u){
+ const t = gl20norm(l.title);
+ for(const [r,k] of GL20_RULES) if(r.test(t)) return k;
+ return GL20_UNITS[u.unitId] || 'chat';
+}
+function nodeGlyph20(l,u){
+ const k = gl20key(l,u), g = GL20[k] || GL20.chat;
+ const svg = g.i ? I[g.i] : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${g.s}</svg>`;
+ return `<span class="ng" data-g="${k}" style="--gc:${g.g};--ga:${g.a}">${svg}</span>`;
+}
+
 function viewRuta(){
  const c=course(), nx=nextLesson(), dailyXP=S.daily.date===today()?S.daily.xp:0, pct=Math.min(100,Math.round(dailyXP/S.goal*100));
  const total=allLessons(S.course).length, done=allLessons(S.course).filter(x=>isDone(x.l.lessonId)).length, kinds=unitKinds();
@@ -1391,7 +1560,7 @@ function viewRuta(){
   const ud=u.lessons.filter(l=>isDone(l.lessonId)).length, usd=u.lessons.filter(l=>!isDone(l.lessonId)&&isSeeded(l.lessonId)).length;
   h+=`<section class="unit" aria-labelledby="u${ui}"><div class="unit-banner">${SCN.svg(kinds[ui],'u-bg')}<div class="txt"><p class="label">Unidad ${u.unitNumber} · ${esc(u.cefr)}</p><h2 id="u${ui}">${esc(u.title)}</h2><span class="u-prog">${ud} de ${u.lessons.length}${usd&&ud+usd>=u.lessons.length?' · dominado (importado)':usd?' · con avance importado':''}</span></div></div><div class="path">`;
   u.lessons.forEach((l,li)=>{ const d=isDone(l.lessonId), cur=nx&&nx.l.lessonId===l.lessonId, sd=!d&&isSeeded(l.lessonId); const x=xs[(li+ui*2)%xs.length];
-   h+=`<div class="node-wrap" style="--x:${x}px">${cur?'<span class="bubble">Aquí sigues</span>':''}<button class="node ${d?'':cur?'current':sd?'seeded':'todo'} ${cur?'current':''}" data-lesson="${l.lessonId}" aria-label="Lección ${u.unitNumber}.${li+1}: ${esc(l.title)}${d?' (completada)':sd?' (dominado, importado)':''}">${d?I.check:I[TYPE_ICON[l.challenges[0].type]]||I.star}</button><div class="node-cap">${u.unitNumber}.${li+1} ${esc(l.title)}<small>${l.challenges.length} ejercicios${d?' · completada':sd?' · dominado · importado':''}</small></div></div>`; });
+   h+=`<div class="node-wrap" style="--x:${x}px">${cur?'<span class="bubble">Aquí sigues</span>':''}<button class="node ${d?'done':cur?'current':sd?'seeded':'todo'}${cur?' current':''}" data-lesson="${l.lessonId}" aria-label="Lección ${u.unitNumber}.${li+1}: ${esc(l.title)}${d?' (completada)':sd?' (dominado, importado)':''}">${nodeGlyph20(l,u)}${sd?`<span class="nseed" aria-hidden="true">${I.download}</span>`:''}</button><div class="node-cap">${u.unitNumber}.${li+1} ${esc(l.title)}<small>${l.challenges.length} ejercicios${d?' · completada':sd?' · dominado · importado':''}</small></div></div>`; });
   h+='</div></section>';
  });
  if(SOON.length) h+=`<section class="card soon"><p class="label">En construcción</p><h2>${SOON.map(k=>esc(COURSES[k].name)).join(' y ')}: próximamente</h2><p class="muted">Por ahora nos concentramos en que el inglés quede muy bien. Las demás rutas volverán cuando estén a la altura.</p></section>`;
