@@ -1156,6 +1156,66 @@ html[data-daypart="night"] #door22 .d22-fly{ background:radial-gradient(circle,r
   #door22 .d22-vid, #door22 .d22-heroBg, #door22 .d22-plate, #door22 .d22-flies{ display:none; }
 }
 </style>
+<style id="muse-v23">
+/* ---------- v23 · PLACAS DE UNIDAD VIVAS CON ELLA ----------
+   La escena de cada placa gana empuje de cámara y luz que respira;
+   la tucana preside la placa de la unidad actual, posada en el lugar.
+   Solo transform/opacity: nada de filtros sobre la imagen (la escena
+   sigue nítida, regla de la casa) y la banda de v20 no se toca. */
+
+/* 1 · Ken Burns: empuje lentísimo de la escena completa (el <svg>) */
+body .unit-banner.v23 .u-bg{ animation:v23kb 34s ease-in-out infinite alternate; }
+@keyframes v23kb{ from{ transform:scale(1.03) translate(0,0); }
+  to{ transform:scale(1.10) translate(-1.2%,-1.6%); } }
+
+/* 2 · El velo de luz que respira (tinte por franja, el reloj de la casa) */
+body .unit-banner .v23-veil{ position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,236,190,.20), rgba(255,236,190,0) 46%),
+             radial-gradient(90% 70% at 50% 0%, rgba(255,244,214,.16), transparent 70%);
+  animation:v23breath 7.5s ease-in-out infinite alternate; }
+html[data-daypart="dusk"] body .unit-banner .v23-veil{
+  background:linear-gradient(180deg, rgba(255,166,88,.22), rgba(255,166,88,0) 46%),
+             radial-gradient(90% 70% at 50% 0%, rgba(255,190,110,.16), transparent 70%); }
+html[data-daypart="night"] body .unit-banner .v23-veil{
+  background:linear-gradient(180deg, rgba(190,214,255,.12), rgba(190,214,255,0) 46%),
+             radial-gradient(90% 70% at 50% 0%, rgba(210,228,255,.10), transparent 70%); }
+@keyframes v23breath{ from{ opacity:.45; } to{ opacity:1; } }
+
+/* 3 · Ella, posada en la escena de la unidad actual */
+body .unit-banner.v23-cur .txt{ padding-right:122px; }
+body .unit-banner .v23-her{ position:absolute; right:8px; bottom:0; z-index:2;
+  height:118px; pointer-events:none; animation:v23in .7s var(--ease-out) both; }
+@keyframes v23in{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+body .unit-banner .v23-her::before{ content:""; position:absolute; left:50%; top:44%;
+  width:190px; height:190px; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
+  background:radial-gradient(circle, rgba(255,240,200,.55) 0%, rgba(255,240,200,.18) 45%, transparent 70%);
+  animation:v23halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] body .unit-banner .v23-her::before{
+  background:radial-gradient(circle, rgba(214,230,255,.42) 0%, rgba(214,230,255,.14) 45%, transparent 70%); }
+@keyframes v23halo{ from{ opacity:.65; } to{ opacity:1; } }
+body .unit-banner .v23-her::after{ content:""; position:absolute; left:12%; right:12%;
+  bottom:-2px; height:14px; border-radius:50%; z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(10,16,4,.40), transparent 70%); }
+body .unit-banner .v23-her img{ height:100%; width:auto; display:block;
+  transform-origin:50% 100%; animation:v23bob 4.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 10px 14px rgba(20,26,6,.35)); }
+@keyframes v23bob{ from{ transform:translateY(0) scale(1); }
+  to{ transform:translateY(-4px) scale(1.015); } }
+
+/* 4 · Pausa fuera de pantalla y con la pestaña oculta */
+body .unit-banner.v23-off .u-bg, body .unit-banner.v23-off .v23-veil,
+body .unit-banner.v23-off .v23-her::before, body .unit-banner.v23-off .v23-her img,
+html.v23-hidden body .unit-banner .u-bg, html.v23-hidden body .unit-banner .v23-veil,
+html.v23-hidden body .unit-banner .v23-her::before, html.v23-hidden body .unit-banner .v23-her img{
+  animation-play-state:paused !important; }
+
+/* 5 · Movimiento reducido: la placa vive quieta; ella, presente sin bob */
+@media (prefers-reduced-motion: reduce){
+  body .unit-banner .u-bg, body .unit-banner .v23-veil, body .unit-banner .v23-her,
+  body .unit-banner .v23-her::before, body .unit-banner .v23-her img{ animation:none !important; }
+  body .unit-banner .v23-veil{ opacity:.7; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -3145,6 +3205,74 @@ window.addEventListener('load', () => {
       at(24000, exit); /* failsafe: la puerta jamás atrapa */
     }
   }catch(e){ cleanupDoor(); }
+})();
+</script>
+<script id="muse-v23-js">
+/* v23 · PLACAS DE UNIDAD VIVAS CON ELLA — decoración en runtime.
+   La ruta se re-renderiza entera al navegar; esta capa observa el DOM
+   y decora cada placa una sola vez (data-v23): le añade el velo de luz
+   y, si su sección contiene el nodo .current, a la tucana con su arte
+   real oficial (POSE.point; respaldos MASCOT.img y la .m-hero del
+   héroe, como en v22). IntersectionObserver pausa lo que no se ve.
+   Todo defensivo: si algo falla, las placas quedan como en v22.
+   Jamás se toca `lingorea_v5` ni se escribe clave alguna. */
+(function(){
+  try{
+    var io = null;
+    if ('IntersectionObserver' in window){
+      io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ e.target.classList.toggle('v23-off', !e.isIntersecting); });
+      }, { threshold: 0.12 });
+    }
+    function herSrc(){
+      try{
+        if (typeof POSE !== 'undefined' && POSE && POSE.point) return POSE.point;
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img) return MASCOT.img;
+      }catch(e){}
+      return null;
+    }
+    function decorate(b){
+      if (!b || b.getAttribute('data-v23')) return;
+      b.setAttribute('data-v23', '1');
+      b.classList.add('v23');
+      var veil = document.createElement('div');
+      veil.className = 'v23-veil';
+      veil.setAttribute('aria-hidden', 'true');
+      b.appendChild(veil);
+      if (io) io.observe(b);
+      var sec = b.closest ? b.closest('section.unit') : null;
+      if (sec && sec.querySelector('.node.current')){
+        b.classList.add('v23-cur');
+        var wrap = document.createElement('div');
+        wrap.className = 'v23-her';
+        wrap.setAttribute('aria-hidden', 'true');
+        var img = document.createElement('img');
+        img.alt = '';
+        var src = herSrc();
+        if (src) img.src = src;
+        else {
+          var tries = 0;
+          var iv = setInterval(function(){
+            var hEl = document.querySelector('.m-hero');
+            if (hEl && hEl.getAttribute('src')){ img.src = hEl.getAttribute('src'); clearInterval(iv); }
+            if (++tries > 40) clearInterval(iv);
+          }, 100);
+        }
+        wrap.appendChild(img);
+        b.appendChild(wrap);
+      }
+    }
+    function scan(){
+      var list = document.querySelectorAll('.unit-banner:not([data-v23])');
+      for (var i = 0; i < list.length; i++) decorate(list[i]);
+    }
+    scan();
+    var mo = new MutationObserver(function(){ scan(); });
+    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('visibilitychange', function(){
+      document.documentElement.classList.toggle('v23-hidden', document.hidden);
+    });
+  }catch(e){}
 })();
 </script>
 </body>
