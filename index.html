@@ -2031,6 +2031,33 @@ html.v31-hidden #view > .v31-card .v31-img,
   #view > .v31-card, #view > .v31-card .v31-img{ animation:none !important; }
 }
 </style>
+<style id="muse-v32">
+/* ---------- v32 · ESCRIBE LA PALABRA (tipo «write») ----------
+   El campo vive EN el hueco de la frase, con la gramática del
+   hueco de cloze de la base (.cloze/.blank: filete inferior en
+   --lang, texto centrado, fuente display) y la traducción como
+   enunciado, al modo del write del EXT pero con los tokens de la
+   casa. El sistema de diseño trae `input,select,textarea` con
+   border-radius y anillo de foco en !important: el hueco plano
+   los neutraliza puntualmente (radio 0 y sin anillo) para
+   parecerse al .blank de cloze, conservando un outline propio
+   visible al enfocar. */
+#lBody .wr32-panel{ min-width:0; }
+#lBody .wr32-tr{ font:600 17px/1.45 var(--font-text); color:var(--muted);
+  margin:0 0 10px; }
+#lBody .wr32-sent{ font:700 22px/1.8 var(--font-display); margin:0 0 4px; }
+#lBody .wr32-in{ appearance:none; -webkit-appearance:none; display:inline-block;
+  min-width:110px; height:auto; border:0; border-bottom:3px solid var(--lang);
+  border-radius:0 !important; background:transparent; padding:0 6px; margin:0 2px;
+  font:inherit; color:var(--lang); text-align:center; cursor:text;
+  position:relative; flex:none; transition:border-color var(--d-1); }
+#lBody .wr32-in:focus{ outline:2px solid color-mix(in srgb, var(--lang) 60%, transparent);
+  outline-offset:2px; box-shadow:none !important;
+  border-bottom-color:var(--lang) !important; }
+#lBody .wr32-in:disabled{ opacity:.72; cursor:default; }
+#lBody .wr32-hintrow{ margin:12px 0 0; font-size:15px; }
+#lBody .wr32-hintt{ color:var(--muted); }
+</style>
 </head>
 <body>
 <div class="app">
@@ -5642,6 +5669,740 @@ window.addEventListener('load', () => {
     });
     schedule();
   }catch(e){}
+})();
+</script>
+<script id="muse-v32-js">
+/* v32 · TIPO DE RETO «WRITE» — extensión pura del motor.
+   (1) CONTENIDO: inyecta 4 lecciones «Escribe la palabra» al
+   final de las unidades en_u2…en_u5 (solo ids nuevos; COURSES
+   impreso intacto, avance por lessonId intacto). Si la app ya
+   arrancó y no hay lección abierta, re-renderiza la ruta.
+   (2) RENDER: el motor base rinde la cabecera del reto y ningún
+   área de respuesta para un tipo sin rama; esta capa observa el
+   DOM y, solo si el reto vigente es `write`, sustituye el bloque
+   de tokens por la frase con el campo en el hueco, la
+   traducción, la IPA de la palabra meta y la pista (letra
+   inicial + glosa; en el laboratorio, sin pista). El campo
+   alimenta al motor con ready() y Enter llama a check() con
+   stopPropagation (el atajo global de Enter no debe pulsar el
+   #nextBtn del feedback). Califica evaluate() de la base:
+   norm() contra acceptedAnswers — mayúsculas, espacios y
+   puntuación no cuentan. XP, SRS, repaso y corona: los del
+   motor, sin tocar. */
+(function(){
+  var DATA32 = {
+ "en_u2": {
+  "lessonId": "en_u2_l6",
+  "title": "Escribe la palabra: la familia",
+  "grammarTip": "En esta lección escribes tú: son las mismas frases de la unidad, pero la palabra sale de tu memoria, no de una lista. Si dudas, toca «Ver pista»: te da la primera letra. Equivocarse aquí es parte del plan: la palabra vuelve hasta que quede.",
+  "challenges": [
+   {
+    "id": "en_u2_l6_c1",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "I have two",
+    "sentenceAfter": "and one sister.",
+    "translation": "Tengo dos hermanos y una hermana.",
+    "spokenText": "I have two brothers and one sister.",
+    "ipa": "/ˈbrʌðərz/",
+    "canonicalAnswer": "brothers",
+    "acceptedAnswers": [
+     "brothers"
+    ],
+    "hintLetter": "b",
+    "gloss": "hermanos",
+    "explanation": "El plural regular se forma con -s: brother → brothers.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Tengo dos hermanos y una hermana.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u2_l6_c2",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "They are",
+    "sentenceAfter": "people.",
+    "translation": "Son personas amables.",
+    "spokenText": "They are kind people.",
+    "ipa": "/kaɪnd/",
+    "canonicalAnswer": "kind",
+    "acceptedAnswers": [
+     "kind"
+    ],
+    "hintLetter": "k",
+    "gloss": "amable",
+    "explanation": "Los adjetivos en inglés no llevan plural.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Son personas amables.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u2_l6_c3",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "My grandpa",
+    "sentenceAfter": "a big garden.",
+    "translation": "Mi abuelito tiene un jardín grande.",
+    "spokenText": "My grandpa has a big garden.",
+    "ipa": "/hæz/",
+    "canonicalAnswer": "has",
+    "acceptedAnswers": [
+     "has"
+    ],
+    "hintLetter": "h",
+    "gloss": "tiene",
+    "explanation": "«Grandpa» es él → «has».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Mi abuelito tiene un jardín grande.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u2_l6_c4",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "Her grandmother is very",
+    "sentenceAfter": ".",
+    "translation": "Su abuela es muy divertida.",
+    "spokenText": "Her grandmother is very funny.",
+    "ipa": "/ˈfʌni/",
+    "canonicalAnswer": "funny",
+    "acceptedAnswers": [
+     "funny"
+    ],
+    "hintLetter": "f",
+    "gloss": "divertida",
+    "explanation": "«Funny» es «divertido, chistoso». «Her» indica que la abuela es de ella.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Su abuela es muy divertida.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u2_l6_c5",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "She has long black",
+    "sentenceAfter": ".",
+    "translation": "Ella tiene el cabello largo y negro.",
+    "spokenText": "She has long black hair.",
+    "ipa": "/hɛr/",
+    "canonicalAnswer": "hair",
+    "acceptedAnswers": [
+     "hair"
+    ],
+    "hintLetter": "h",
+    "gloss": "cabello",
+    "explanation": "En inglés el adjetivo va antes: «long black hair». «Hair» es incontable: no lleva -s.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Ella tiene el cabello largo y negro.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u2_l6_c6",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "Our apartment has two",
+    "sentenceAfter": ".",
+    "translation": "Nuestro departamento tiene dos recámaras.",
+    "spokenText": "Our apartment has two bedrooms.",
+    "ipa": "/ˈbɛˌdrumz/",
+    "canonicalAnswer": "bedrooms",
+    "acceptedAnswers": [
+     "bedrooms"
+    ],
+    "hintLetter": "b",
+    "gloss": "recámaras",
+    "explanation": "«Bedroom» = recámara, dormitorio.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Nuestro departamento tiene dos recámaras.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   }
+  ]
+ },
+ "en_u3": {
+  "lessonId": "en_u3_l6",
+  "title": "Escribe la palabra: la comida",
+  "grammarTip": "Frases del mercado y el restaurante, ahora escritas por ti. La traducción completa va arriba de cada frase y la pista te da la primera letra: lo demás sale de tu memoria.",
+  "challenges": [
+   {
+    "id": "en_u3_l6_c1",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "My sister",
+    "sentenceAfter": "like fish.",
+    "translation": "A mi hermana no le gusta el pescado.",
+    "spokenText": "My sister doesn't like fish.",
+    "ipa": "/ˈdʌzənt/",
+    "canonicalAnswer": "doesn't",
+    "acceptedAnswers": [
+     "doesn't",
+     "does not"
+    ],
+    "hintLetter": "d",
+    "gloss": "no",
+    "explanation": "Con he / she / it la negación es «doesn't» + verbo base.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "A mi hermana no le gusta el pescado.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u3_l6_c2",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "I'd",
+    "sentenceAfter": "the chicken soup, please.",
+    "translation": "Quisiera la sopa de pollo, por favor.",
+    "spokenText": "I'd like the chicken soup, please.",
+    "ipa": "/laɪk/",
+    "canonicalAnswer": "like",
+    "acceptedAnswers": [
+     "like"
+    ],
+    "hintLetter": "l",
+    "gloss": "quisiera",
+    "explanation": "Después de «I'd» (I would) va el verbo base: «I'd like».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Quisiera la sopa de pollo, por favor.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u3_l6_c3",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "How",
+    "sentenceAfter": "eggs do we need?",
+    "translation": "¿Cuántos huevos necesitamos?",
+    "spokenText": "How many eggs do we need?",
+    "ipa": "/ˈmɛni/",
+    "canonicalAnswer": "many",
+    "acceptedAnswers": [
+     "many"
+    ],
+    "hintLetter": "m",
+    "gloss": "cuántos",
+    "explanation": "«Eggs» es contable y plural, por eso «how many».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "¿Cuántos huevos necesitamos?",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u3_l6_c4",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "How",
+    "sentenceAfter": "milk is in the fridge?",
+    "translation": "¿Cuánta leche hay en el refri?",
+    "spokenText": "How much milk is in the fridge?",
+    "ipa": "/mʌtʃ/",
+    "canonicalAnswer": "much",
+    "acceptedAnswers": [
+     "much"
+    ],
+    "hintLetter": "m",
+    "gloss": "cuánta",
+    "explanation": "«Milk» es incontable → «how much».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "¿Cuánta leche hay en el refri?",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u3_l6_c5",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "Tamales are made",
+    "sentenceAfter": "corn dough.",
+    "translation": "Los tamales se hacen con masa de maíz.",
+    "spokenText": "Tamales are made with corn dough.",
+    "ipa": "/wɪθ/",
+    "canonicalAnswer": "with",
+    "acceptedAnswers": [
+     "with"
+    ],
+    "hintLetter": "w",
+    "gloss": "con",
+    "explanation": "«Made with» indica los ingredientes; «dough» = masa.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Los tamales se hacen con masa de maíz.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u3_l6_c6",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "The tacos are",
+    "sentenceAfter": ".",
+    "translation": "Los tacos están deliciosos.",
+    "spokenText": "The tacos are delicious.",
+    "ipa": "/dɪˈlɪʃəs/",
+    "canonicalAnswer": "delicious",
+    "acceptedAnswers": [
+     "delicious"
+    ],
+    "hintLetter": "d",
+    "gloss": "deliciosos",
+    "explanation": "«Delicious» = delicioso, sabroso.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Los tacos están deliciosos.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   }
+  ]
+ },
+ "en_u4": {
+  "lessonId": "en_u4_l6",
+  "title": "Escribe la palabra: mi rutina",
+  "grammarTip": "Los verbos de tu rutina, ahora de tu memoria a la pantalla. Fíjate en la tercera persona: watch → watches, study → studies.",
+  "challenges": [
+   {
+    "id": "en_u4_l6_c1",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "I",
+    "sentenceAfter": "my teeth after every meal.",
+    "translation": "Me lavo los dientes después de cada comida.",
+    "spokenText": "I brush my teeth after every meal.",
+    "ipa": "/brʌʃ/",
+    "canonicalAnswer": "brush",
+    "acceptedAnswers": [
+     "brush"
+    ],
+    "hintLetter": "b",
+    "gloss": "cepillar",
+    "explanation": "Para los dientes se dice «brush» (cepillar), no «wash».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Me lavo los dientes después de cada comida.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u4_l6_c2",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "My mom",
+    "sentenceAfter": "the news every night.",
+    "translation": "Mi mamá ve las noticias cada noche.",
+    "spokenText": "My mom watches the news every night.",
+    "ipa": "/ˈwɑtʃɪz/",
+    "canonicalAnswer": "watches",
+    "acceptedAnswers": [
+     "watches"
+    ],
+    "hintLetter": "w",
+    "gloss": "ve",
+    "explanation": "Con he/she (my mom) el verbo lleva -s; los terminados en -ch agregan -es: watch → watches.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Mi mamá ve las noticias cada noche.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u4_l6_c3",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "Luis",
+    "sentenceAfter": "English on Tuesdays.",
+    "translation": "Luis estudia inglés los martes.",
+    "spokenText": "Luis studies English on Tuesdays.",
+    "ipa": "/ˈstʌdiz/",
+    "canonicalAnswer": "studies",
+    "acceptedAnswers": [
+     "studies"
+    ],
+    "hintLetter": "s",
+    "gloss": "estudia",
+    "explanation": "Con he/she el verbo lleva -s; consonante + y cambia a -ies: study → studies.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Luis estudia inglés los martes.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u4_l6_c4",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "I",
+    "sentenceAfter": "drink soda.",
+    "translation": "Nunca tomo refresco.",
+    "spokenText": "I never drink soda.",
+    "ipa": "/ˈnɛvər/",
+    "canonicalAnswer": "never",
+    "acceptedAnswers": [
+     "never"
+    ],
+    "hintLetter": "n",
+    "gloss": "nunca",
+    "explanation": "«Never» no se combina con «don't».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Nunca tomo refresco.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u4_l6_c5",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "On weekends I",
+    "sentenceAfter": "visit my grandma.",
+    "translation": "Los fines de semana visito seguido a mi abuela.",
+    "spokenText": "On weekends I often visit my grandma.",
+    "ipa": "/ˈɔfən/",
+    "canonicalAnswer": "often",
+    "acceptedAnswers": [
+     "often"
+    ],
+    "hintLetter": "o",
+    "gloss": "seguido",
+    "explanation": "«Often» = seguido, con frecuencia.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Los fines de semana visito seguido a mi abuela.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u4_l6_c6",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "I usually take the",
+    "sentenceAfter": "to work.",
+    "translation": "Normalmente tomo el camión al trabajo.",
+    "spokenText": "I usually take the bus to work.",
+    "ipa": "/bʌs/",
+    "canonicalAnswer": "bus",
+    "acceptedAnswers": [
+     "bus"
+    ],
+    "hintLetter": "b",
+    "gloss": "camión",
+    "explanation": "«Bus» = camión, autobús.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Normalmente tomo el camión al trabajo.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   }
+  ]
+ },
+ "en_u5": {
+  "lessonId": "en_u5_l6",
+  "title": "Escribe la palabra: la ciudad",
+  "grammarTip": "Lugares y direcciones de la ciudad, escritos por ti. Between, behind, downtown: ya los leíste en la unidad; ahora salen de tu memoria.",
+  "challenges": [
+   {
+    "id": "en_u5_l6_c1",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "The bank is",
+    "sentenceAfter": "the pharmacy and the café.",
+    "translation": "El banco está entre la farmacia y el café.",
+    "spokenText": "The bank is between the pharmacy and the café.",
+    "ipa": "/bɪtˈwin/",
+    "canonicalAnswer": "between",
+    "acceptedAnswers": [
+     "between"
+    ],
+    "hintLetter": "b",
+    "gloss": "entre",
+    "explanation": "Entre dos cosas: «between».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "El banco está entre la farmacia y el café.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u5_l6_c2",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "The parking lot is",
+    "sentenceAfter": "the supermarket.",
+    "translation": "El estacionamiento está detrás del súper.",
+    "spokenText": "The parking lot is behind the supermarket.",
+    "ipa": "/bɪˈhaɪnd/",
+    "canonicalAnswer": "behind",
+    "acceptedAnswers": [
+     "behind"
+    ],
+    "hintLetter": "b",
+    "gloss": "detrás de",
+    "explanation": "«Behind» = detrás de (lugar). «After» es para tiempo.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "El estacionamiento está detrás del súper.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u5_l6_c3",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "",
+    "sentenceAfter": "left at the traffic light.",
+    "translation": "Da vuelta a la izquierda en el semáforo.",
+    "spokenText": "Turn left at the traffic light.",
+    "ipa": "/tɜrn/",
+    "canonicalAnswer": "Turn",
+    "acceptedAnswers": [
+     "Turn"
+    ],
+    "hintLetter": "t",
+    "gloss": "dar vuelta",
+    "explanation": "El imperativo usa el verbo base.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Da vuelta a la izquierda en el semáforo.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u5_l6_c4",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "There",
+    "sentenceAfter": "three hotels on this street.",
+    "translation": "Hay tres hoteles en esta calle.",
+    "spokenText": "There are three hotels on this street.",
+    "ipa": "/ɑr/",
+    "canonicalAnswer": "are",
+    "acceptedAnswers": [
+     "are"
+    ],
+    "hintLetter": "a",
+    "gloss": "hay",
+    "explanation": "«Three hotels» es plural → «there are».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "Hay tres hoteles en esta calle.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u5_l6_c5",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "The museum is",
+    "sentenceAfter": ".",
+    "translation": "El museo está en el centro.",
+    "spokenText": "The museum is downtown.",
+    "ipa": "/ˌdaʊnˈtaʊn/",
+    "canonicalAnswer": "downtown",
+    "acceptedAnswers": [
+     "downtown"
+    ],
+    "hintLetter": "d",
+    "gloss": "en el centro",
+    "explanation": "«Downtown» funciona como adverbio: no lleva «in the».",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "El museo está en el centro.",
+      "pos": "Oración completa en español"
+     }
+    ]
+   },
+   {
+    "id": "en_u5_l6_c6",
+    "type": "write",
+    "heading": "Escribe la palabra que falta",
+    "sentenceBefore": "How do I get to the train",
+    "sentenceAfter": "?",
+    "translation": "¿Cómo llego a la estación de tren?",
+    "spokenText": "How do I get to the train station?",
+    "ipa": "/ˈsteɪʃən/",
+    "canonicalAnswer": "station",
+    "acceptedAnswers": [
+     "station"
+    ],
+    "hintLetter": "s",
+    "gloss": "estación",
+    "explanation": "«Get to» = llegar a un lugar.",
+    "promptTokens": [
+     {
+      "text": "___",
+      "hint": "¿Cómo llego a la estación de tren?",
+      "pos": "Oración completa en español"
+     }
+    ]
+   }
+  ]
+ }
+};
+  try{
+    Object.keys(DATA32).forEach(function(uid){
+      var u = (COURSES.en.units || []).find(function(x){ return x.unitId === uid; });
+      if (!u) return;
+      var L32 = DATA32[uid];
+      if (u.lessons.some(function(l){ return l.lessonId === L32.lessonId; })) return;
+      u.lessons.push({ lessonId: L32.lessonId, title: L32.title,
+                       grammarTip: L32.grammarTip, challenges: L32.challenges });
+    });
+    var les = document.getElementById('lesson');
+    if (les && les.hidden && typeof renderAll === 'function') renderAll();
+  }catch(e){}
+
+  function esc32(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function curCh(){
+    try{ return (typeof cur !== 'undefined' && cur && cur.ch) ? cur.ch : null; }
+    catch(e){ return null; }
+  }
+  function inLab(){
+    try{ return (typeof L !== 'undefined' && L && L.lab) ? true : false; }
+    catch(e){ return false; }
+  }
+
+  function buildPanel(wrap, ch){
+    var kick = wrap.querySelector('.kicker');
+    if (kick) kick.textContent = 'Escribe';
+    var note = wrap.querySelector('p.muted');
+    if (note && /Toca una palabra/.test(note.textContent)) note.remove();
+    var prompt = wrap.querySelector('.prompt');
+    if (!prompt) return;
+    var inner = prompt.querySelector('.tokens');
+    inner = inner ? inner.parentElement : null;
+    if (!inner) return;
+    var before = ch.sentenceBefore || '', after = ch.sentenceAfter || '';
+    var pre = before ? esc32(before) + ' ' : '';
+    var post = after ? (/^[.,!?;:]/.test(after) ? esc32(after) : ' ' + esc32(after)) : '';
+    var n = Math.min(Math.max(6, (ch.canonicalAnswer || '').length + 3), 22);
+    var panel = document.createElement('div');
+    panel.className = 'wr32-panel';
+    panel.id = 'ans';
+    panel.setAttribute('data-chid', ch.id);
+    panel.innerHTML =
+      '<p class="wr32-tr">' + esc32(ch.translation || '') + '</p>' +
+      '<p class="wr32-sent" lang="en">' + pre +
+        '<input class="wr32-in" type="text" autocomplete="off" autocapitalize="off" ' +
+          'autocorrect="off" spellcheck="false" lang="en" inputmode="text" ' +
+          'enterkeyhint="done" aria-label="Escribe la palabra que falta" ' +
+          'style="width:' + n + 'ch">' + post + '</p>' +
+      '<div class="ipa"><span class="ipa-label">Pronunciación</span>' + esc32(ch.ipa || '') + '</div>' +
+      (inLab() ? '' :
+        '<p class="wr32-hintrow"><button class="link" type="button" data-wr32hint>Ver pista</button>' +
+        '<span class="wr32-hintt" hidden>Empieza con «' + esc32(ch.hintLetter || '') +
+        '» · significa «' + esc32(ch.gloss || '') + '»</span></p>');
+    inner.replaceWith(panel);
+    var inp = panel.querySelector('.wr32-in');
+    inp.addEventListener('input', function(){
+      if (!cur || cur.locked) return;
+      ready(inp.value.trim() || null);
+    });
+    inp.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){
+        e.preventDefault();
+        e.stopPropagation();
+        if (cur && cur.value && !cur.locked) check();
+      }
+    });
+    var hb = panel.querySelector('[data-wr32hint]');
+    if (hb) hb.onclick = function(){
+      var t = panel.querySelector('.wr32-hintt');
+      if (t) t.hidden = false;
+      hb.remove();
+    };
+    setTimeout(function(){ try{ inp.focus({ preventScroll: true }); }catch(e){} }, 150);
+  }
+
+  function decorate(){
+    try{
+      var lb = document.getElementById('lBody');
+      if (!lb) return;
+      var ch = curCh();
+      if (!ch || ch.type !== 'write') return;
+      var wrap = lb.querySelector('.fade');
+      if (!wrap) return;
+      var panel = wrap.querySelector('.wr32-panel');
+      if (panel && panel.getAttribute('data-chid') === ch.id){
+        var inp = panel.querySelector('.wr32-in');
+        if (inp && cur && cur.locked && !inp.disabled) inp.disabled = true;
+        return;
+      }
+      if (panel) panel.remove();
+      buildPanel(wrap, ch);
+    }catch(e){}
+  }
+  var ticking = false;
+  function schedule(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; decorate(); });
+  }
+  var mo = new MutationObserver(schedule);
+  mo.observe(document.body, { childList: true, subtree: true });
+  schedule();
 })();
 </script>
 </body>
