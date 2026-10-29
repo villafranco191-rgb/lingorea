@@ -2168,6 +2168,29 @@ html[data-theme="dark"] #view > .v34-card{
   #view > .v34-card{ animation:none !important; }
 }
 </style>
+<style id="muse-v35">
+/* v35 · CLIPS DE CELEBRACIÓN DE UNIDAD + TONO DEL LABORATORIO
+   (injertos 6 y 7 del programa unificado) */
+
+/* 1 · El clip del hito: escena viva de la tarjeta de cierre SOLO
+   cuando la lección completó la unidad. Va sobre el póster de la
+   v30 y bajo los rayos de la base (orden DOM), sin desenfoque;
+   ella plana de la esquina cede su visibilidad en esa ocasión
+   (su geometría queda: las chispas de la base nacen de su sitio) */
+#lesson .end .end-stage .v35-clip{ position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:50% 50%;
+  opacity:0; transition:opacity .45s ease-out; background:transparent; }
+#lesson .end .end-stage .v35-clip.v35-on{ opacity:1; }
+#lesson .end .end-stage.v35-milestone .end-masc{ visibility:hidden; }
+@media (prefers-reduced-motion: reduce){
+  #lesson .end .end-stage .v35-clip{ transition:none; }
+}
+
+/* 2 · El lema del laboratorio: línea digna bajo el h1, en la voz
+   de la casa (display, verde hoja del tema, sin caja ni borde) */
+.v35-motto{ font:800 16px/1.35 var(--font-display); color:var(--leafD);
+  letter-spacing:.01em; margin:0 0 12px; }
+</style>
 </head>
 <body>
 <div class="app">
@@ -6958,6 +6981,156 @@ sched33();
       var moL = new MutationObserver(lschedule);
       moL.observe(les0, { childList: true, subtree: true });
     }
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v35-js">
+/* v35 · CLIPS DE CELEBRACIÓN DE UNIDAD + TONO DEL LABORATORIO —
+   decoración en runtime, sin tocar motores ni datos.
+   · Hito de unidad: foto en memoria al empezar la lección («¿es
+     la última pendiente de su unidad?», con el criterio de unidad
+     cubierta del Pasaporte v33: cada lección en done ∪ seeded) y,
+     si al aparecer la pantalla de fin el motor ya la guardó, el
+     clip plano de la casa se presenta en la .end-stage, una sola
+     vez por esa transición. Alternancia por unidad: impar →
+     clip-fiesta-2 («unidad», 9 s), par → clip-fiesta-1 («logro»,
+     5 s). Mudo, en bucle, con pausa por visibilitychange; con
+     movimiento reducido no se reproduce: queda su primer
+     fotograma nítido. Si el clip falla, se retira sin dejar
+     rastro y el cierre queda como en v34: la foto recuerda el
+     fallo (clipFailed) y el clip no se reinserta en ese cierre
+     — una sola petición fallida, nunca un bucle.
+   · Laboratorio de Pronunciación y Voz: el lema «Aquí no hay
+     puntos: solo práctica» bajo el h1. (La nota de privacidad
+     junto al micrófono ya vive en la base, verificada: no se
+     duplica.)
+   Esta capa NO escribe estado alguno: ni lingorea_v5 ni ninguna
+   clave; su única memoria es la foto de sesión, volátil. */
+(function(){
+  try{
+    var CLIP_LOGRO = 'clip-fiesta-1.mp4', CLIP_UNIDAD = 'clip-fiesta-2.mp4';
+    var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var ticking = false;
+    var snap = null;      // { Lref, key, unitNumber, wasLast }
+    var clipVideo = null;
+
+    function covered(key){
+      try{
+        return !!((typeof S !== 'undefined' && S && S.done && S.done[key]) ||
+                  (typeof S !== 'undefined' && S && S.seeded && S.seeded[key]));
+      }catch(e){ return false; }
+    }
+    function sessionActive(){
+      return (typeof L !== 'undefined' && L && L.id && !L.review && !L.lab && !L.exam);
+    }
+    function takeSnap(){
+      if (!sessionActive()){ snap = null; return; }
+      if (snap && snap.Lref === L) return;
+      var wasLast = false, unitNumber = 0, key = null;
+      try{
+        var f = (typeof findLesson === 'function') ? findLesson(L.id) : null;
+        if (f && f.u && f.u.lessons && f.u.lessons.length){
+          var ck = f.c || S.course;
+          key = ck + ':' + L.id;
+          unitNumber = f.u.unitNumber || 0;
+          if (!covered(key)){
+            wasLast = f.u.lessons.every(function(l){
+              return l.lessonId === L.id || covered(ck + ':' + l.lessonId);
+            });
+          }
+        }
+      }catch(e){}
+      snap = { Lref: L, key: key, unitNumber: unitNumber, wasLast: wasLast, clipFailed: false };
+    }
+    function presentMilestone(stage){
+      var mySnap = snap;
+      var src = (snap.unitNumber % 2 === 0) ? CLIP_LOGRO : CLIP_UNIDAD;
+      var v = document.createElement('video');
+      v.className = 'v35-clip';
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      v.preload = 'auto';
+      v.src = src;
+      v.setAttribute('muted', '');
+      v.setAttribute('playsinline', '');
+      v.setAttribute('aria-hidden', 'true');
+      if (!RM.matches) v.autoplay = true;
+      v.addEventListener('canplay', function(){
+        v.classList.add('v35-on');
+        stage.classList.add('v35-milestone');
+        // Con movimiento reducido el clip nunca arrancó (sin
+        // autoplay): basta pausarlo. NO se toca currentTime:
+        // escribirlo aquí dispara un seek que se realimenta con
+        // cada canplay y el fotograma nunca llega a pintarse
+        // (verificado por sonda: readyState oscilando 4↔1).
+        if (RM.matches){ try{ v.pause(); }catch(e){} }
+      });
+      v.addEventListener('error', function(){
+        // Memoria de fallo de ESTE cierre: la foto que autorizó
+        // el clip recuerda que falló y decorate() no lo vuelve a
+        // insertar. Sin esto, la retirada disparaba al observer
+        // y el clip se reinsertaba en bucle (D1 de la auditoría).
+        if (mySnap) mySnap.clipFailed = true;
+        try{ v.remove(); stage.classList.remove('v35-milestone'); }catch(e){}
+        if (clipVideo === v) clipVideo = null;
+      });
+      var anchor = stage.querySelector('.rays') || stage.querySelector('.end-masc');
+      if (anchor) stage.insertBefore(v, anchor);
+      else stage.appendChild(v);
+      clipVideo = v;
+    }
+    function decorate(){
+      ticking = false;
+      try{
+        var les = document.getElementById('lesson');
+        if (les && !les.hidden){
+          var end = les.querySelector('.end');
+          if (!end) takeSnap();
+          else if (snap && snap.Lref === L && snap.wasLast && snap.key &&
+                   !snap.clipFailed && !end.querySelector('.v35-clip')){
+            var doneNow = false;
+            try{ doneNow = !!(S.done && S.done[snap.key]); }catch(e){}
+            var stage = end.querySelector('.end-stage');
+            if (doneNow && stage) presentMilestone(stage);
+          }
+        } else {
+          snap = null;
+          if (clipVideo){ try{ clipVideo.pause(); }catch(e){} }
+        }
+        if (clipVideo && !clipVideo.isConnected) clipVideo = null;
+        // Laboratorio de Pronunciación y Voz: el lema bajo el h1.
+        var box = document.getElementById('speechBox');
+        if (box){
+          var page = document.getElementById('page');
+          var h1 = page ? page.querySelector('h1') : null;
+          if (h1 && !page.querySelector('.v35-motto')){
+            var p = document.createElement('p');
+            p.className = 'v35-motto';
+            p.textContent = 'Aquí no hay puntos: solo práctica';
+            h1.insertAdjacentElement('afterend', p);
+          }
+        }
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('visibilitychange', function(){
+      try{
+        if (!clipVideo) return;
+        if (document.hidden) clipVideo.pause();
+        else if (clipVideo.isConnected && !RM.matches){
+          var pr = clipVideo.play();
+          if (pr && pr.catch) pr.catch(function(){});
+        }
+      }catch(e){}
+    });
     schedule();
   }catch(e){}
 })();
