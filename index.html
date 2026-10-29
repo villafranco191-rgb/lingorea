@@ -1695,6 +1695,24 @@ html.v27-hidden #view > .v27-card .v27-her img{ animation-play-state:paused !imp
   #view > .v27-card .v27-veil{ opacity:.7; }
 }
 </style>
+<style id="muse-v28">
+/* ---------- v28 · SIMULADOR CON CONJUNTOS 2 Y 3 ----------
+   La barra de conjuntos vive SOLO dentro de #simRoot, sobre la
+   tarjeta de la sección en curso: tres conjuntos completos con el
+   mismo motor y la misma doble escala de la casa. El conjunto
+   activo se marca con el color primario (el brillo protagonista
+   de esta barra); nada fuera del simulador recibe estilos. */
+#simRoot .v28-setbar{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px;
+  margin:0 0 14px; padding:10px 12px; border:1px solid var(--line); border-radius:16px;
+  background:color-mix(in srgb, var(--primary) 6%, transparent); }
+#simRoot .v28-lab{ font-weight:700; font-size:14px; }
+#simRoot .v28-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+#simRoot .v28-chip{ border:1px solid var(--line); background:transparent; color:inherit;
+  border-radius:999px; padding:7px 13px; font-size:13.5px; font-family:inherit; cursor:pointer; }
+#simRoot .v28-chip[aria-pressed="true"]{ background:var(--primary); border-color:var(--primary);
+  color:#fff; font-weight:700; }
+#simRoot .v28-note{ flex-basis:100%; margin:0; font-size:12.5px; color:var(--muted); }
+</style>
 </head>
 <body>
 <div class="app">
@@ -2423,7 +2441,7 @@ function renderToeflSim(){
   const SP = TOEFL_MOCK.speaking;
   h += `<section class="card stack"><h2>${esc(SP.title)}</h2>
    <div class="tip"><b lang="en">Prompt:</b> <span lang="en">${esc(SP.prompt)}</span></div>
-   <div class="gnote"><p class="label">Plantilla de Alto Puntaje (26–30/30) · Escúchala y úsala de guía</p><p lang="en">${esc(SP.template)}</p>
+   <div class="gnote"><p class="label">Plantilla de respuesta · Escúchala y úsala de guía</p><p lang="en">${esc(SP.template)}</p>
     <button type="button" class="link" data-say="${esc(SP.template)}">${I.sound} Escuchar respuesta modelo</button>
    </div>
    <div class="row wrap">
@@ -4403,6 +4421,478 @@ window.addEventListener('load', () => {
       document.documentElement.classList.toggle('v27-hidden', document.hidden);
     });
     schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v28-js">
+/* v28 · SIMULADOR CON CONJUNTOS 2 Y 3 — extensión en runtime.
+   Los conjuntos 2 (LiDAR maya · neurociencia del sueño) y 3
+   (exoplanetas · economía conductual) viajan como datos dentro de
+   este bloque, con la estructura exacta del TOEFL_MOCK de la casa
+   y sus distractores ya reescritos a estándar verosímil (la QA y
+   la tabla de reescrituras viven en enhance_v28.py). La capa
+   observa el DOM (patrón de v26) y, SOLO cuando #simRoot existe,
+   mantiene sobre la tarjeta de la sección una barra .v28-setbar
+   para elegir conjunto ANTES de empezar (y cambiarlo cuando se
+   quiera: cambiar reinicia). Elegir copia las cuatro secciones
+   del conjunto sobre el objeto TOEFL_MOCK — el motor entero de
+   la base (renderToeflSim, cronómetros, calificación con doble
+   escala banda 1–6 · 0–120) lee TOEFL_MOCK.* y corre intacto — y
+   reinicia con openToeflSim(), el mismo camino del botón
+   «Reintentar Simulacro» de la base. Las secciones originales del
+   conjunto 1 se capturan por referencia la primera vez y se
+   restauran tal cual al volver a él. La elección vive solo en
+   memoria de sesión: jamás se escribe `lingorea_v5` ni clave
+   alguna, y `toeflBest` sigue siendo el mejor puntaje global,
+   escrito solo por el motor de la base. Todo defensivo: si algo
+   falla, el simulador queda como en v27 con el conjunto 1. */
+(function(){
+  try{
+    var SETS28 = {
+ "2": {
+  "reading": {
+   "title": "Reading Section · Airborne LiDAR and Classic Maya Urbanism",
+   "timeSec": 360,
+   "passage": [
+    "For decades, archaeologists assumed that Classic Maya civilization consisted primarily of scattered ceremonial centers surrounded by sparse slash-and-burn farmland. Because dense tropical rainforest canopies in the Petén basin obstructed aerial photography, researchers could only map structures by cutting trails on foot—a painstaking process that overlooked subtle topographic features.",
+    "Recently, however, airborne Light Detection and Ranging (LiDAR) technology has triggered a paradigm shift in Mesoamerican archaeology. By pulsing millions of laser beams through tiny gaps in the forest canopy and measuring their return time, LiDAR digitally strips away vegetation to reveal the underlying ground relief with centimeter-level precision.",
+    "These LiDAR surveys have uncovered tens of thousands of previously undetected house mounds, elevated stone causeways (sacbeob), defensive fortifications, and extensive terraced wetlands. Consequently, scholars now contend that Classic Maya lowlands supported densely interconnected agrarian cities housing several million inhabitants, requiring sophisticated water management to sustain year-round intensive agriculture."
+   ],
+   "questions": [
+    {
+     "q": "1. Why did early archaeologists underestimate the population density of Classic Maya cities?",
+     "opts": [
+      {
+       "id": "b_r1_a",
+       "t": "Dense jungle canopies hid subtle structures from traditional aerial photography and foot surveys.",
+       "ok": true
+      },
+      {
+       "id": "b_r1_b",
+       "t": "Most Maya dwellings were built from perishable materials that left few visible traces.",
+       "ok": false
+      },
+      {
+       "id": "b_r1_c",
+       "t": "Systematic archaeological research in the region only began in the twenty-first century.",
+       "ok": false
+      }
+     ],
+     "exp": "El párrafo 1 explica que el denso dosel de la selva («dense tropical rainforest canopies») ocultaba los relieves y obligaba a mapear a pie."
+    },
+    {
+     "q": "2. How does airborne LiDAR reveal structures beneath the rainforest?",
+     "opts": [
+      {
+       "id": "b_r2_a",
+       "t": "Laser pulses penetrate gaps in the leaves to map the exact topography of the ground below.",
+       "ok": true
+      },
+      {
+       "id": "b_r2_b",
+       "t": "It uses radar waves reflected from stone structures buried beneath the soil.",
+       "ok": false
+      },
+      {
+       "id": "b_r2_c",
+       "t": "It photographs the forest canopy from satellites and infers the terrain from shadow patterns.",
+       "ok": false
+      }
+     ],
+     "exp": "El párrafo 2 detalla que los pulsos láser atraviesan los huecos del follaje («pulsing millions of laser beams through tiny gaps»)."
+    },
+    {
+     "q": "3. Why does the author mention «elevated stone causeways» and «terraced wetlands» in paragraph 3?",
+     "opts": [
+      {
+       "id": "b_r3_a",
+       "t": "To substantiate the claim that Maya cities were densely connected and practiced intensive agriculture.",
+       "ok": true
+      },
+      {
+       "id": "b_r3_b",
+       "t": "To suggest that LiDAR surveys mainly uncover ceremonial architecture rather than settlements.",
+       "ok": false
+      },
+      {
+       "id": "b_r3_c",
+       "t": "To contrast Maya engineering with the infrastructure of neighboring civilizations.",
+       "ok": false
+      }
+     ],
+     "exp": "Las calzadas y terrazas agrícolas corroboran la existencia de ciudades densamente interconectadas."
+    },
+    {
+     "q": "4. The phrase «paradigm shift» in paragraph 2 is closest in meaning to:",
+     "opts": [
+      {
+       "id": "b_r4_a",
+       "t": "Fundamental transformation in scientific understanding (cambio profundo de modelo científico)",
+       "ok": true
+      },
+      {
+       "id": "b_r4_b",
+       "t": "A new instrument for measuring depth (un instrumento nuevo para medir profundidad)",
+       "ok": false
+      },
+      {
+       "id": "b_r4_c",
+       "t": "A minor correction to earlier survey data (una corrección menor de datos de estudios anteriores)",
+       "ok": false
+      }
+     ],
+     "exp": "«Paradigm shift» significa un cambio fundamental en el modelo o marco teórico de una disciplina."
+    }
+   ]
+  },
+  "listening": {
+   "title": "Listening Section · Neuroscience Lecture (Sleep & Synaptic Homeostasis)",
+   "timeSec": 240,
+   "transcript": "Professor: We all know how exhausted we feel after pulling an all-nighter before an exam, right? Many students assume sleep is simply passive rest so our muscles can recover. Actually, from a neurobiological standpoint, the brain is intensely active during slow-wave sleep, performing two indispensable functions. First, through a mechanism called synaptic homeostasis, the brain prunes back weak neural connections formed during the day while consolidating crucial memories into the neocortex. Second, the glymphatic system expands intercellular channels by nearly sixty percent during deep sleep, flushing out metabolic waste proteins that accumulate while we are awake. So when you skip sleep to cram for a test, you are literally inhibiting the exact cellular mechanism required to retain what you studied!",
+   "questions": [
+    {
+     "q": "1. What is the main topic of the professor’s lecture?",
+     "opts": [
+      {
+       "id": "b_l1_a",
+       "t": "Two essential neurobiological processes that occur in the brain during deep sleep.",
+       "ok": true
+      },
+      {
+       "id": "b_l1_b",
+       "t": "How sleep deprivation affects athletic performance and muscle recovery.",
+       "ok": false
+      },
+      {
+       "id": "b_l1_c",
+       "t": "Why students should take a nap immediately before sitting an exam.",
+       "ok": false
+      }
+     ],
+     "exp": "La cátedra explica dos funciones neurobiológicas indispensables durante el sueño de ondas lentas."
+    },
+    {
+     "q": "2. According to the professor, what is the role of the glymphatic system during deep sleep?",
+     "opts": [
+      {
+       "id": "b_l2_a",
+       "t": "It clears out metabolic waste proteins from between brain cells.",
+       "ok": true
+      },
+      {
+       "id": "b_l2_b",
+       "t": "It transfers consolidated memories into long-term storage in the neocortex.",
+       "ok": false
+      },
+      {
+       "id": "b_l2_c",
+       "t": "It regulates body temperature while the muscles recover during rest.",
+       "ok": false
+      }
+     ],
+     "exp": "El sistema glinfático expande los canales intercelulares para eliminar proteínas de desecho metabólico («flushing out metabolic waste proteins»)."
+    },
+    {
+     "q": "3. Why does the professor mention «skipping sleep to cram for a test» at the end?",
+     "opts": [
+      {
+       "id": "b_l3_a",
+       "t": "To emphasize the irony that losing sleep blocks the memory consolidation students need.",
+       "ok": true
+      },
+      {
+       "id": "b_l3_b",
+       "t": "To suggest that cramming becomes effective if students sleep late the following morning.",
+       "ok": false
+      },
+      {
+       "id": "b_l3_c",
+       "t": "To introduce the topic of the following lecture on study techniques.",
+       "ok": false
+      }
+     ],
+     "exp": "Subraya la paradoja de que desvelarse inhibe el mecanismo celular que consolida la memoria."
+    }
+   ]
+  },
+  "speaking": {
+   "title": "Speaking Section · Academic Concept Synthesis (60s)",
+   "timeSec": 60,
+   "prompt": "Explain how the concept of «synaptic homeostasis and memory consolidation» works during sleep, and why consistent daily study is superior to last-minute cramming.",
+   "template": "According to neurobiological research, deep sleep plays a pivotal role in memory retention through synaptic homeostasis. While we sleep, the brain prunes away trivial details and consolidates essential knowledge into long-term storage. Consequently, spacing out language practice over daily fifteen-minute sessions is far more effective than last-minute cramming. Not only does daily practice align with natural neural plasticity, but it also ensures long-term fluency."
+  },
+  "writing": {
+   "title": "Writing for an Academic Discussion · 10-Minute Essay",
+   "timeSec": 600,
+   "professorPrompt": "Prof. Okafor: Cultural heritage agencies debate whether fragile archaeological sites—such as ancient cave paintings or Maya temples—should remain open to eco-tourists or be restricted exclusively to researchers using digital 3D replicas for the public. Which policy do you support? Write at least 80–100 words using academic connectors.",
+   "sampleModel": "While opening ancient monuments to tourism generates revenue for local communities, I contend that fragile archaeological sites should be restricted when physical visitor traffic threatens their preservation. Specifically, humidity, carbon dioxide, and foot erosion from thousands of daily tourists irreversibly exacerbate the deterioration of ancient frescoes and stone reliefs. By employing high-resolution LiDAR and virtual reality replicas in visitor centers, governments can bridge the gap between public education and conservation. Not only does this approach safeguard irreplaceable artifacts for future generations, but it also sustains cultural tourism without damaging the original structures."
+  }
+ },
+ "3": {
+  "reading": {
+   "title": "Reading Section · Detecting Biosignatures on Exoplanets via Transit Spectroscopy",
+   "timeSec": 360,
+   "passage": [
+    "Since the discovery of the first exoplanets orbiting sun-like stars in the 1990s, astronomers have identified thousands of distant worlds. Because stars are billions of times brighter than the planets orbiting them, direct imaging of rocky exoplanets remains exceedingly difficult. Instead, astrophysicists rely predominantly on the transit method, monitoring a star’s brightness for periodic dips caused when an orbiting planet crosses directly in front of the stellar disk.",
+    "Beyond revealing a planet’s radius and orbital period, transits enable transmission spectroscopy. As a planet passes in front of its host star, a tiny fraction of starlight filters through the planet’s upper atmosphere before reaching space telescopes. Different chemical molecules absorb specific wavelengths of infrared light, leaving distinct absorption lines—or spectral fingerprints—in the transmitted starlight.",
+    "To infer potential biological activity, astrobiologists search for atmospheric chemical disequilibrium. On Earth, for instance, abundant oxygen coexists with methane only because living organisms continuously replenish both gases; otherwise, methane and oxygen would rapidly react to form carbon dioxide and water. Consequently, detecting simultaneous spectral lines of oxygen, ozone, and methane in a rocky exoplanet’s atmosphere would constitute compelling—albeit indirect—evidence of extraterrestrial life."
+   ],
+   "questions": [
+    {
+     "q": "1. Why do astronomers use the transit method rather than direct imaging for most rocky exoplanets?",
+     "opts": [
+      {
+       "id": "c_r1_a",
+       "t": "Host stars are billions of times brighter, overwhelming the faint light reflected by small planets.",
+       "ok": true
+      },
+      {
+       "id": "c_r1_b",
+       "t": "Direct imaging is only possible when a planet crosses in front of its star.",
+       "ok": false
+      },
+      {
+       "id": "c_r1_c",
+       "t": "Most rocky exoplanets orbit stars too distant for their light to reach our telescopes.",
+       "ok": false
+      }
+     ],
+     "exp": "El párrafo 1 indica que las estrellas son miles de millones de veces más brillantes («billions of times brighter»)."
+    },
+    {
+     "q": "2. How does transmission spectroscopy identify gases in an exoplanet’s atmosphere?",
+     "opts": [
+      {
+       "id": "c_r2_a",
+       "t": "Molecules in the atmosphere absorb specific wavelengths of starlight during a transit.",
+       "ok": true
+      },
+      {
+       "id": "c_r2_b",
+       "t": "Telescopes measure the planet’s surface temperature and infer its composition from heat patterns.",
+       "ok": false
+      },
+      {
+       "id": "c_r2_c",
+       "t": "Starlight reflected from the planet’s surface is compared with laboratory spectra.",
+       "ok": false
+      }
+     ],
+     "exp": "Las moléculas químicas absorben longitudes de onda específicas («absorb specific wavelengths of infrared light»)."
+    },
+    {
+     "q": "3. According to paragraph 3, why would finding both oxygen and methane together in an atmosphere be significant?",
+     "opts": [
+      {
+       "id": "c_r3_a",
+       "t": "The two gases normally react and destroy each other unless something—such as life—constantly replenishes them.",
+       "ok": true
+      },
+      {
+       "id": "c_r3_b",
+       "t": "Both gases are produced in large quantities by photosynthesis in Earth’s oceans.",
+       "ok": false
+      },
+      {
+       "id": "c_r3_c",
+       "t": "The two gases combine to produce a single spectral line found in no other atmosphere.",
+       "ok": false
+      }
+     ],
+     "exp": "El desequilibrio químico entre oxígeno y metano sugiere una fuente activa que los repone continuamente."
+    },
+    {
+     "q": "4. The word «replenish» in paragraph 3 is closest in meaning to:",
+     "opts": [
+      {
+       "id": "c_r4_a",
+       "t": "Restore / resupply continuously (reponer / reabastecer)",
+       "ok": true
+      },
+      {
+       "id": "c_r4_b",
+       "t": "Eliminate permanently (eliminar permanentemente)",
+       "ok": false
+      },
+      {
+       "id": "c_r4_c",
+       "t": "React chemically with oxygen (reaccionar químicamente con el oxígeno)",
+       "ok": false
+      }
+     ],
+     "exp": "«Replenish» significa volver a llenar o reabastecer de forma continua."
+    }
+   ]
+  },
+  "listening": {
+   "title": "Listening Section · Behavioral Economics Lecture (Default Options & Choice Architecture)",
+   "timeSec": 240,
+   "transcript": "Professor: In classical economics, we assume that people carefully weigh every option before making a financial or civic decision, regardless of how the form is designed. Well, behavioral economists have repeatedly refuted that assumption through what we call choice architecture. Consider retirement savings plans at large companies. When employees must actively fill out a form to join the savings plan—an opt-in system—participation hovers around forty percent. However, when companies simply change the default option so new hires are enrolled automatically unless they check a box to leave—an opt-out system—participation jumps to over ninety percent! Notice that no financial incentive changed, and nobody was forced to save. Because humans exhibit status-quo bias and procrastination, the default setting acts as a powerful nudge.",
+   "questions": [
+    {
+     "q": "1. What does the professor illustrate with the retirement savings example?",
+     "opts": [
+      {
+       "id": "c_l1_a",
+       "t": "How changing the default option from opt-in to opt-out dramatically increases participation.",
+       "ok": true
+      },
+      {
+       "id": "c_l1_b",
+       "t": "Why employers should require new hires to attend financial planning seminars.",
+       "ok": false
+      },
+      {
+       "id": "c_l1_c",
+       "t": "How financial incentives motivate employees to save for retirement.",
+       "ok": false
+      }
+     ],
+     "exp": "El ejemplo demuestra cómo cambiar la opción predeterminada («default option») eleva la participación del 40% a más del 90%."
+    },
+    {
+     "q": "2. Why do default options have such a strong effect on human behavior?",
+     "opts": [
+      {
+       "id": "c_l2_a",
+       "t": "People tend to procrastinate and stick with the current status quo.",
+       "ok": true
+      },
+      {
+       "id": "c_l2_b",
+       "t": "Employees assume the default option offers the highest financial return.",
+       "ok": false
+      },
+      {
+       "id": "c_l2_c",
+       "t": "Companies penalize workers who choose to change the preselected option.",
+       "ok": false
+      }
+     ],
+     "exp": "El profesor lo atribuye al sesgo de statu quo y la procrastinación («status-quo bias and procrastination»)."
+    },
+    {
+     "q": "3. How does behavioral economics differ from classical economics in this lecture?",
+     "opts": [
+      {
+       "id": "c_l3_a",
+       "t": "It recognizes that how choices are framed strongly influences human decisions.",
+       "ok": true
+      },
+      {
+       "id": "c_l3_b",
+       "t": "It assumes that people always choose the option with the highest financial reward.",
+       "ok": false
+      },
+      {
+       "id": "c_l3_c",
+       "t": "It studies only how governments should design tax policies.",
+       "ok": false
+      }
+     ],
+     "exp": "Refuta la idea clásica de que el diseño del formulario («choice architecture») no influye en la decisión."
+    }
+   ]
+  },
+  "speaking": {
+   "title": "Speaking Section · Choice Architecture & Public Policy (60s)",
+   "timeSec": 60,
+   "prompt": "Using the concept of «choice architecture and default options», explain how a university or city could encourage sustainable habits (such as recycling or paperless billing) without banning alternatives.",
+   "template": "Universities can effectively foster sustainable habits by applying choice architecture and smart default options. Rather than penalizing students, the administration can make double-sided printing and paperless tuition billing the automatic default setting. Because individuals naturally exhibit status-quo bias, the vast majority of students will retain the eco-friendly default while still preserving their freedom to opt out if necessary."
+  },
+  "writing": {
+   "title": "Writing for an Academic Discussion · 10-Minute Essay",
+   "timeSec": 600,
+   "professorPrompt": "Prof. Jenkins: Governments spend billions of dollars on deep-space telescopes and planetary probes. Critics argue that these funds should be allocated exclusively to solving urgent terrestrial problems, whereas proponents contend that space exploration drives indispensable technological innovation. What is your stance? Write at least 80–100 words using academic connectors.",
+   "sampleModel": "While addressing terrestrial challenges is undoubtedly urgent, I firmly contend that funding space exploration is a sound and indispensable investment for humanity. First and foremost, aerospace research acts as a catalyst for technological breakthroughs that directly mitigate problems on Earth. Specifically, satellite sensors originally engineered for astrophysics now play a pivotal role in monitoring global deforestation, tracking hurricane trajectories, and optimizing agricultural irrigation. Not only does space science expand our fundamental knowledge of the universe, but its spin-off technologies also yield tangible economic and ecological benefits."
+  }
+ }
+};
+    var TOPICS28 = { 1: 'Ecología urbana y biocombustibles',
+                     2: 'Arqueología maya (LiDAR) y neurociencia del sueño',
+                     3: 'Exoplanetas y economía conductual' };
+    var orig28 = null, active28 = 1, bar28 = null, ticking28 = false;
+
+    function mock28(){
+      try{ return (typeof TOEFL_MOCK !== 'undefined' && TOEFL_MOCK) ? TOEFL_MOCK : null; }
+      catch(e){ return null; }
+    }
+    function capture28(){
+      var M = mock28();
+      if (M && !orig28){
+        orig28 = { reading: M.reading, listening: M.listening,
+                   speaking: M.speaking, writing: M.writing };
+      }
+    }
+    function apply28(n){
+      var M = mock28();
+      if (!M) return;
+      capture28();
+      var src = (n === 1) ? orig28 : SETS28[n];
+      if (!src) return;
+      M.reading = src.reading;
+      M.listening = src.listening;
+      M.speaking = src.speaking;
+      M.writing = src.writing;
+      active28 = n;
+    }
+    function buildBar28(){
+      var bar = document.createElement('div');
+      bar.className = 'v28-setbar';
+      var lab = document.createElement('span');
+      lab.className = 'v28-lab';
+      lab.textContent = 'Conjunto del simulacro';
+      bar.appendChild(lab);
+      var chips = document.createElement('div');
+      chips.className = 'v28-chips';
+      chips.setAttribute('role', 'group');
+      chips.setAttribute('aria-label', 'Elegir conjunto del simulacro');
+      [1, 2, 3].forEach(function(n){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'v28-chip';
+        b.textContent = 'Conjunto ' + n;
+        b.setAttribute('data-set28', String(n));
+        b.setAttribute('aria-pressed', n === active28 ? 'true' : 'false');
+        b.addEventListener('click', function(){
+          if (n === active28) return;
+          apply28(n);
+          try{ if (typeof openToeflSim === 'function') openToeflSim(); }catch(e){}
+        });
+        chips.appendChild(b);
+      });
+      bar.appendChild(chips);
+      var note = document.createElement('p');
+      note.className = 'v28-note';
+      var topic = document.createElement('b');
+      topic.textContent = TOPICS28[active28] || '';
+      note.appendChild(topic);
+      note.appendChild(document.createTextNode(
+        ' · Tres simulacros completos, mismo motor y misma doble escala (banda 1–6 · 0–120). Cambiar de conjunto reinicia el simulacro.'));
+      bar.appendChild(note);
+      return bar;
+    }
+    function decorate28(){
+      ticking28 = false;
+      try{
+        var root = document.querySelector('#simRoot');
+        if (!root){ bar28 = null; return; }
+        capture28();
+        if (bar28 && root.contains(bar28)) return;
+        bar28 = buildBar28();
+        var sec = root.querySelector('section');
+        if (sec && sec.parentNode === root) root.insertBefore(bar28, sec);
+        else root.appendChild(bar28);
+      }catch(e){}
+    }
+    function schedule28(){
+      if (ticking28) return;
+      ticking28 = true;
+      requestAnimationFrame(decorate28);
+    }
+    var mo28 = new MutationObserver(schedule28);
+    mo28.observe(document.body, { childList: true, subtree: true });
+    schedule28();
   }catch(e){}
 })();
 </script>
