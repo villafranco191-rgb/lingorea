@@ -2191,6 +2191,91 @@ html[data-theme="dark"] #view > .v34-card{
 .v35-motto{ font:800 16px/1.35 var(--font-display); color:var(--leafD);
   letter-spacing:.01em; margin:0 0 12px; }
 </style>
+<style id="muse-v36">
+/* v36 · ELLA EN TODAS PARTES — pasada de presencia del personaje.
+   Cero arte nuevo: poses planas data-URI de la base y el
+   cuento-3d.webp ya vivo. Sin desenfoque sobre ella en ninguna
+   superficie (regla de la casa). */
+
+/* 1 · Ella en cada placa de unidad (extiende la v23): misma
+   gramática que su .v23-her — halo cálido tras la imagen nítida,
+   sombra al suelo, bob suave — un punto más pequeña que en la
+   unidad actual (102 px frente a 118: la actual manda). */
+body .unit-banner.v36-has .txt{ padding-right:122px; }
+body .unit-banner .v36-her{ position:absolute; right:8px; bottom:0; z-index:2;
+  height:102px; pointer-events:none; animation:v36in .7s var(--ease-out) both; }
+@keyframes v36in{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+body .unit-banner .v36-her::before{ content:""; position:absolute; left:50%; top:44%;
+  width:172px; height:172px; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
+  background:radial-gradient(circle, rgba(255,240,200,.55) 0%, rgba(255,240,200,.18) 45%, transparent 70%);
+  animation:v36halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] body .unit-banner .v36-her::before{
+  background:radial-gradient(circle, rgba(214,230,255,.42) 0%, rgba(214,230,255,.14) 45%, transparent 70%); }
+@keyframes v36halo{ from{ opacity:.65; } to{ opacity:1; } }
+body .unit-banner .v36-her::after{ content:""; position:absolute; left:12%; right:12%;
+  bottom:-2px; height:13px; border-radius:50%; z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(10,16,4,.40), transparent 70%); }
+body .unit-banner .v36-her img{ height:100%; width:auto; display:block;
+  transform-origin:50% 100%; animation:v36bob 4.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 10px 14px rgba(20,26,6,.35)); }
+@keyframes v36bob{ from{ transform:translateY(0) scale(1); }
+  to{ transform:translateY(-4px) scale(1.015); } }
+body .unit-banner.v36-off .v36-her::before,
+body .unit-banner.v36-off .v36-her img,
+html.v36-hidden body .unit-banner .v36-her::before,
+html.v36-hidden body .unit-banner .v36-her img{ animation-play-state:paused !important; }
+@media (max-width:360px){
+  body .unit-banner .v36-her{ height:92px; }
+}
+
+/* 2 · La página de retrato del Pasaporte: su foto enmarcada en
+   crema pasaporte sobre la portada verde, con su nombre en la
+   tipografía de documento de la v33. */
+.v36-photo{ margin:16px 0 2px; width:118px; padding:6px 6px 5px; background:#F8F1DC;
+  border-radius:6px; box-shadow:0 10px 22px rgba(0,0,0,.35); transform:rotate(-1.6deg); }
+.v36-photo img{ display:block; width:100%; height:auto; border-radius:3px; }
+.v36-photo figcaption{ margin-top:4px; text-align:center;
+  font:700 10.5px/1.2 Georgia, 'Times New Roman', serif;
+  letter-spacing:.14em; text-transform:uppercase; color:#0C3A1E; }
+@media (max-width:360px){ .v36-photo{ width:104px; } }
+
+/* 3 · Su saludo en el Perfil: píldora en su voz (display, verde
+   hoja) dentro de la columna del estudiante. Acotada (M1 de la
+   auditoría): a 390 px la columna arranca en x=59 y la mascota
+   del héroe ocupa desde x=135; sin cota, los saludos largos se
+   metían bajo su ala (hasta 41 px de glifo). Con max-width:88px
+   «Buen día» queda en una línea y los «Buenas …» parten tras
+   «Buenas» con los glifos ~13 px antes de su caja, en las 4
+   franjas y en claro y oscuro (su caja y la de ella no se mueven
+   con la franja ni con el tema: medido). */
+.v36-hi{ display:inline-block; margin:10px 0 0; padding:5px 12px; border-radius:var(--r-pill);
+  max-width:88px;
+  background:color-mix(in srgb, var(--leaf) 16%, var(--surface));
+  border:1px solid color-mix(in srgb, var(--leaf) 45%, transparent);
+  color:var(--leafD); font:800 13.5px/1.3 var(--font-display); letter-spacing:.01em; }
+
+/* 4 · El «todo en orden» del laboratorio vacío: ella con POSE.ok
+   sobre el lema, en la misma voz que la v35 fijó para el lema. */
+.v36-lab{ display:flex; flex-direction:column; align-items:center; text-align:center;
+  padding:16px 12px 4px; }
+.v36-lab img{ height:64px; width:auto; display:block;
+  filter:drop-shadow(0 8px 12px rgba(20,26,6,.30)); }
+.v36-lab-motto{ font:800 16px/1.35 var(--font-display); color:var(--leafD);
+  letter-spacing:.01em; margin:8px 0 0; }
+
+/* 5 · Ella presentando el examen en su antesala (la tarjeta de la
+   ruta): ítem flex al final de la fila de botones, jamás sobre
+   texto ni botones. */
+.toefl-hero-card .v36-sim-her{ height:76px; width:auto; margin-left:auto;
+  align-self:flex-end; flex:none; display:block;
+  filter:drop-shadow(0 8px 12px rgba(20,26,6,.30)); }
+
+/* 6 · Movimiento reducido: presencia quieta en todas partes. */
+@media (prefers-reduced-motion: reduce){
+  body .unit-banner .v36-her, body .unit-banner .v36-her::before,
+  body .unit-banner .v36-her img{ animation:none !important; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -7130,6 +7215,196 @@ sched33();
           if (pr && pr.catch) pr.catch(function(){});
         }
       }catch(e){}
+    });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v36-js">
+/* v36 · ELLA EN TODAS PARTES — decoración en runtime, SOLO
+   LECTURA: esta capa no escribe estado ni clave alguna (ni
+   lingorea_v5 ni ninguna otra); lee el DOM y las constantes de
+   la base (POSE, MASCOT) y decora cinco superficies:
+   1 · Placas de unidad sin ella (la actual es de la v23 y no se
+       toca): cubierta completa (cada .node en done ∪ seeded,
+       la noción de la ruta) → POSE.ok; pendiente → POSE.read.
+   2 · Pasaporte v33: su página de retrato (cuento-3d.webp, ya
+       precacheado) enmarcada en la portada, bajo las cifras.
+   3 · Perfil: su línea de saludo por franja (gramática v31) en
+       la columna del estudiante; su pose del encabezado ya la
+       pone la base.
+   4 · Laboratorio de errores vacío (tile deshabilitada en
+       Práctica): ella con POSE.ok sobre el lema de la v35.
+       Con errores pendientes, nada.
+   5 · Antesala del simulador: POSE.point presentando en la
+       tarjeta .toefl-hero-card de la ruta. Dentro del examen
+       (#simRoot) y en resultados no se toca nada.
+   Si algo falla, la app queda en v35. */
+(function(){
+  try{
+    var GREET = { dawn: 'Buenos días', day: 'Buen día',
+                  dusk: 'Buenas tardes', night: 'Buenas noches' };
+    function part(){
+      var d = new Date(), t = d.getHours() + d.getMinutes() / 60;
+      return t >= 5 && t < 8.5 ? 'dawn' : t >= 8.5 && t < 17.75 ? 'day'
+           : t >= 17.75 && t < 20 ? 'dusk' : 'night';
+    }
+    function curPart(){
+      return document.documentElement.dataset.daypart || part();
+    }
+    function poseSrc(name){
+      try{
+        if (typeof POSE !== 'undefined' && POSE){
+          if (POSE[name]) return POSE[name];
+          if (POSE.point) return POSE.point;
+        }
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img) return MASCOT.img;
+      }catch(e){}
+      return null;
+    }
+    function herName(){
+      try{
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.name) return MASCOT.name;
+      }catch(e){}
+      return 'LingoRea';
+    }
+
+    var io = null;
+    if ('IntersectionObserver' in window){
+      io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ e.target.classList.toggle('v36-off', !e.isIntersecting); });
+      }, { threshold: 0.12 });
+    }
+
+    /* 1 · Placas de unidad */
+    function decoratePlates(){
+      var list = document.querySelectorAll('.unit-banner:not([data-v36])');
+      for (var i = 0; i < list.length; i++){
+        var b = list[i];
+        var sec = b.closest ? b.closest('section.unit') : null;
+        if (!sec){ b.setAttribute('data-v36', 'x'); continue; }
+        if (sec.querySelector('.node.current')){
+          /* La unidad actual es de la v23 (POSE.point): no se toca. */
+          b.setAttribute('data-v36', 'cur');
+          continue;
+        }
+        var nodes = sec.querySelectorAll('.node'), covered = 0;
+        for (var j = 0; j < nodes.length; j++)
+          if (nodes[j].classList.contains('done') || nodes[j].classList.contains('seeded')) covered++;
+        var pose = (nodes.length > 0 && covered >= nodes.length) ? 'ok' : 'read';
+        var src = poseSrc(pose);
+        if (!src) continue; /* sin arte aún: se reintenta en el próximo pase */
+        b.setAttribute('data-v36', pose);
+        b.classList.add('v36-has');
+        var wrap = document.createElement('div');
+        wrap.className = 'v36-her';
+        wrap.setAttribute('aria-hidden', 'true');
+        var img = document.createElement('img');
+        img.alt = '';
+        img.src = src;
+        wrap.appendChild(img);
+        b.appendChild(wrap);
+        if (io) io.observe(b);
+      }
+    }
+
+    /* 2 · Página de retrato del Pasaporte */
+    function decoratePassport(){
+      var cover = document.querySelector('#page .pp33-cover');
+      if (!cover || cover.querySelector('.v36-photo')) return;
+      var chips = cover.querySelector('.pp33-chips');
+      if (!chips || !chips.parentElement) return;
+      var fig = document.createElement('figure');
+      fig.className = 'v36-photo';
+      var img = document.createElement('img');
+      img.src = 'cuento-3d.webp';
+      img.alt = herName() + ' leyendo';
+      img.decoding = 'async';
+      var cap = document.createElement('figcaption');
+      cap.textContent = herName();
+      fig.appendChild(img);
+      fig.appendChild(cap);
+      chips.parentElement.insertBefore(fig, chips.nextSibling);
+    }
+
+    /* 3 · Su saludo en el Perfil */
+    function decoratePerfil(){
+      if (typeof tab === 'undefined' || tab !== 'perfil') return;
+      var txt = document.querySelector('#view .hero .hero-txt');
+      if (!txt) return;
+      var hi = txt.querySelector('.v36-hi');
+      if (!hi){
+        hi = document.createElement('p');
+        hi.className = 'v36-hi';
+        txt.appendChild(hi);
+      }
+      var g = GREET[curPart()] || 'Buen día';
+      if (hi.textContent !== g) hi.textContent = g;
+    }
+
+    /* 4 · El laboratorio vacío gana su «todo en orden» */
+    function decorateLab(){
+      var view = document.getElementById('view');
+      if (!view) return;
+      var tile = view.querySelector('button.tile.lab-tile');
+      if (!tile) return;
+      var strip = view.querySelector('.v36-lab');
+      if (!tile.disabled){
+        if (strip) strip.remove();
+        return;
+      }
+      if (strip) return;
+      var src = poseSrc('ok');
+      if (!src) return;
+      var d = document.createElement('div');
+      d.className = 'v36-lab';
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = herName() + ' celebra: todo en orden';
+      var p = document.createElement('p');
+      p.className = 'v36-lab-motto';
+      p.textContent = 'Aquí no hay puntos: solo práctica';
+      d.appendChild(img);
+      d.appendChild(p);
+      tile.insertAdjacentElement('afterend', d);
+    }
+
+    /* 5 · Ella presenta el examen en su antesala */
+    function decorateSim(){
+      var card = document.querySelector('#view .toefl-hero-card');
+      if (!card || card.querySelector('.v36-sim-her')) return;
+      var src = poseSrc('point');
+      if (!src) return;
+      var img = document.createElement('img');
+      img.className = 'v36-sim-her';
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.src = src;
+      var row = card.querySelector('.row.wrap');
+      if (row) row.appendChild(img);
+      else card.appendChild(img);
+    }
+
+    var ticking = false;
+    function decorate(){
+      ticking = false;
+      try{ decoratePlates(); }catch(e){}
+      try{ decoratePassport(); }catch(e){}
+      try{ decoratePerfil(); }catch(e){}
+      try{ decorateLab(); }catch(e){}
+      try{ decorateSim(); }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    var moP = new MutationObserver(schedule);
+    moP.observe(document.documentElement, { attributes: true, attributeFilter: ['data-daypart'] });
+    document.addEventListener('visibilitychange', function(){
+      document.documentElement.classList.toggle('v36-hidden', document.hidden);
     });
     schedule();
   }catch(e){}
