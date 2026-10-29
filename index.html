@@ -1713,6 +1713,208 @@ html.v27-hidden #view > .v27-card .v27-her img{ animation-play-state:paused !imp
   color:#fff; font-weight:700; }
 #simRoot .v28-note{ flex-basis:100%; margin:0; font-size:12.5px; color:var(--muted); }
 </style>
+<style id="muse-v29">
+/* ---------- v29 · el relevo: la entrada larga v22 se silencia ---------- */
+#door22{ display:none !important; }
+
+/* ---------- v29 · LA PUERTA DE MUSE ----------
+   Una sola escena viva sin cortes: la selva despierta ya habitada por
+   ella (su saludo corre desde el primer segundo, sostenida por su
+   póster), el mundo empuja como una sola cámara y el póster se
+   construye encima; la salida ABRE la puerta con luz hacia la ruta.
+   La luz es la de la franja real del alumno. Sobrecapa pura: si algo
+   falla, se retira y la app sigue como siempre. */
+html.d29-lock, html.d29-lock body{ overflow:hidden; }
+#door29{ position:fixed; inset:0; z-index:900; background:#05080a; overflow:hidden;
+  font-family:var(--font-text); -webkit-tap-highlight-color:transparent; cursor:pointer; }
+#door29 .d29-scene{ position:absolute; inset:0; overflow:hidden; transition:filter .95s ease;
+  background:linear-gradient(180deg,#FFE3B3 0%,#FFCE9A 34%,#93C25C 78%,#679A3E 100%); }
+html[data-daypart="day"] #door29 .d29-scene{ background:linear-gradient(180deg,#FFEECB 0%,#FFDFA8 30%,#A5CB6B 76%,#74A848 100%); }
+html[data-daypart="dusk"] #door29 .d29-scene{ background:linear-gradient(180deg,#FFC98A 0%,#FF9A5C 38%,#7FAE4E 80%,#51782F 100%); }
+html[data-daypart="night"] #door29 .d29-scene{ background:linear-gradient(180deg,#0D1B33 0%,#16281F 55%,#153218 100%); }
+/* El mundo: todo el decorado empuja junto, como una sola cámara. */
+#door29 .d29-world{ position:absolute; inset:0; transform-origin:50% 46%;
+  animation:d29push 34s linear both; }
+@keyframes d29push{ from{ transform:scale(1); } to{ transform:scale(1.06); } }
+/* Su póster, fondo de último recurso de la escena: jamás queda vacía. */
+#door29 .d29-wall{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+/* La selva viva: presente todo el arco, ya no se desvanece para «ella». */
+#door29 .d29-plate{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+html[data-daypart="day"] #door29 .d29-plate{ filter:brightness(1.07) saturate(1.05); }
+html[data-daypart="dusk"] #door29 .d29-plate{ filter:brightness(.97) saturate(1.12); }
+html[data-daypart="night"] #door29 .d29-plate{ filter:brightness(.55) saturate(.85) hue-rotate(5deg); }
+#door29.d29-platefail .d29-plate{ display:none; }
+/* ELLA, desde el primer segundo: marco vivo al centro del mundo, con su
+   resplandor detrás (su mismo video desenfocado, la técnica de la casa),
+   el halo de luz del lugar y su sombra al suelo. */
+#door29 .d29-stage{ position:absolute; left:0; right:0; top:11vh; bottom:7vh;
+  display:flex; align-items:center; justify-content:center; }
+#door29 .d29-herwrap{ position:relative; width:min(98vw,80vh); aspect-ratio:1/1; }
+#door29 .d29-heroBg{ position:absolute; inset:-7%; width:114%; height:114%; object-fit:cover;
+  filter:blur(16px) brightness(.85) saturate(1.05);
+  -webkit-mask-image:radial-gradient(115% 115% at 50% 50%,#000 55%,transparent 78%);
+  mask-image:radial-gradient(115% 115% at 50% 50%,#000 55%,transparent 78%); }
+html[data-daypart="night"] #door29 .d29-heroBg{ filter:blur(16px) brightness(.5) saturate(.85) hue-rotate(5deg); }
+html[data-daypart="dusk"] #door29 .d29-heroBg{ filter:blur(16px) brightness(.8) saturate(1.1); }
+#door29 .d29-halo{ position:absolute; left:50%; top:44%; width:118%; aspect-ratio:1/1;
+  transform:translate(-50%,-50%); border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle,rgba(255,240,200,.50) 0%,rgba(255,240,200,.16) 45%,transparent 70%);
+  animation:d29halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] #door29 .d29-halo{
+  background:radial-gradient(circle,rgba(214,230,255,.40) 0%,rgba(214,230,255,.13) 45%,transparent 70%); }
+@keyframes d29halo{ from{ opacity:.6; } to{ opacity:1; } }
+#door29 .d29-frame{ position:absolute; inset:0; border-radius:28px; overflow:hidden;
+  background:#1C3824; box-shadow:0 24px 70px rgba(0,0,0,.45),0 4px 18px rgba(0,0,0,.35); }
+html[data-daypart="night"] #door29 .d29-frame{ filter:brightness(.66) saturate(.88) hue-rotate(4deg); }
+html[data-daypart="dusk"] #door29 .d29-frame{ filter:saturate(1.05) brightness(.97); }
+#door29 .d29-poster, #door29 .d29-vid{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+#door29 .d29-vid{ opacity:0; transition:opacity .8s ease; }
+#door29.d29-vidon .d29-vid{ opacity:1; }
+#door29 .d29-ground{ position:absolute; left:9%; right:9%; bottom:-16px; height:26px; border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(10,16,4,.42),transparent 70%); }
+#door29.d29-fallback .d29-stage{ display:none; }
+/* Atmósfera: tinte por franja, luna, rayos, niebla, luciérnagas, bokeh, viñeta */
+#door29 .d29-tint{ position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,176,92,.12),rgba(120,70,10,.08)); }
+html[data-daypart="day"] #door29 .d29-tint{ background:none; }
+html[data-daypart="dusk"] #door29 .d29-tint{ background:linear-gradient(180deg,rgba(255,132,56,.10),rgba(64,28,4,.16)); }
+html[data-daypart="night"] #door29 .d29-tint{ background:linear-gradient(180deg,rgba(13,27,51,.30),rgba(9,17,12,.26)); }
+#door29 .d29-moon{ position:absolute; top:6%; right:6%; width:190px; height:190px; border-radius:50%;
+  background:radial-gradient(circle,rgba(244,233,188,.55) 0%,rgba(244,233,188,.14) 42%,transparent 70%); opacity:0; }
+html[data-daypart="night"] #door29 .d29-moon{ opacity:1; }
+#door29 .d29-rays{ position:absolute; inset:-12% -32%; pointer-events:none; mix-blend-mode:screen;
+  background:linear-gradient(112deg,transparent 42%,rgba(255,216,150,.20) 50%,rgba(255,236,190,.30) 54%,transparent 64%);
+  animation:d29rays 5.5s ease-in-out infinite alternate; }
+@keyframes d29rays{ from{ transform:translateX(-3.5%); } to{ transform:translateX(3.5%); } }
+html[data-daypart="night"] #door29 .d29-rays{ opacity:.22; }
+#door29 .d29-fog{ position:absolute; left:-25%; right:-25%; height:34%; bottom:5%; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 60%,rgba(255,250,238,.34),transparent 65%);
+  filter:blur(6px); mix-blend-mode:screen; animation:d29fog 9s ease-in-out infinite alternate; }
+#door29 .d29-fog.f2{ bottom:auto; top:14%; height:26%; opacity:.55; animation-duration:12s; animation-delay:-6s; }
+@keyframes d29fog{ from{ transform:translateX(-2.5%); } to{ transform:translateX(2.5%); } }
+html[data-daypart="night"] #door29 .d29-fog{ background:radial-gradient(ellipse at 50% 60%,rgba(178,199,235,.20),transparent 65%); }
+#door29 .d29-flies{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen; }
+#door29 .d29-fly{ position:absolute; left:var(--x); top:var(--y); width:var(--s); height:var(--s);
+  border-radius:50%; opacity:0;
+  background:radial-gradient(circle,rgba(255,244,205,1) 0%,rgba(255,226,150,.55) 45%,transparent 72%);
+  animation:d29fly var(--t) ease-in-out var(--dl) infinite alternate; }
+html[data-daypart="night"] #door29 .d29-fly{ background:radial-gradient(circle,rgba(240,255,205,1) 0%,rgba(196,232,130,.6) 45%,transparent 72%); }
+@keyframes d29fly{ 0%{ opacity:0; transform:translate(0,0); }
+  22%{ opacity:var(--o); } 55%{ opacity:.12; } 80%{ opacity:var(--o); }
+  100%{ opacity:.08; transform:translate(var(--dx),var(--dy)); } }
+/* Primer plano de luz: bokeh suave en los bordes (el «primer plano» de
+   la especificación sin desenfocar contenido: luz, no imagen). */
+#door29 .d29-fore{ position:absolute; inset:0; pointer-events:none; mix-blend-mode:screen;
+  background:
+    radial-gradient(220px 160px at 6% 4%,rgba(255,226,160,.20),transparent 70%),
+    radial-gradient(260px 190px at 97% 10%,rgba(255,240,200,.14),transparent 70%),
+    radial-gradient(300px 170px at 50% 103%,rgba(255,214,140,.16),transparent 70%);
+  animation:d29fore 8s ease-in-out infinite alternate; }
+html[data-daypart="night"] #door29 .d29-fore{
+  background:
+    radial-gradient(220px 160px at 6% 4%,rgba(190,214,255,.12),transparent 70%),
+    radial-gradient(260px 190px at 97% 10%,rgba(214,230,255,.10),transparent 70%),
+    radial-gradient(300px 170px at 50% 103%,rgba(190,214,255,.08),transparent 70%); }
+@keyframes d29fore{ from{ opacity:.75; } to{ opacity:1; } }
+#door29 .d29-vig{ position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(120% 92% at 50% 42%,transparent 55%,rgba(0,0,0,.42) 100%); }
+/* El resplandor de la apertura: crece desde ella cuando la puerta se abre. */
+#door29 .d29-bloom{ position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .95s ease;
+  background:radial-gradient(90% 62% at 50% 46%,rgba(255,246,214,.96) 0%,rgba(255,226,160,.55) 42%,transparent 74%); }
+/* Barras letterbox: la inferior lleva el crédito, que entra con el póster */
+#door29 .d29-bar{ position:absolute; left:0; right:0; height:11.5vh; background:#000; z-index:5; }
+#door29 .d29-bar.t{ top:0; transform:translateY(-102%); animation:d29barT .95s var(--v16-out) .05s both; }
+#door29 .d29-bar.b{ bottom:0; transform:translateY(102%); animation:d29barB .95s var(--v16-out) .05s both;
+  display:flex; align-items:center; justify-content:center; }
+@keyframes d29barT{ to{ transform:translateY(0); } }
+@keyframes d29barB{ to{ transform:translateY(0); } }
+#door29.d29-out .d29-bar.t{ animation:d29barTout .65s cubic-bezier(.5,0,.75,0) both; }
+#door29.d29-out .d29-bar.b{ animation:d29barBout .65s cubic-bezier(.5,0,.75,0) both; }
+@keyframes d29barTout{ from{ transform:translateY(0); } to{ transform:translateY(-102%); } }
+@keyframes d29barBout{ from{ transform:translateY(0); } to{ transform:translateY(102%); } }
+#door29.d29-out .d29-bloom{ opacity:.92; }
+#door29.d29-out .d29-scene{ filter:brightness(1.13) saturate(1.05); }
+#door29.d29-out{ opacity:0; transition:opacity .8s ease .3s; }
+#door29.d29-rm.d29-out{ transition-duration:.3s; transition-delay:0s; }
+#door29 .d29-credit{ font-size:10.5px; font-weight:600; letter-spacing:.32em; text-transform:uppercase;
+  color:rgba(255,248,234,.78); padding-left:.32em; white-space:nowrap;
+  opacity:0; transition:opacity 1s ease; }
+#door29.d29-lit .d29-credit{ opacity:1; transition-delay:.5s; }
+#door29 .d29-skip{ position:absolute; z-index:7; top:calc(11.5vh / 2); right:14px; transform:translateY(-50%);
+  font-family:var(--font-text); font-size:12.5px; font-weight:600; letter-spacing:.04em; color:#FFF8EA;
+  background:rgba(255,248,234,.10); border:1px solid rgba(255,248,234,.38); border-radius:999px;
+  padding:8px 15px; cursor:pointer; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  opacity:0; animation:d29skip 1s ease 1.15s both; }
+@keyframes d29skip{ from{ opacity:0; } to{ opacity:1; } }
+#door29.d29-out .d29-skip{ animation:none; opacity:0; transition:opacity .25s ease; }
+/* El bloque de póster: la pila de la casa, construida sobre la escena */
+#door29 .d29-core{ position:absolute; inset:0; z-index:4; display:flex; flex-direction:column;
+  align-items:center; justify-content:flex-start; padding-top:12.2vh; text-align:center; pointer-events:none; }
+#door29 .d29-kick{ font-size:11px; font-weight:600; letter-spacing:.38em; text-transform:uppercase;
+  color:rgba(255,248,234,.94); text-shadow:0 1px 12px rgba(24,32,8,.6); padding-left:.38em;
+  opacity:0; transform:translateY(8px); transition:opacity .8s ease,transform .8s var(--v16-out); }
+#door29 .d29-kick::after{ content:""; display:block; width:38px; height:1px; margin:8px auto 0;
+  background:rgba(255,248,234,.6); }
+#door29.d29-kickon .d29-kick{ opacity:1; transform:none; }
+#door29 .d29-title{ margin-top:11px; font-family:var(--font-display); font-weight:800;
+  font-size:min(17vw,72px); letter-spacing:-.02em; line-height:1; color:#FFF8EA;
+  text-shadow:0 2px 30px rgba(24,32,8,.55),0 1px 3px rgba(24,32,8,.5); }
+#door29 .d29-word{ display:inline-block; white-space:nowrap; }
+#door29 .d29-ltr{ display:inline-block; opacity:0; transform:translateY(.34em) rotate(2deg);
+  transition:opacity .5s var(--v16-out),transform .65s var(--v16-spring);
+  transition-delay:calc(var(--i)*55ms + 300ms); }
+#door29 .d29-ltr.acc{ color:#A9E37A; }
+#door29.d29-lit .d29-ltr{ opacity:1; transform:none; }
+#door29 .d29-tag{ margin-top:9px; font-family:var(--font-display); font-style:italic; font-weight:500;
+  font-size:15.5px; color:rgba(255,248,234,.96); text-shadow:0 1px 14px rgba(24,32,8,.65);
+  opacity:0; transform:translateY(8px); transition:opacity .8s ease 1.5s,transform .8s ease 1.5s; }
+#door29.d29-lit .d29-tag{ opacity:1; transform:none; }
+#door29 .d29-hi{ margin-top:2px; font-size:13px; font-weight:600; letter-spacing:.34em;
+  text-transform:uppercase; color:rgba(255,248,234,.95); text-shadow:0 1px 14px rgba(10,16,4,.9),0 0 26px rgba(10,16,4,.5),0 2px 8px rgba(10,16,4,.6);
+  opacity:0; transform:translateY(8px); transition:opacity .8s ease 2.7s,transform .8s ease 2.7s; }
+#door29.d29-lit .d29-hi{ opacity:1; transform:none; }
+/* Corrección M1 (auditoría v29): de día el saludo cae sobre la franja
+   luminosa de la selva y era el renglón más débil de la puerta; lleva
+   una penumbra suave tras la línea — elipse difuminada de la misma
+   familia oscura que sus sombras de texto, sin caja ni borde — SOLO
+   en la franja día: atardecer y noche ya miden sobrados y no se tocan.
+   Es pseudo-elemento: no mueve ni un píxel de la geometría. */
+html[data-daypart="day"] #door29 .d29-hi{ position:relative; z-index:0; }
+html[data-daypart="day"] #door29 .d29-hi::before{ content:""; position:absolute; z-index:-1;
+  left:50%; top:50%; width:calc(100% + 128px); height:calc(100% + 36px);
+  transform:translate(-50%,-50%); border-radius:50%; pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(12,20,5,.48) 0%,rgba(12,20,5,.32) 52%,rgba(12,20,5,.13) 76%,rgba(12,20,5,0) 100%); }
+/* Sprite de respaldo: su arte real del build, solo si su póster no corre */
+#door29 .d29-tuc{ position:absolute; z-index:4; right:5vw; bottom:calc(11.5vh + 1.2vh); width:min(37vw,150px);
+  display:none; animation:d29tucin .8s var(--v16-out) .3s both; }
+#door29.d29-fallback .d29-tuc{ display:block; }
+@keyframes d29tucin{ from{ opacity:0; transform:translateY(12px); } to{ opacity:1; transform:none; } }
+#door29 .d29-tuc img{ width:100%; height:auto; display:block; transform-origin:50% 100%;
+  animation:d29breath 4.8s ease-in-out infinite alternate;
+  filter:drop-shadow(0 12px 16px rgba(20,26,6,.35)); }
+@keyframes d29breath{ from{ transform:translateY(0) scale(1); } to{ transform:translateY(-4px) scale(1.018); } }
+#door29 .d29-tuc::after{ content:""; position:absolute; left:10%; right:10%; bottom:-8px; height:15px;
+  border-radius:50%; background:radial-gradient(ellipse at center,rgba(10,16,4,.45),transparent 70%); z-index:-1; }
+/* Reapertura el mismo día: fundido breve con su póster, sin letterbox */
+#door29.d29-brief{ animation:d29brief .62s ease both; }
+#door29.d29-brief .d29-bar, #door29.d29-brief .d29-core, #door29.d29-brief .d29-skip,
+#door29.d29-brief .d29-tuc, #door29.d29-brief .d29-vid, #door29.d29-brief .d29-heroBg,
+#door29.d29-brief .d29-plate, #door29.d29-brief .d29-stage, #door29.d29-brief .d29-flies,
+#door29.d29-brief .d29-fog, #door29.d29-brief .d29-rays, #door29.d29-brief .d29-fore,
+#door29.d29-brief .d29-bloom{ display:none; }
+@keyframes d29brief{ 0%{ opacity:1; } 55%{ opacity:1; } 100%{ opacity:0; } }
+/* Movimiento reducido: el póster completo, estático; salida rápida */
+@media (prefers-reduced-motion: reduce){
+  #door29 .d29-world, #door29 .d29-halo, #door29 .d29-fog, #door29 .d29-rays,
+  #door29 .d29-fore, #door29 .d29-tuc img{ animation:none !important; }
+  #door29 .d29-bar.t, #door29 .d29-bar.b{ animation:none; transform:translateY(0); }
+  #door29 .d29-kick, #door29 .d29-tag, #door29 .d29-hi, #door29 .d29-credit{ transition:none; opacity:1; transform:none; }
+  #door29 .d29-ltr{ transition:none; opacity:1; transform:none; }
+  #door29 .d29-skip{ animation:none; opacity:1; }
+  #door29 .d29-tuc{ animation:none; }
+  #door29 .d29-vid, #door29 .d29-heroBg, #door29 .d29-plate, #door29 .d29-flies{ display:none; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -4894,6 +5096,251 @@ window.addEventListener('load', () => {
     mo28.observe(document.body, { childList: true, subtree: true });
     schedule28();
   }catch(e){}
+})();
+</script>
+<script id="muse-v29-js">
+/* v29 · LA PUERTA DE MUSE — relevo de la entrada larga v22.
+   La cadena ya corrió (v17 escribió `lingorea_door_day` si tocaba
+   puerta completa; v18 y v22 decidieron y presentaron antes): esta
+   capa lee el modo del nodo v22, le apaga los videos, lo retira antes
+   de pintar y presenta la escena única. La despedida de v18 vigila el
+   home con una guarda (#door18): el testigo de v22 se releva por el
+   de v29 en el mismo gesto sin hueco, y al retirarse la puerta se
+   retira el testigo — la despedida llega como siempre. Jamás se toca
+   `lingorea_v5`. Todo es defensivo: si algo falla, la app sigue igual. */
+(function(){
+  function $(s, r){ return (r || document).querySelector(s); }
+
+  /* ---------- 0 · Relevo de la entrada v22 ---------- */
+  var modeBrief = false, modeRM = false;
+  var guard = null, door = null;
+  function dropGuard(){
+    if (guard && guard.parentNode) guard.parentNode.removeChild(guard);
+    guard = null;
+  }
+  function cleanupDoor(){
+    document.documentElement.classList.remove('d29-lock');
+    dropGuard();
+    if (door && door.parentNode) door.parentNode.removeChild(door);
+    door = null;
+  }
+  function silence(node){
+    if (!node) return;
+    try{
+      var vs = node.querySelectorAll ? node.querySelectorAll('video') : [];
+      for (var i = 0; i < vs.length; i++){
+        try{ vs[i].pause(); }catch(e){}
+        try{ vs[i].removeAttribute('src'); vs[i].load(); }catch(e){}
+      }
+    }catch(e){}
+    if (node.parentNode) node.parentNode.removeChild(node);
+  }
+  try{
+    var old = document.getElementById('door22');
+    if (old){
+      modeBrief = old.classList.contains('d22-brief');
+      modeRM = old.classList.contains('d22-rm');
+      silence(old);
+    } else {
+      /* Sin nodo v22 (pudo fallar antes de presentarse): se lee el modo
+         de los eslabones anteriores, como hizo v22 en su relevo. */
+      var o18 = document.getElementById('door18');
+      var o17 = document.getElementById('door17');
+      if (o18 && o18.tagName === 'DIV'){
+        modeBrief = o18.classList.contains('d18-brief');
+        modeRM = o18.classList.contains('d18-rm');
+        silence(o18);
+      } else if (o17){
+        modeBrief = o17.classList.contains('d17-brief');
+        modeRM = o17.classList.contains('d17-rm');
+        silence(o17);
+      } else {
+        /* Ningún eslabón dejó nodo: misma regla de v22 — breve solo si
+           la clave ya trae la fecha de hoy. La clave no se escribe. */
+        var n0 = new Date();
+        var t0 = n0.getFullYear() + '-' + (n0.getMonth() + 1) + '-' + n0.getDate();
+        var seen0 = null;
+        try{ seen0 = localStorage.getItem('lingorea_door_day'); }catch(e){}
+        modeBrief = (seen0 === t0);
+      }
+    }
+    document.documentElement.classList.remove('d22-lock');
+    document.documentElement.classList.remove('d18-lock');
+    document.documentElement.classList.remove('d17-lock');
+    /* Cualquier otro resto con el id de la guarda (el testigo de v22 o
+       un #door17 tardío) se retira: el testigo de v29 nace enseguida. */
+    var rest = document.querySelectorAll('[id="door18"],[id="door17"]');
+    for (var r = 0; r < rest.length; r++) silence(rest[r]);
+  }catch(e){}
+  try{
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) modeRM = true;
+  }catch(e){}
+
+  /* Testigo de guardia para la despedida de v18 (ver la cabecera). */
+  try{
+    guard = document.createElement('span');
+    guard.id = 'door18';
+    guard.setAttribute('aria-hidden', 'true');
+    guard.style.display = 'none';
+    document.body.appendChild(guard);
+  }catch(e){ guard = null; }
+
+  /* ---------- 1 · La escena única ---------- */
+  try{
+    var now = new Date();
+    function part(){ var hh = now.getHours() + now.getMinutes() / 60;
+      return hh >= 5 && hh < 8.5 ? 'dawn' : hh >= 8.5 && hh < 17.75 ? 'day' : hh >= 17.75 && hh < 20 ? 'dusk' : 'night'; }
+    var p = document.documentElement.dataset.daypart || part();
+    var GREET = { dawn: 'Buenos días', day: 'Buen día', dusk: 'Buenas tardes', night: 'Buenas noches' };
+
+    door = document.createElement('div');
+    door.id = 'door29';
+    door.setAttribute('role', 'button');
+    door.setAttribute('aria-label', 'Entrar a LingoRea');
+    if (modeBrief) door.classList.add('d29-brief');
+    if (modeRM) door.classList.add('d29-rm');
+    door.innerHTML =
+      '<div class="d29-scene"><div class="d29-world">' +
+        '<img class="d29-wall" src="puerta-poster.jpg" alt="">' +
+        '<video class="d29-plate" muted loop playsinline preload="none" data-src="puerta-cine.mp4" poster="puerta-poster.jpg"></video>' +
+        '<div class="d29-stage"><div class="d29-herwrap">' +
+          '<video class="d29-heroBg" muted loop playsinline preload="none" data-src="puerta-tucana.mp4" poster="puerta-poster.jpg"></video>' +
+          '<div class="d29-halo"></div>' +
+          '<div class="d29-frame">' +
+            '<img class="d29-poster" src="puerta-poster.jpg" alt="">' +
+            '<video class="d29-vid" muted loop playsinline preload="none" data-src="puerta-tucana.mp4" poster="puerta-poster.jpg"></video>' +
+          '</div>' +
+          '<div class="d29-ground"></div>' +
+        '</div></div>' +
+      '<div class="d29-tint"></div><div class="d29-moon"></div>' +
+      '<div class="d29-rays"></div><div class="d29-fog"></div><div class="d29-fog f2"></div>' +
+      '<div class="d29-flies"></div><div class="d29-fore"></div>' +
+      '<div class="d29-vig"></div><div class="d29-bloom"></div>' +
+      '</div></div>' +
+      '<div class="d29-core"><div class="d29-kick">Un viaje por los idiomas</div>' +
+      '<div class="d29-title" role="heading" aria-level="1"></div>' +
+      '<div class="d29-tag">Aprende a tu ritmo, con calma y compañía.</div>' +
+      '<div class="d29-hi"></div></div>' +
+      '<div class="d29-tuc"><img alt=""></div>' +
+      '<div class="d29-bar t"></div>' +
+      '<div class="d29-bar b"><span class="d29-credit">Con LingoRea como guía</span></div>' +
+      '<button class="d29-skip" type="button">Saltar intro</button>';
+    document.body.appendChild(door);
+    document.documentElement.classList.add('d29-lock');
+
+    var vid = $('.d29-vid', door), bgv = $('.d29-heroBg', door), plate = $('.d29-plate', door);
+    var poster = $('.d29-poster', door), timg = $('.d29-tuc img', door);
+    var vidOn = false;
+
+    function setTuc(src){ if (src && timg && !timg.getAttribute('src')) timg.src = src; }
+    function armTuc(){
+      try{
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img){
+          setTuc((p === 'night' && typeof POSE !== 'undefined' && POSE && POSE.rest) ? POSE.rest : MASCOT.img);
+        }
+      }catch(e){}
+      if (timg && !timg.getAttribute('src')){
+        var tries = 0;
+        var iv = setInterval(function(){
+          var hEl = document.querySelector('.m-hero');
+          if (hEl && hEl.getAttribute('src')){ setTuc(hEl.getAttribute('src')); clearInterval(iv); }
+          if (++tries > 40 || !door) clearInterval(iv);
+        }, 100);
+      }
+    }
+    function fallback(){
+      /* Su póster no corre: entra su sprite real y el mundo se queda. */
+      if (!door || door.classList.contains('d29-fallback')) return;
+      door.classList.add('d29-fallback');
+      armTuc();
+    }
+    if (plate) plate.addEventListener('error', function(){
+      if (door) door.classList.add('d29-platefail');
+    }, true);
+    if (poster) poster.addEventListener('error', fallback);
+    if (vid){
+      vid.addEventListener('playing', function(){ vidOn = true; if (door) door.classList.add('d29-vidon'); });
+      /* Si su video no corre, el póster del marco la sostiene: ella
+         queda presente y nítida, sin castigar la escena. */
+      vid.addEventListener('error', function(){}, true);
+    }
+
+    /* Título letra por letra y saludo por franja (mecánica de la casa). */
+    var title = $('.d29-title', door);
+    var T = 'LingoRea';
+    title.setAttribute('aria-label', T);
+    var w = document.createElement('span'); w.className = 'd29-word';
+    T.split('').forEach(function(ch, idx){
+      var s = document.createElement('span');
+      s.className = 'd29-ltr' + (idx >= 5 ? ' acc' : '');
+      s.style.setProperty('--i', idx);
+      s.setAttribute('aria-hidden', 'true');
+      s.textContent = ch; w.appendChild(s);
+    });
+    title.appendChild(w);
+    $('.d29-hi', door).textContent = GREET[p] || 'Buen día';
+
+    /* Luciérnagas y polvo de luz: 18 motas, solo transform/opacity. */
+    var flies = $('.d29-flies', door);
+    if (flies && !modeBrief && !modeRM){
+      for (var i = 0; i < 18; i++){
+        var f = document.createElement('span'); f.className = 'd29-fly';
+        f.style.setProperty('--x', (4 + Math.random() * 92) + '%');
+        f.style.setProperty('--y', (16 + Math.random() * 68) + '%');
+        f.style.setProperty('--s', (2 + Math.random() * 2.6).toFixed(1) + 'px');
+        f.style.setProperty('--o', (0.35 + Math.random() * 0.5).toFixed(2));
+        f.style.setProperty('--t', (3.4 + Math.random() * 3.8).toFixed(2) + 's');
+        f.style.setProperty('--dl', (-Math.random() * 6).toFixed(2) + 's');
+        f.style.setProperty('--dx', ((Math.random() * 36) - 18).toFixed(0) + 'px');
+        f.style.setProperty('--dy', (-(6 + Math.random() * 22)).toFixed(0) + 'px');
+        flies.appendChild(f);
+      }
+    }
+
+    var timers = [];
+    function at(ms, fn){ timers.push(setTimeout(fn, ms)); }
+    var gone = false;
+    function exit(){
+      if (gone) return; gone = true;
+      timers.forEach(function(t){ clearTimeout(t); });
+      if (modeBrief){ cleanupDoor(); return; }
+      if (door) door.classList.add('d29-out');
+      setTimeout(cleanupDoor, modeRM ? 380 : 1250);
+    }
+    door.addEventListener('pointerdown', exit);
+    var skip = $('.d29-skip', door);
+    if (skip) skip.addEventListener('pointerdown', function(ev){
+      if (ev && ev.stopPropagation) ev.stopPropagation();
+      exit();
+    });
+
+    if (modeBrief){
+      setTimeout(cleanupDoor, 700);
+    } else if (modeRM){
+      /* El póster completo, estático y ya formado; salida pronta. */
+      door.classList.add('d29-kickon');
+      door.classList.add('d29-lit');
+      at(1100, exit);
+    } else {
+      /* LA ESCENA ÚNICA: ella y el mundo corren desde el nacimiento de
+         la puerta — su primer saludo (2.35–4.18 s del bucle) sucede con
+         la escena ya viva, y la placa jamás se retira. */
+      [plate, vid, bgv].forEach(function(v){
+        if (v && !v.getAttribute('src')) v.src = v.getAttribute('data-src');
+      });
+      [plate, vid, bgv].forEach(function(v){
+        if (v){ try{ var pr = v.play(); if (pr && pr.catch) pr.catch(function(){}); }catch(e){} }
+      });
+      /* El póster se construye sobre la escena: kicker tras su primer
+         saludo; título a los ~10.8 s (tagline y saludo por CSS). */
+      at(4200, function(){ if (door) door.classList.add('d29-kickon'); });
+      at(10800, function(){ if (door) door.classList.add('d29-lit'); });
+      /* La puerta se abre a los ~25.8 s: su bucle trae el saludo del
+         ala a los 23.4–25.2 s, justo antes de la apertura con luz. */
+      at(25800, exit);
+      at(31000, exit); /* failsafe: la puerta jamás atrapa */
+    }
+  }catch(e){ cleanupDoor(); }
 })();
 </script>
 </body>
