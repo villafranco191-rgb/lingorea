@@ -1588,6 +1588,113 @@ html.v26-hidden #page #simRoot .v26-her::before, html.v26-hidden #page #simRoot 
   #page #simRoot .v26-veil{ opacity:.7; }
 }
 </style>
+<style id="muse-v27">
+/* ---------- v27 · TARJETA DE DÍA DE MUERTOS ----------
+   Tarjeta estacional de la casa (30 oct – 2 nov): vidrio cálido
+   en tonos cempasúchil sobre la parte alta de la ruta. Fondo
+   degradado cálido casi sólido — sin backdrop-filter, sin
+   desenfoque sobre ninguna imagen — con flores de cempasúchil
+   dibujadas en SVG, un velo de luz de vela que respira y la
+   tucana real presidiendo desde su columna (solape cero por
+   construcción). La tarjeta es el único brillo protagonista. */
+#view > .v27-card{ position:relative; overflow:hidden; flex:none;
+  border-radius:var(--r-lg); padding:20px; margin:6px 0 14px;
+  border:1px solid rgba(176,106,20,.42);
+  background:
+    radial-gradient(120% 220px at 88% -40px, rgba(255,196,86,.38) 0%, transparent 70%),
+    linear-gradient(155deg, #FFF8E3 0%, #FDEFD2 55%, #FBE6BF 100%);
+  box-shadow:0 12px 28px rgba(150,85,10,.16);
+  animation:v27in .55s var(--ease-out) both; }
+html[data-theme="dark"] #view > .v27-card{
+  border-color:rgba(255,178,84,.40);
+  background:
+    radial-gradient(120% 220px at 88% -40px, rgba(255,176,84,.20) 0%, transparent 70%),
+    linear-gradient(155deg, #2C2010 0%, #241A0D 55%, #1E1509 100%);
+  box-shadow:0 12px 28px rgba(0,0,0,.45); }
+@keyframes v27in{ from{ opacity:0; transform:translateY(-7px); }
+  to{ opacity:1; transform:none; } }
+
+/* El velo de luz de vela que respira (tinte por franja, como v23) */
+#view > .v27-card .v27-veil{ position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,205,110,.20), rgba(255,205,110,0) 55%),
+             radial-gradient(80% 60% at 82% 0%, rgba(255,226,160,.22), transparent 70%);
+  animation:v27breath 7.5s ease-in-out infinite alternate; }
+html[data-daypart="dusk"] #view > .v27-card .v27-veil{
+  background:linear-gradient(180deg, rgba(255,166,88,.22), rgba(255,166,88,0) 55%),
+             radial-gradient(80% 60% at 82% 0%, rgba(255,190,110,.18), transparent 70%); }
+html[data-daypart="night"] #view > .v27-card .v27-veil{
+  background:linear-gradient(180deg, rgba(255,190,120,.13), rgba(255,190,120,0) 55%),
+             radial-gradient(80% 60% at 82% 0%, rgba(255,205,140,.12), transparent 70%); }
+@keyframes v27breath{ from{ opacity:.45; } to{ opacity:1; } }
+
+/* Las flores de cempasúchil de la esquina (SVG en línea, sin red) */
+#view > .v27-card .v27-flowers{ position:absolute; top:-6px; left:-4px; z-index:0;
+  pointer-events:none; opacity:.95; }
+
+/* La zona alta: texto y ella en columnas (solape cero) */
+#view > .v27-card .v27-top{ position:relative; z-index:2; display:grid;
+  grid-template-columns:1fr 104px; gap:10px; align-items:start; }
+#view > .v27-card .v27-kick{ color:#8A4A00; margin:2px 0 6px; }
+html[data-theme="dark"] #view > .v27-card .v27-kick{ color:#FFC06B; }
+#view > .v27-card .v27-title{ font-size:23px; margin:0 0 8px; color:var(--text); }
+#view > .v27-card .v27-body{ margin:0; font-size:15.5px; line-height:1.5; color:var(--text); }
+
+/* Ella, con el halo cálido de la tarjeta (el brillo protagonista) */
+#view > .v27-card .v27-her{ position:relative; width:104px; }
+#view > .v27-card .v27-her::before{ content:""; position:absolute; left:50%; top:42%;
+  width:150px; height:150px; transform:translate(-50%,-50%); border-radius:50%; z-index:-1;
+  background:radial-gradient(circle, rgba(255,205,105,.60) 0%, rgba(255,190,90,.22) 45%, transparent 70%);
+  animation:v27halo 5.5s ease-in-out infinite alternate; }
+html[data-daypart="night"] #view > .v27-card .v27-her::before{
+  background:radial-gradient(circle, rgba(255,196,110,.45) 0%, rgba(255,180,90,.16) 45%, transparent 70%); }
+@keyframes v27halo{ from{ opacity:.65; } to{ opacity:1; } }
+#view > .v27-card .v27-her::after{ content:""; position:absolute; left:12%; right:12%;
+  bottom:-2px; height:11px; border-radius:50%; z-index:-1;
+  background:radial-gradient(ellipse at center, rgba(60,32,4,.35), transparent 70%); }
+#view > .v27-card .v27-her img{ width:100%; height:auto; display:block;
+  transform-origin:50% 100%; animation:v27bob 4.6s ease-in-out infinite alternate;
+  filter:drop-shadow(0 8px 12px rgba(90,50,5,.30)); }
+@keyframes v27bob{ from{ transform:translateY(0) scale(1); }
+  to{ transform:translateY(-3px) scale(1.015); } }
+
+/* El vocabulario de la ofrenda */
+#view > .v27-card .v27-vocab-label{ position:relative; z-index:2; margin:14px 0 8px;
+  font:700 13px/1.2 var(--font-text); letter-spacing:.08em; text-transform:uppercase;
+  color:#8A4A00; }
+html[data-theme="dark"] #view > .v27-card .v27-vocab-label{ color:#FFC06B; }
+#view > .v27-card .v27-chips{ position:relative; z-index:2; display:flex;
+  flex-wrap:wrap; gap:8px; }
+#view > .v27-card .v27-chip{ display:inline-flex; align-items:center; gap:7px;
+  min-height:44px; padding:8px 14px; border-radius:var(--r-pill);
+  border:1.5px solid rgba(165,95,10,.50); background:rgba(255,255,255,.72);
+  color:var(--text); font-weight:700; font-size:15px; cursor:pointer;
+  transition:transform var(--d-1) var(--ease-out), background var(--d-1); }
+html[data-theme="dark"] #view > .v27-card .v27-chip{
+  border-color:rgba(255,178,84,.45); background:rgba(255,176,84,.10); }
+#view > .v27-card .v27-chip:hover{ background:rgba(255,255,255,.95); }
+html[data-theme="dark"] #view > .v27-card .v27-chip:hover{ background:rgba(255,176,84,.20); }
+#view > .v27-card .v27-chip:active{ transform:scale(.96); }
+#view > .v27-card .v27-chip svg{ flex:none; color:#B05E0A; }
+html[data-theme="dark"] #view > .v27-card .v27-chip svg{ color:#FFC06B; }
+#view > .v27-card .v27-chip.v27-playing{ background:#FFE3AC; border-color:#B05E0A; }
+html[data-theme="dark"] #view > .v27-card .v27-chip.v27-playing{
+  background:rgba(255,190,90,.28); border-color:#FFC06B; }
+#view > .v27-card .v27-close{ position:relative; z-index:2; margin:12px 0 0;
+  font-size:14px; color:var(--text); opacity:.85; }
+
+/* Pausas: tarjeta fuera de pantalla y pestaña oculta */
+#view > .v27-card.v27-off .v27-veil, #view > .v27-card.v27-off .v27-her::before,
+#view > .v27-card.v27-off .v27-her img{ animation-play-state:paused !important; }
+html.v27-hidden #view > .v27-card .v27-veil, html.v27-hidden #view > .v27-card .v27-her::before,
+html.v27-hidden #view > .v27-card .v27-her img{ animation-play-state:paused !important; }
+
+/* Movimiento reducido: la tarjeta vive quieta; ella, presente */
+@media (prefers-reduced-motion: reduce){
+  #view > .v27-card, #view > .v27-card .v27-veil, #view > .v27-card .v27-her::before,
+  #view > .v27-card .v27-her img{ animation:none !important; }
+  #view > .v27-card .v27-veil{ opacity:.7; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -4136,6 +4243,164 @@ window.addEventListener('load', () => {
     mo.observe(document.body, { childList: true, subtree: true });
     document.addEventListener('visibilitychange', function(){
       document.documentElement.classList.toggle('v26-hidden', document.hidden);
+    });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v27-js">
+/* v27 · TARJETA DE DÍA DE MUERTOS — decoración en runtime.
+   La ruta vive en #view y se re-renderiza en cada cambio de
+   pestaña o de estado; esta capa observa el DOM y, SOLO en
+   temporada (30 oct – 2 nov, fecha local) y SOLO cuando #view
+   muestra la ruta (su hero .hero-scene), inserta la tarjeta
+   .v27-card como primer elemento. Fuera de temporada o fuera de
+   la ruta no inserta nada: ni nodo oculto ni rastro. Override de
+   depuración (no toca el estado): ?fiesta=1 en la URL o la clave
+   separada `lingorea_fiesta27`='1'. Los chips hablan en español
+   (es-MX) con el selector de voz de la casa (voiceFor), envuelto
+   en defensas como el speak() de la base. Ella preside con su
+   arte real oficial (POSE.point; respaldos MASCOT.img y .m-hero,
+   como en v22–v26). Jamás se toca `lingorea_v5` ni COURSES; sin
+   peticiones de red nuevas; si algo falla, la app queda en v26. */
+(function(){
+  try{
+    var WORDS = ['ofrenda','cempasúchil','calavera','altar','vela',
+      'pan de muerto','copal','recuerdo','difuntos','foto','flor','camino'];
+    var SPK = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">'
+      + '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>'
+      + '<path d="M16.2 9a4.2 4.2 0 0 1 0 6M18.6 6.4a8 8 0 0 1 0 11.2" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    function flower(cx, cy, r, o){
+      var petals = '';
+      for (var i = 0; i < 8; i++){
+        var a = i * Math.PI / 4;
+        petals += '<circle cx="' + (cx + Math.cos(a) * r * 0.62).toFixed(1)
+          + '" cy="' + (cy + Math.sin(a) * r * 0.62).toFixed(1)
+          + '" r="' + (r * 0.52).toFixed(1) + '" fill="#F59A23"/>';
+      }
+      return '<g opacity="' + o + '">' + petals
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.78).toFixed(1) + '" fill="#F2760A"/>'
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.42).toFixed(1) + '" fill="#C85A06"/>'
+        + '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.18).toFixed(1) + '" fill="#8A3E04"/></g>';
+    }
+    var FLOWERS = '<svg class="v27-flowers" width="118" height="72" viewBox="0 0 118 72" aria-hidden="true">'
+      + flower(22, 16, 15, 0.95) + flower(56, 9, 11, 0.85) + flower(88, 18, 13, 0.9)
+      + flower(38, 40, 10, 0.7) + flower(104, 44, 9, 0.65) + '</svg>';
+
+    function forced(){
+      try{
+        if (/[?&]fiesta=1(?:[&#]|$)/.test(location.search || '')) return true;
+        if (window.localStorage && localStorage.getItem('lingorea_fiesta27') === '1') return true;
+      }catch(e){}
+      return false;
+    }
+    function inSeason(){
+      if (forced()) return true;
+      var d = new Date(), m = d.getMonth(), day = d.getDate();
+      return (m === 9 && day >= 30) || (m === 10 && day <= 2);
+    }
+    function poseSrc(){
+      try{
+        if (typeof POSE !== 'undefined' && POSE){
+          if (POSE.point) return POSE.point;
+          if (POSE.idle) return POSE.idle;
+        }
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.img) return MASCOT.img;
+      }catch(e){}
+      return null;
+    }
+    function sayWord(word, chip){
+      try{
+        if (!('speechSynthesis' in window)) return;
+        speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(word);
+        u.lang = 'es-MX';
+        u.rate = 0.92;
+        if (typeof voiceFor === 'function'){
+          var v = voiceFor('es-MX', 0);
+          if (v){ try{ u.voice = v; }catch(e){} }
+        }
+        if (chip){
+          chip.classList.add('v27-playing');
+          var off = function(){ chip.classList.remove('v27-playing'); };
+          u.onend = off; u.onerror = off;
+          setTimeout(off, 2600);
+        }
+        speechSynthesis.speak(u);
+      }catch(e){}
+    }
+    function buildCard(){
+      var card = document.createElement('aside');
+      card.className = 'v27-card';
+      card.setAttribute('aria-label', 'Tarjeta de temporada: Día de Muertos');
+      var chips = WORDS.map(function(w){
+        return '<button type="button" class="v27-chip" data-say27="' + w + '">' + SPK + w + '</button>';
+      }).join('');
+      card.innerHTML = FLOWERS
+        + '<div class="v27-veil" aria-hidden="true"></div>'
+        + '<div class="v27-top"><div>'
+        + '<p class="label v27-kick">Temporada · 1 y 2 de noviembre</p>'
+        + '<h2 class="v27-title">Día de Muertos</h2>'
+        + '<p class="v27-body">En México, estos días recordamos con cariño a quienes '
+        + 'ya no están: se encienden velas, se ponen flores de cempasúchil y la ofrenda '
+        + 'se llena de fotos, pan y recuerdos. Es una fiesta de memoria y de amor.</p>'
+        + '</div><div class="v27-her"><img alt=""></div></div>'
+        + '<p class="v27-vocab-label">El vocabulario de la ofrenda · toca y escucha</p>'
+        + '<div class="v27-chips">' + chips + '</div>'
+        + '<p class="v27-close">Que su recuerdo te acompañe.</p>';
+      var img = card.querySelector('.v27-her img');
+      var src = poseSrc();
+      if (src){ img.src = src; }
+      else {
+        var tries = 0;
+        var iv = setInterval(function(){
+          var hEl = document.querySelector('.m-hero');
+          if (hEl && hEl.getAttribute('src')){ img.src = hEl.getAttribute('src'); clearInterval(iv); }
+          if (++tries > 40) clearInterval(iv);
+        }, 100);
+      }
+      card.addEventListener('click', function(ev){
+        var chip = ev.target && ev.target.closest ? ev.target.closest('[data-say27]') : null;
+        if (chip) sayWord(chip.getAttribute('data-say27'), chip);
+      });
+      return card;
+    }
+
+    var card = null, io = null, ticking = false;
+    function decorate(){
+      ticking = false;
+      try{
+        var view = document.getElementById('view');
+        if (!view) return;
+        var isRuta = !!view.querySelector('.hero-scene');
+        if (!isRuta || !inSeason()){
+          if (card && card.isConnected) card.remove();
+          card = null;
+          return;
+        }
+        var existing = view.querySelector(':scope > .v27-card');
+        if (existing){ card = existing; return; }
+        card = buildCard();
+        view.insertBefore(card, view.firstChild);
+        if (io) io.observe(card);
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    if (typeof IntersectionObserver !== 'undefined'){
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          en.target.classList.toggle('v27-off', !en.isIntersecting);
+        });
+      }, { threshold: 0 });
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('visibilitychange', function(){
+      document.documentElement.classList.toggle('v27-hidden', document.hidden);
     });
     schedule();
   }catch(e){}
