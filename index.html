@@ -2058,6 +2058,67 @@ html.v31-hidden #view > .v31-card .v31-img,
 #lBody .wr32-hintrow{ margin:12px 0 0; font-size:15px; }
 #lBody .wr32-hintt{ color:var(--muted); }
 </style>
+<style id="muse-v33">
+/* ===== v33 · Pasaporte del viajero ===== */
+.tile33 .ic{ background:color-mix(in srgb, var(--beak) 16%, transparent); color:var(--accent); }
+.pp33-cover{ position:relative; overflow:hidden; border-radius:var(--r-lg); padding:22px 20px 20px;
+  color:#F8F1DC; border:1px solid rgba(233,180,76,.55); box-shadow:var(--shadow-1);
+  background:
+    radial-gradient(rgba(248,241,220,.055) 1px, transparent 1.5px),
+    linear-gradient(165deg, #14532A 0%, #0C3A1E 58%, #082A15 100%);
+  background-size:14px 14px, 100% 100%; }
+.pp33-cover::after{ content:""; position:absolute; inset:7px; border:1.5px solid rgba(233,180,76,.45);
+  border-radius:calc(var(--r-lg) - 7px); pointer-events:none; }
+.pp33-cover-in{ position:relative; z-index:1; display:flex; gap:14px; align-items:flex-start; }
+.pp33-cover-tx{ flex:1; min-width:0; }
+.pp33-kick{ margin:0; font:700 12px/1.3 var(--font-text); letter-spacing:.22em; text-transform:uppercase; color:#E9B44C; }
+.pp33-name{ margin:6px 0 0; font-size:30px; color:#F8F1DC; }
+.pp33-cover-sub{ margin:8px 0 0; font-size:15px; line-height:1.5; color:#F8F1DC; }
+.pp33-masc{ width:92px; height:92px; flex:none; filter:drop-shadow(0 8px 14px rgba(0,0,0,.35)); }
+.pp33-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+.pp33-chip{ display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:var(--r-pill);
+  background:rgba(4,26,14,.42); border:1px solid rgba(248,241,220,.38); color:#F8F1DC;
+  font:600 13.5px/1.3 var(--font-text); }
+.pp33-chip .num{ font-size:15px; }
+.pp33-cover-note{ margin:12px 0 0; font-size:13.5px; line-height:1.45; color:#F3E7C8; }
+.pp33-invite{ margin:12px 0 0; padding:10px 12px; border-radius:12px; font-size:14.5px; line-height:1.5;
+  background:rgba(4,26,14,.42); border:1px dashed rgba(233,180,76,.65); color:#F8F1DC; }
+.pp33-ch{ display:flex; align-items:center; gap:10px; margin:28px 2px 12px; }
+.pp33-cdot{ width:12px; height:12px; border-radius:50%; flex:none; }
+.pp33-ch h2{ font-size:19px; }
+.pp33-ccount{ margin-left:auto; font-size:13.5px; color:var(--muted); font-weight:700; white-space:nowrap; }
+.pp33-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(102px, 1fr)); gap:12px 10px; }
+.pp33-stamp{ position:relative; min-width:0; border-radius:14px; background:var(--surface);
+  border:1px solid var(--line); box-shadow:var(--shadow-1); padding:7px 7px 9px;
+  transform:rotate(var(--r, 0deg)); }
+.pp33-stamp.on{ outline:1.5px dashed color-mix(in srgb, var(--pc) 38%, transparent); outline-offset:-5px; }
+.pp33-stamp.imp{ box-shadow:var(--shadow-1), inset 0 0 0 2px #CE8A2D; }
+.pp33-stamp.off{ outline:1.5px dashed var(--line); outline-offset:-5px; }
+.pp33-art{ border-radius:9px; overflow:hidden; aspect-ratio:2/1; background:var(--surface2); }
+.pp33-art .scene{ width:100%; height:100%; display:block; }
+.pp33-stamp.off .pp33-art .scene{ filter:grayscale(1); opacity:.45; }
+.pp33-seal{ position:absolute; top:-8px; right:-6px; width:26px; height:26px; border-radius:50%;
+  background:var(--pc); color:#fff; display:grid; place-items:center; z-index:2;
+  box-shadow:0 2px 6px rgba(0,0,0,.3); }
+.pp33-seal svg{ width:14px; height:14px; }
+.pp33-st-n{ margin:8px 1px 0; font:700 11px/1.2 Georgia, 'Times New Roman', serif;
+  letter-spacing:.07em; text-transform:uppercase; color:var(--pc); }
+.pp33-stamp.off .pp33-st-n{ color:var(--muted); }
+.pp33-st-t{ margin:3px 1px 0; font:800 12.5px/1.25 var(--font-display); color:var(--text);
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.5em; }
+.pp33-stamp.off .pp33-st-t{ color:var(--muted); }
+.pp33-st-s{ margin:3px 1px 0; font-size:11.5px; line-height:1.3; color:var(--muted); }
+.pp33-stamp.on .pp33-st-s{ color:var(--text); font-weight:600; }
+.pp33-diary{ margin-top:28px; background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r-lg); padding:20px; box-shadow:var(--shadow-1); }
+.pp33-dh{ margin:4px 0 4px; font-size:20px; }
+.pp33-drow{ display:flex; gap:10px; align-items:flex-start; padding:9px 0; }
+.pp33-drow + .pp33-drow{ border-top:1px dashed var(--line); }
+.pp33-drow p{ margin:0; font-size:15px; line-height:1.5; }
+.pp33-dot{ width:8px; height:8px; border-radius:50%; background:var(--beak); flex:none; margin-top:8px; }
+.pp33-end{ margin:22px 2px 0; font-size:13.5px; color:var(--muted); text-align:center; }
+@media (max-width:360px){ .pp33-masc{ width:76px; height:76px; } .pp33-name{ font-size:26px; } }
+</style>
 </head>
 <body>
 <div class="app">
@@ -6403,6 +6464,145 @@ window.addEventListener('load', () => {
   var mo = new MutationObserver(schedule);
   mo.observe(document.body, { childList: true, subtree: true });
   schedule();
+})();
+</script>
+<script id="muse-v33-js">
+(function(){
+'use strict';
+/* v33 · Pasaporte del viajero — SOLO LECTURA: esta capa no escribe
+   en lingorea_v5 ni en ninguna clave; lee S y COURSES y rinde. */
+var MESES33 = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+var ROTS33 = [-1.8, -0.6, 1.1, 2, -1.2, 0.7];
+function dnum33(at){ if(!at) return null; var p = String(at).split('-'); if(p.length !== 3) return null;
+  var v = (+p[0]) * 10000 + (+p[1]) * 100 + (+p[2]); return (v > 0 && !isNaN(v)) ? v : null; }
+function fdate33(at){ var p = String(at || '').split('-'); if(p.length !== 3) return null;
+  var y = +p[0], m = +p[1], d = +p[2]; if(!y || m < 1 || m > 12 || d < 1 || d > 31) return null;
+  return d + ' ' + MESES33[m - 1] + ' ' + y; }
+
+function data33(){
+  var R = { stamps:0, totalUnits:0, lessonsDone:0, seededLessons:0, courses:[],
+            importedFrom:null, importedAt:null, oldestStamp:null, allComplete:false };
+  ORDER.forEach(function(k){
+    var c = COURSES[k]; if(!c || !c.units) return;
+    var used = new Set(), units = [], cStamps = 0;
+    c.units.forEach(function(u, i){
+      var kind = u.scene || SCN.pickKind(u.title, i, used); used.add(kind);
+      var total = u.lessons.length, done = 0, seeded = 0, lastAt = null, allDated = true, anySeeded = false;
+      u.lessons.forEach(function(l){
+        var key = k + ':' + l.lessonId;
+        var dn = S.done ? S.done[key] : null, sd = S.seeded ? S.seeded[key] : null;
+        if(dn){ done++;
+          if(dn.at){ if(!lastAt || dnum33(dn.at) > dnum33(lastAt)) lastAt = dn.at; }
+          else allDated = false;
+        } else if(sd){ anySeeded = true; seeded++; }
+      });
+      var earned = total > 0 && (done + seeded >= total);
+      var st = { n:u.unitNumber, title:u.title, cefr:u.cefr || '', kind:kind, total:total,
+                 done:done, covered:done + seeded, earned:earned,
+                 imported: earned && seeded > 0,
+                 date:(earned && !anySeeded && done === total && allDated) ? lastAt : null,
+                 courseName:c.name };
+      if(earned){ cStamps++;
+        if(st.date && fdate33(st.date)){ if(!R.oldestStamp || dnum33(st.date) < dnum33(R.oldestStamp.date)) R.oldestStamp = st; } }
+      R.lessonsDone += done; R.seededLessons += seeded;
+      units.push(st);
+    });
+    R.stamps += cStamps; R.totalUnits += units.length;
+    R.courses.push({ key:k, name:c.name, units:units, stamps:cStamps,
+                     complete: units.length > 0 && cStamps === units.length });
+  });
+  try{
+    var sdAll = S.seeded || {};
+    for(var key in sdAll){ var e = sdAll[key]; if(!e) continue;
+      if(e.from === 'duolingo'){ R.importedFrom = 'duolingo';
+        if(e.at && fdate33(e.at)){ if(!R.importedAt || dnum33(e.at) < dnum33(R.importedAt)) R.importedAt = e.at; } } }
+    if(!R.importedFrom && S.placement && S.placement.from === 'duolingo') R.importedFrom = 'duolingo';
+  }catch(e){}
+  R.allComplete = R.totalUnits > 0 && R.stamps === R.totalUnits;
+  return R;
+}
+
+function stamp33(st, idx, ck){
+  var sub, cls = 'pp33-stamp ' + (st.earned ? 'on' : 'off') + (st.imported ? ' imp' : '');
+  if(st.earned && st.date) sub = fdate33(st.date);
+  else if(st.earned && st.imported) sub = 'Dominado · importado';
+  else if(st.earned) sub = 'Sello ganado';
+  else sub = st.covered + ' de ' + st.total + (st.total === 1 ? ' lección' : ' lecciones');
+  var aria = 'Unidad ' + st.n + ': ' + st.title + (st.earned
+    ? (st.imported ? ' — dominada (importado)' : ' — sello ganado' + (st.date ? ', ' + fdate33(st.date) : ''))
+    : ' — pendiente, ' + sub);
+  return '<div class="' + cls + '" role="listitem" style="--r:' + (st.earned ? ROTS33[idx % ROTS33.length] : 0) + 'deg;--pc:var(--' + ck + ')" aria-label="' + esc(aria) + '">'
+    + (st.earned ? '<span class="pp33-seal" aria-hidden="true">' + I.check + '</span>' : '')
+    + '<div class="pp33-art" aria-hidden="true">' + SCN.svg(st.kind, 'pp33-sc') + '</div>'
+    + '<p class="pp33-st-n">Unidad ' + st.n + (st.cefr ? ' · ' + esc(st.cefr) : '') + '</p>'
+    + '<p class="pp33-st-t">' + esc(st.title) + '</p>'
+    + '<p class="pp33-st-s">' + esc(sub) + '</p></div>';
+}
+
+function build33(){
+  var d = data33();
+  var cover = '<section class="pp33-cover"><div class="pp33-cover-in"><div class="pp33-cover-tx">'
+    + '<p class="pp33-kick">Pasaporte del viajero</p>'
+    + '<h2 class="pp33-name">' + esc(BRAND.name) + '</h2>'
+    + '<p class="pp33-cover-sub">Cada unidad que completas deja aquí su sello, con su fecha. Este es tu viaje.</p>'
+    + '<div class="pp33-chips">'
+    + '<span class="pp33-chip">Sellos <b class="num">' + d.stamps + '/' + d.totalUnits + '</b></span>'
+    + '<span class="pp33-chip">Lecciones <b class="num">' + d.lessonsDone + '</b></span>'
+    + '<span class="pp33-chip">Días de práctica <b class="num">' + (S.streak | 0) + '</b></span>'
+    + '</div>'
+    + (d.seededLessons ? '<p class="pp33-cover-note">' + d.seededLessons + (d.seededLessons === 1
+        ? ' lección llegó dominada' : ' lecciones llegaron dominadas') + ' con tu importación: sus unidades se sellan como «importado».</p>' : '')
+    + (d.stamps === 0 ? '<p class="pp33-invite">Aún no tienes sellos: completa tu primera unidad y su sello aparecerá en esta página.</p>' : '')
+    + '</div>' + masc('pp33-masc', 108, MASCOT.name, 'point') + '</div></section>';
+  var secs = d.courses.map(function(c){
+    return '<section><div class="pp33-ch"><span class="pp33-cdot" style="background:var(--' + c.key + ')" aria-hidden="true"></span>'
+      + '<h2>' + esc(c.name) + '</h2><span class="pp33-ccount num">' + c.stamps + ' de ' + c.units.length + ' sellos</span></div>'
+      + '<div class="pp33-grid" role="list">' + c.units.map(function(st, i){ return stamp33(st, i, c.key); }).join('') + '</div></section>';
+  }).join('');
+  var rows = [];
+  if(d.allComplete) rows.push('<b>¡Pasaporte completo!</b> Sellaste las ' + d.totalUnits + ' unidades de los tres cursos.');
+  else d.courses.forEach(function(c){ if(c.complete) rows.push('<b>' + esc(c.name) + '</b> completo: sus ' + c.units.length + ' sellos ya están en tu pasaporte.'); });
+  if(d.importedFrom === 'duolingo'){ var ia = fdate33(d.importedAt);
+    rows.push('Trajiste tu avance de <b>Duolingo</b>' + (ia ? ' el ' + ia : '') + '.'); }
+  else if(d.seededLessons > 0) rows.push('Parte de tu avance llegó de una copia de seguridad.');
+  if(d.oldestStamp) rows.push('Tu sello con fecha más antiguo: <b>' + esc(d.oldestStamp.title) + '</b> (' + esc(d.oldestStamp.courseName) + '), del ' + fdate33(d.oldestStamp.date) + '.');
+  var ld = S.lastDay ? fdate33(S.lastDay) : null;
+  if(ld) rows.push('Último día de práctica: <b>' + ld + '</b>.');
+  var diary = rows.length ? '<section class="pp33-diary"><p class="label">Diario del viaje</p><h2 class="pp33-dh">Lo que ya viviste</h2>'
+    + rows.map(function(r){ return '<div class="pp33-drow"><span class="pp33-dot" aria-hidden="true"></span><p>' + r + '</p></div>'; }).join('') + '</section>' : '';
+  return '<div class="pp33">' + cover + secs + diary
+    + '<p class="pp33-end">Los sellos se ganan completando unidades en la ruta. Tu pasaporte solo se lee: nunca toca tu avance.</p></div>';
+}
+
+function openPassport33(){
+  try{
+    openPage('pasaporte33', build33());
+    var p = document.getElementById('page'); if(p) p.scrollTop = 0;
+  }catch(e){}
+}
+
+function inject33(){
+  try{
+    if(typeof tab === 'undefined' || tab !== 'perfil') return;
+    var view = document.getElementById('view'); if(!view) return;
+    if(view.querySelector('.tile33')) return;
+    var anchor = view.querySelector('[data-page="mision"]');
+    if(!anchor || !anchor.parentElement) return;
+    var d = data33();
+    var b = document.createElement('button');
+    b.className = 'tile tile33'; b.type = 'button';
+    b.innerHTML = '<span class="ic">' + I.star + '</span><span class="t"><b>Pasaporte del viajero</b><span>'
+      + d.stamps + ' de ' + d.totalUnits + ' sellos' + (d.lessonsDone ? ' · ' + d.lessonsDone + ' lecciones' : '') + '</span></span>';
+    b.onclick = openPassport33;
+    anchor.parentElement.insertBefore(b, anchor);
+  }catch(e){}
+}
+var tick33 = false;
+function sched33(){ if(tick33) return; tick33 = true;
+  requestAnimationFrame(function(){ tick33 = false; inject33(); }); }
+var mo33 = new MutationObserver(sched33);
+mo33.observe(document.body, { childList:true, subtree:true });
+sched33();
 })();
 </script>
 </body>
