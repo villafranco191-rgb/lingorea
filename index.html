@@ -2119,6 +2119,55 @@ html.v31-hidden #view > .v31-card .v31-img,
 .pp33-end{ margin:22px 2px 0; font-size:13.5px; color:var(--muted); text-align:center; }
 @media (max-width:360px){ .pp33-masc{ width:76px; height:76px; } .pp33-name{ font-size:26px; } }
 </style>
+<style id="muse-v34">
+/* ---------- v34 · RITUAL DE HOY ----------
+   La tarjeta del ritual vive en la ruta, bajo el póster de
+   portada (v31) o la tarjeta de fiesta (v27): es una invitación
+   breve, en la luz de la casa — superficie limpia, acento de
+   hoja, ella presidiendo con su pose real a la derecha. Ningún
+   contador, ningún candado: el estado «listo» se pinta en verde
+   suave, como algo cumplido y en paz, no como una racha que
+   haya que defender. Sin desenfoque sobre imágenes (no lleva
+   ninguna foto: solo a ella en su pose de siempre). */
+#view > .v34-card{ position:relative; flex:none; margin:6px 0 14px;
+  padding:16px 18px 18px; border-radius:var(--r-lg);
+  background:var(--surface); border:1px solid var(--line);
+  border-left:5px solid var(--leaf);
+  box-shadow:0 10px 24px rgba(24,40,10,.10);
+  animation:v34in .55s var(--ease-out) both; }
+html[data-theme="dark"] #view > .v34-card{
+  box-shadow:0 10px 24px rgba(0,0,0,.45); }
+@keyframes v34in{ from{ opacity:0; transform:translateY(-7px); }
+  to{ opacity:1; transform:none; } }
+#view > .v34-card[data-v34state="done"]{ border-left-color:var(--success); }
+.v34-in{ display:flex; gap:14px; align-items:flex-start; }
+.v34-tx{ flex:1; min-width:0; }
+.v34-kick{ margin:0; font:700 11.5px/1.3 var(--font-text);
+  letter-spacing:.20em; text-transform:uppercase; color:var(--muted); }
+.v34-title{ margin:5px 0 0; font-family:var(--font-display);
+  font-size:21px; font-weight:700; color:var(--text); }
+.v34-body{ margin:7px 0 0; font-size:15px; line-height:1.5; color:var(--text); }
+.v34-awl{ margin:8px 0 0; font-size:14.5px; line-height:1.45; color:var(--muted); }
+.v34-awl b{ color:var(--text); }
+.v34-masc{ width:72px; height:72px; flex:none; align-self:center;
+  filter:drop-shadow(0 6px 10px rgba(24,40,10,.18)); }
+.v34-go{ margin-top:13px; }
+.v34-done-line{ display:flex; gap:9px; align-items:flex-start; margin-top:9px; }
+.v34-check{ flex:none; width:24px; height:24px; margin-top:1px; border-radius:50%;
+  background:var(--success-bg); color:var(--success);
+  display:flex; align-items:center; justify-content:center;
+  font:800 14px/1 var(--font-text); }
+/* La línea de ejemplo del mini-reto AWL, dentro de la lección */
+.v34-ex{ margin:12px 2px 16px; font-size:15px; line-height:1.5; color:var(--muted);
+  border-left:4px solid var(--beak); padding:8px 12px;
+  background:color-mix(in srgb, var(--beak) 8%, var(--surface));
+  border-radius:12px; }
+.v34-ex-k{ display:block; font:700 11px/1.3 var(--font-text);
+  letter-spacing:.16em; text-transform:uppercase; margin-bottom:3px; }
+@media (prefers-reduced-motion: reduce){
+  #view > .v34-card{ animation:none !important; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -6603,6 +6652,314 @@ function sched33(){ if(tick33) return; tick33 = true;
 var mo33 = new MutationObserver(sched33);
 mo33.observe(document.body, { childList:true, subtree:true });
 sched33();
+})();
+</script>
+<script id="muse-v34-js">
+/* v34 · RITUAL DE HOY + MINI-RETO AWL — decoración y sesión.
+   La tarjeta vive en #view (ruta) tras el póster v31 o la tarjeta
+   de fiesta v27. La sesión corre con el motor de la casa en la
+   MISMA forma que startReview (review:true, id:null): los ítems
+   SRS avanzan con srsAdvanceV5 y fallan como en el laboratorio,
+   sin una línea de motor nueva. La única escritura propia es
+   localStorage['lingorea_ritual_day']; y una limpieza defensiva
+   retira de S.mistakes cualquier id sintético 'v34awl_…' que
+   check() haya anotado al fallar el mini-reto (esos ids no
+   resuelven a retos reales y la casa los filtra, pero aquí no
+   quedan ni de paso). El universo AWL (AWL34) lo extrajo el
+   constructor SOLO de material de la casa (lista awlTarget del
+   simulador + pares de vocabulario de la unidad de examen, con
+   glosa/IPA/ejemplo verificados contra la base). Nada de rachas:
+   ningún texto de esta capa habla de días seguidos ni de perder
+   nada. Si algo falla, la app queda en v33. */
+(function(){
+  try{
+    var KEY = 'lingorea_ritual_day';
+    var AWL34 = [{"w": "nevertheless", "g": "no obstante / sin embargo", "ipa": null, "ex": "The solar desalination experiment was costly; nevertheless, it yielded crucial empirical data."}, {"w": "consequently", "g": "en consecuencia", "ipa": "/ˈkɑnsəˌkwɛntli/", "ex": "The results were unexpected; consequently, the team postponed the publication of the report."}, {"w": "furthermore", "g": "además / es más", "ipa": "/ˈfɜrðərˌmɔr/", "ex": "The evidence suggests that the brain uses sleep to organize memories, and furthermore, to prepare for future problems."}, {"w": "whereas", "g": "mientras que (contraste)", "ipa": "/wɛrˈæz/", "ex": "The mayor supports the plan, whereas the majority of residents oppose it."}, {"w": "mitigate", "g": "atenuar / reducir un impacto negativo", "ipa": "/ˈmɪtɪɡeɪt/", "ex": null}, {"w": "feasible", "g": "viable / factible en la práctica", "ipa": "/ˈfiːzəbəl/", "ex": null}, {"w": "empirical", "g": "empíricos (basados en observación)", "ipa": null, "ex": "The solar desalination experiment was costly; nevertheless, it yielded crucial empirical data."}, {"w": "substantiate", "g": "respaldar una teoría con pruebas", "ipa": "/ˈsʌbstænʃieɪt/", "ex": null}, {"w": "contradict", "g": "contradecir / refutar un argumento", "ipa": "/ˌkɒntrəˈdɪkt/", "ex": null}, {"w": "vanishing", "g": "desapareciendo", "ipa": "/ˈvænɪʃɪŋ/", "ex": "Today, that experience is vanishing."}, {"w": "disrupts", "g": "altera / interrumpe", "ipa": "/dɪsˈrʌpts/", "ex": "Artificial light at night disrupts the internal clocks of birds, insects, and sea turtles, and it may affect human sleep as well."}, {"w": "shielded", "g": "protegidas con pantallas", "ipa": "/ˈʃildɪd/", "ex": "Unlike extinct species or melted glaciers, the stars return the moment the lights are shielded, dimmed, or switched off."}, {"w": "reversed", "g": "revertido", "ipa": "/rɪˈvɜrst/", "ex": "Yet the problem is unusual among environmental threats: it can be reversed instantly."}, {"w": "dismissed", "g": "desestimado / descartado", "ipa": "/dɪsˈmɪst/", "ex": "When the modern bicycle appeared in the 1880s, critics dismissed it as a toy for the young and reckless."}, {"w": "emancipate", "g": "emancipar / liberar", "ipa": "/ɪˈmænsəˌpeɪt/", "ex": "Anthony later claimed it had done more to emancipate women than anything else in the world."}, {"w": "paved", "g": "pavimentadas", "ipa": "/peɪvd/", "ex": "The bicycle also changed fashion, as heavy skirts gave way to practical clothing, and it transformed the roads themselves: cyclists organized to demand smooth, paved streets years before the automobile."}, {"w": "expanded", "g": "se expandió", "ipa": "/ɪkˈspændɪd/", "ex": "A worker who once walked an hour to the factory could now ride in fifteen minutes, and the geography of daily life expanded."}, {"w": "thriving", "g": "prosperando", "ipa": "/ˈθraɪvɪŋ/", "ex": null}, {"w": "superheated", "g": "sobrecalentada", "ipa": "/ˌsupərˈhitɪd/", "ex": null}, {"w": "flourish", "g": "prosperan / florecen", "ipa": "/ˈflɜrɪʃ/", "ex": "The water pouring from the vents can exceed 350 degrees Celsius, yet tube worms, giant clams, and blind shrimp flourish in the darkness nearby."}, {"w": "beyond", "g": "más allá de", "ipa": "/bɪˈjɑnd/", "ex": "This waste has consequences beyond astronomy."}, {"w": "durable", "g": "duradero", "ipa": "/ˈdʊrəbəl/", "ex": "When learners revisit material at expanding intervals, after a day, then three days, then a week, each repetition flattens the curve further, until the information becomes durable."}, {"w": "intervals", "g": "intervalos", "ipa": "/ˈɪntərvəlz/", "ex": "When learners revisit material at expanding intervals, after a day, then three days, then a week, each repetition flattens the curve further, until the information becomes durable."}, {"w": "recall", "g": "recuerdo activo", "ipa": "/rɪˈkɔl/", "ex": "When learners revisit material at expanding intervals, after a day, then three days, then a week, each repetition flattens the curve further, until the information becomes durable and easy to recall."}, {"w": "overturned", "g": "refutado / echado abajo", "ipa": "/ˌoʊvərˈtɜrnd/", "ex": "Modern research has refined the finding rather than overturned it: testing yourself instead of rereading produces stronger memories than passive review at the same cost in time."}, {"w": "renew", "g": "renovar", "ipa": "/rɪˈnu/", "ex": null}, {"w": "extended", "g": "extendida / ampliada", "ipa": "/ɪkˈstɛndɪd/", "ex": "All books due this week can be renewed online, and the return deadline has been extended until Monday."}, {"w": "extension", "g": "prórroga", "ipa": "/ɪkˈstɛnʃən/", "ex": "I am asking for an extension because the laboratory results arrived later than expected."}, {"w": "draft", "g": "borrador", "ipa": "/dræft/", "ex": "The evening tutor helped me organize my essay in two visits, and my professor noticed the difference in the next draft."}, {"w": "feedback", "g": "retroalimentación", "ipa": "/ˈfidˌbæk/", "ex": null}, {"w": "erupt", "g": "entrar en erupción", "ipa": "/ɪˈrʌpt/", "ex": "A volcano does not erupt without warning."}, {"w": "ash", "g": "ceniza", "ipa": "/æʃ/", "ex": "If scientists read these signs in time, towns can be evacuated before the ash begins to fall."}, {"w": "predict", "g": "predecir", "ipa": "/prɪˈdɪkt/", "ex": null}, {"w": "attached", "g": "adjunto", "ipa": "/əˈtætʃt/", "ex": null}, {"w": "sincerely", "g": "atentamente", "ipa": "/sɪnˈsɪrli/", "ex": null}, {"w": "summarize", "g": "resumir", "ipa": "/ˈsʌməˌraɪz/", "ex": null}];
+    var AWL_BY_ID = {};
+    AWL34.forEach(function(e){ AWL_BY_ID['v34awl_' + e.w] = e; });
+
+    function dayIndex(){
+      var p = today().split('-');
+      return Math.floor(Date.UTC(+p[0], +p[1] - 1, +p[2]) / 86400000);
+    }
+    function awlOfDay(){
+      return AWL34[dayIndex() % AWL34.length];
+    }
+    function ritualDone(){
+      try{ return localStorage.getItem(KEY) === today(); }catch(e){ return false; }
+    }
+    function purgeAwl(){
+      try{
+        if (typeof S === 'undefined' || !S || !S.mistakes) return;
+        var ks = Object.keys(S.mistakes).filter(function(k){ return k.indexOf('v34awl_') === 0; });
+        if (ks.length){ ks.forEach(function(k){ delete S.mistakes[k]; }); save(); }
+      }catch(e){}
+    }
+    function resolveCh(id){
+      var all = allLessons(S.course);
+      for (var i = 0; i < all.length; i++)
+        for (var j = 0; j < all[i].l.challenges.length; j++)
+          if (all[i].l.challenges[j].id === id) return all[i].l.challenges[j];
+      return null;
+    }
+    function duePool(){
+      var t = srsTodayStr();
+      var ms = Object.values(S.mistakes || {}).filter(function(m){
+        return m && m.c === S.course && (!m.due || m.due <= t);
+      });
+      ms.sort(function(a, b){
+        var d = String(a.due || '').localeCompare(String(b.due || ''));
+        if (d) return d;
+        var n = (b.n | 0) - (a.n | 0);
+        if (n) return n;
+        return String(a.id).localeCompare(String(b.id));
+      });
+      var out = [], seen = {};
+      ms.forEach(function(m){
+        if (seen[m.id]) return;
+        var ch = resolveCh(m.id);
+        if (ch){ seen[m.id] = 1; out.push(ch); }
+      });
+      return out;
+    }
+    function repasoPool(){
+      var pre = S.course + ':', ids = {}, list = [];
+      Object.keys(S.done || {}).forEach(function(k){
+        if (k.indexOf(pre) === 0) ids[k.slice(pre.length)] = 1;
+      });
+      Object.keys(S.seeded || {}).forEach(function(k){
+        if (k.indexOf(pre) === 0) ids[k.slice(pre.length)] = 1;
+      });
+      var seen = {};
+      Object.keys(ids).sort().forEach(function(lid){
+        var f = findLesson(lid);
+        if (!f || f.c !== S.course) return;
+        f.l.challenges.forEach(function(ch){
+          if (ch.type !== 'pair_match' && !seen[ch.id]){ seen[ch.id] = 1; list.push(ch); }
+        });
+      });
+      list.sort(function(a, b){ return String(a.id).localeCompare(String(b.id)); });
+      return list;
+    }
+    function compose(){
+      var slots = S.course === 'en' ? 2 : 3;
+      var due = duePool(), items = due.slice(0, slots), used = {};
+      items.forEach(function(ch){ used[ch.id] = 1; });
+      if (items.length < slots){
+        var rep = repasoPool().filter(function(ch){ return !used[ch.id]; });
+        if (rep.length){
+          var start = dayIndex() % rep.length;
+          for (var i = 0; i < rep.length && items.length < slots; i++){
+            var ch = rep[(start + i) % rep.length];
+            items.push(ch); used[ch.id] = 1;
+          }
+        }
+      }
+      return { items: items, dueN: Math.min(due.length, slots) };
+    }
+    function awlChallenge(){
+      var e = awlOfDay(), n = AWL34.length, idx = dayIndex() % n;
+      function distract(off){
+        for (var i = 0; i < n; i++){
+          var c = AWL34[(idx + off + i) % n];
+          if (c.w !== e.w && c.g !== e.g) return c;
+        }
+        return null;
+      }
+      var d1 = distract(7), d2 = distract(13);
+      var opts = [{ id: 'o1', text: e.g, correct: true }];
+      if (d1) opts.push({ id: 'o2', text: d1.g });
+      if (d2 && (!d1 || d2.g !== d1.g)) opts.push({ id: 'o3', text: d2.g });
+      return {
+        id: 'v34awl_' + e.w, type: 'multiple_choice',
+        heading: 'Palabra académica de hoy · ¿qué significa «' + e.w + '»?',
+        ipa: e.ipa || '',
+        promptTokens: [{ text: e.w, hint: 'Palabra académica (AWL)' }],
+        spokenText: e.ex || e.w,
+        options: opts,
+        canonicalAnswer: e.g,
+        explanation: '«' + e.w + '» significa «' + e.g + '».' +
+          (e.ex ? ' Ejemplo del material del examen: «' + e.ex + '»' : '')
+      };
+    }
+
+    var ritual = { active: false, done: false };
+    function startRitual(){
+      var c = compose();
+      var items = c.items.slice();
+      if (S.course === 'en') items.push(awlChallenge());
+      if (!items.length) return;
+      ritual.active = true; ritual.done = false;
+      L = { id: null, title: 'Ritual de hoy', unit: null, total: items.length,
+            queue: items.map(function(ch){ return { ch: ch, tries: 0 }; }),
+            doneN: 0, errors: 0, inRow: 0, xp: 0, failed: new Set(),
+            review: true, v34ritual: true };
+      openLesson();
+    }
+    function startFirst(){
+      var nx = null;
+      try{ nx = nextLesson(); }catch(e){}
+      if (nx && nx.l) { startLesson(nx.l.lessonId); return; }
+      var u = course().units[0];
+      if (u && u.lessons[0]) startLesson(u.lessons[0].lessonId);
+    }
+
+    function cardHTML(){
+      var en = S.course === 'en', e = en ? awlOfDay() : null;
+      if (ritualDone()){
+        return '<div class="v34-in"><div class="v34-tx">'
+          + '<p class="v34-kick">Ritual de hoy</p>'
+          + '<div class="v34-done-line"><span class="v34-check" aria-hidden="true">✓</span>'
+          + '<h3 class="v34-title" style="margin-top:0">Ritual de hoy listo</h3></div>'
+          + '<p class="v34-body">Eso es todo por hoy. Mañana habrá otro ritual, '
+          + 'y si un día no vienes, no pasa nada: lo aprendido sigue aquí, esperándote.</p>'
+          + (en ? '<p class="v34-awl">Palabra de hoy: <b lang="en">' + esc(e.w) + '</b> — ' + esc(e.g) + '</p>' : '')
+          + '</div>' + masc('v34-masc', 72, '', 'ok') + '</div>';
+      }
+      var c = composeCached();
+      if (!c.items.length){
+        return '<div class="v34-in"><div class="v34-tx">'
+          + '<p class="v34-kick">Ritual de hoy</p>'
+          + '<h3 class="v34-title">Tu ritual nace con tu primera lección</h3>'
+          + '<p class="v34-body">Al practicar, cada día tendrás aquí un ritual cortito '
+          + 'con tus propios ejercicios: tus repasos listos y, en inglés, una palabra '
+          + 'académica. Sin cuentas atrás y sin presión.</p>'
+          + '</div>' + masc('v34-masc', 72, '', 'point') + '</div>'
+          + '<button class="btn v34-go" data-v34act="first">Empezar mi primera lección</button>';
+      }
+      var n = c.items.length + (en ? 1 : 0);
+      var body = c.dueN
+        ? n + ' ejercicios cortos de tu propio avance: hoy tocan repasos que ya están listos para ti. Un minuto y sigues con tu día.'
+        : 'Hoy no tienes repasos vencidos. ' + n + ' ejercicios cortos de lecciones que ya dominas, para mantenerlas frescas. Un minuto y sigues con tu día.';
+      return '<div class="v34-in"><div class="v34-tx">'
+        + '<p class="v34-kick">Un minuto para ti</p>'
+        + '<h3 class="v34-title">Ritual de hoy</h3>'
+        + '<p class="v34-body">' + body + '</p>'
+        + (en ? '<p class="v34-awl">Incluye la palabra académica de hoy: <b lang="en">«' + esc(e.w) + '»</b>.</p>' : '')
+        + '</div>' + masc('v34-masc', 72, '', 'point') + '</div>'
+        + '<button class="btn v34-go" data-v34act="start">Empezar el ritual</button>';
+    }
+    var memoC = { k: '', v: null };
+    function composeCached(){
+      var k = [S.course, today(),
+               Object.keys(S.mistakes || {}).length,
+               Object.keys(S.done || {}).length,
+               Object.keys(S.seeded || {}).length].join('|');
+      if (memoC.k !== k){ memoC.k = k; memoC.v = compose(); }
+      return memoC.v;
+    }
+    function sigOf(){
+      var c = composeCached();
+      return [ritualDone() ? 'done' : (c.items.length ? 'offer' : 'invite'),
+              S.course, today(), c.items.length, c.dueN].join('|');
+    }
+
+    var card = null, ticking = false;
+    function decorate(){
+      ticking = false;
+      try{
+        purgeAwl();
+        var view = document.getElementById('view');
+        if (!view) return;
+        if (!view.querySelector('.hero-scene')){
+          if (card && card.isConnected) card.remove();
+          card = null;
+          return;
+        }
+        var anchor = view.querySelector(':scope > .v27-card') ||
+                     view.querySelector(':scope > .v31-card');
+        var sig = sigOf();
+        if (!card || !card.isConnected || card.dataset.sig !== sig){
+          var fresh = document.createElement('aside');
+          fresh.className = 'v34-card';
+          fresh.setAttribute('aria-label', 'Ritual de hoy');
+          fresh.dataset.sig = sig;
+          fresh.dataset.v34state = sig.split('|')[0];
+          fresh.innerHTML = cardHTML();
+          var btn = fresh.querySelector('[data-v34act]');
+          if (btn) btn.onclick = btn.dataset.v34act === 'first' ? startFirst : startRitual;
+          if (card && card.isConnected) card.replaceWith(fresh);
+          else if (anchor) anchor.insertAdjacentElement('afterend', fresh);
+          else view.insertBefore(fresh, view.firstChild);
+          card = fresh;
+          return;
+        }
+        // La tarjeta ya es la correcta: solo se recoloca si el
+        // póster o la fiesta cambiaron el orden.
+        var wantPrev = anchor || null;
+        if (card.previousElementSibling !== wantPrev){
+          if (anchor) anchor.insertAdjacentElement('afterend', card);
+          else view.insertBefore(card, view.firstChild);
+        }
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+
+    // La sesión: al aparecer la pantalla de fin del motor con un
+    // ritual activo, se marca el día y se re-etiqueta; si la
+    // lección se cierra sin terminar, el ritual se desactiva.
+    var lticking = false;
+    function onLesson(){
+      lticking = false;
+      try{
+        var les = document.getElementById('lesson');
+        if (ritual.active && les && !les.hidden){
+          var end = les.querySelector('.end');
+          if (end && !ritual.done){
+            ritual.done = true;
+            try{ localStorage.setItem(KEY, today()); }catch(e){}
+            purgeAwl();
+            var lab = end.querySelector('.label');
+            if (lab) lab.textContent = 'Ritual de hoy · terminado';
+            var t = end.querySelector('.end-title');
+            if (t) t.textContent = 'Ritual de hoy listo';
+          }
+          decorateAwlExample();
+        }
+        if (ritual.active && (!les || les.hidden)){
+          ritual.active = false;
+          purgeAwl();
+          schedule();
+        }
+      }catch(e){}
+    }
+    function decorateAwlExample(){
+      try{
+        if (typeof L === 'undefined' || !L || !L.v34ritual || !L.queue || !L.queue.length) return;
+        var ch = L.queue[0].ch;
+        if (!ch || String(ch.id).indexOf('v34awl_') !== 0) return;
+        if (document.querySelector('#sheet.show')) return;
+        var body = document.getElementById('lBody');
+        if (!body || body.querySelector('.v34-ex')) return;
+        var entry = AWL_BY_ID[ch.id];
+        if (!entry || !entry.ex) return;
+        var p = body.querySelector('.prompt');
+        if (!p || p.textContent.indexOf(entry.w) < 0) return;
+        var el = document.createElement('p');
+        el.className = 'v34-ex';
+        el.innerHTML = '<span class="v34-ex-k">En el examen</span><span lang="en">«' + esc(entry.ex) + '»</span>';
+        p.insertAdjacentElement('afterend', el);
+      }catch(e){}
+    }
+    function lschedule(){
+      if (lticking) return;
+      lticking = true;
+      requestAnimationFrame(onLesson);
+    }
+
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    var les0 = document.getElementById('lesson');
+    if (les0){
+      var moL = new MutationObserver(lschedule);
+      moL.observe(les0, { childList: true, subtree: true });
+    }
+    schedule();
+  }catch(e){}
 })();
 </script>
 </body>
