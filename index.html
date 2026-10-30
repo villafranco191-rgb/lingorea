@@ -2350,6 +2350,31 @@ html.v36-hidden body .unit-banner .v36-her img{ animation-play-state:paused !imp
   .v37-hop > img{ animation:none !important; }
 }
 </style>
+<style id="muse-v38">
+/* ---------- v38 · ADIÓS A LA GORDIS: LA NOCHE HEREDA EL DÍA ----------
+   Orden de Buc: la imagen B (el retrato azul del aro cian) sale
+   de todas partes. La tarjeta de portada de la v31 ya no la
+   carga: de noche muestra el MISMO póster de día (el arte
+   dorado A) con el tratamiento que Buc aprobó en la app nueva
+   — oscurecer la foto y tenderle un velo degradado azul noche
+   encima, sin desenfoque (la foto sigue nítida, como manda la
+   casa) y sin tocar la banda del saludo: «Buenas noches» se lee
+   igual que siempre. El velo cuelga del atributo de franja de
+   la casa (html[data-daypart="night"], CSS puro) y de la clase
+   .v38-night que el JS de la capa sincroniza como respaldo. */
+/* La foto de día, con su luz de noche puesta */
+html[data-daypart="night"] #view > .v31-card .v31-img,
+#view > .v31-card.v38-night .v31-img{ filter:brightness(.62) saturate(.80); }
+#view > .v31-card .v31-img{ transition:filter .8s ease; }
+/* El velo: una lámina azul noche pareja sobre la lámina de
+   legibilidad de la v31 (que se conserva debajo, intacta) */
+html[data-daypart="night"] #view > .v31-card .v31-shade,
+#view > .v31-card.v38-night .v31-shade{
+  background:
+    linear-gradient(180deg, rgba(6,10,26,.38), rgba(6,10,26,.38)),
+    linear-gradient(180deg, rgba(14,22,7,.16) 0%, rgba(14,22,7,0) 32%,
+      rgba(14,22,7,0) 50%, rgba(9,14,4,.66) 100%); }
+</style>
 </head>
 <body>
 <div class="app">
@@ -5874,7 +5899,7 @@ window.addEventListener('load', () => {
    v30. */
 (function(){
   try{
-    var DIA = 'poster-dia.webp', NOCHE = 'poster-noche.webp';
+    var DIA = 'poster-dia.webp', NOCHE = DIA;
     var GREET = { dawn: 'Buenos días', day: 'Buen día',
                   dusk: 'Buenas tardes', night: 'Buenas noches' };
     function part(){
@@ -7669,6 +7694,52 @@ sched33();
     var moH = new MutationObserver(schedule);
     moH.observe(document.documentElement, { attributes: true,
       attributeFilter: ['data-daypart'] });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v38-js">
+/* v38 · ADIÓS A LA GORDIS — sincronía del velo nocturno.
+   La v31 ya marca la franja en html[data-daypart] (la pone la
+   v16) y su tarjeta lee esa misma fuente; este script solo
+   refleja la franja sobre la tarjeta con la clase .v38-night
+   para que el CSS de la capa vele el póster de día cuando es
+   de noche — incluso si la franja cambia con la ruta abierta
+   (los dos MutationObserver de la receta de la v31, coalescidos
+   por rAF). La fuente es la de la v31: dataset.daypart o su
+   part() de respaldo con la gramática de la casa (dawn 5–8.5,
+   day 8.5–17.75, dusk 17.75–20, night el resto). No escribe
+   estado ni claves, no pide archivos: solo una clase sobre la
+   tarjeta. Si algo falla, la portada queda con el póster de
+   día a toda hora y sin velo — nunca vuelve la gordis. */
+(function(){
+  try{
+    function part(){
+      var d = new Date(), h = d.getHours() + d.getMinutes() / 60;
+      return h >= 5 && h < 8.5 ? 'dawn' : h >= 8.5 && h < 17.75 ? 'day'
+           : h >= 17.75 && h < 20 ? 'dusk' : 'night';
+    }
+    function curPart(){
+      return document.documentElement.dataset.daypart || part();
+    }
+    var ticking = false;
+    function apply(){
+      ticking = false;
+      try{
+        var card = document.querySelector('#view > .v31-card');
+        if (!card) return;
+        card.classList.toggle('v38-night', curPart() === 'night');
+      }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(apply);
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true });
+    var moP = new MutationObserver(schedule);
+    moP.observe(document.documentElement, { attributes: true, attributeFilter: ['data-daypart'] });
     schedule();
   }catch(e){}
 })();
