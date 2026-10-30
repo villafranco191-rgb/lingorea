@@ -1,7 +1,7 @@
 /* LingoREA · service worker — la app abre sin conexión tras la primera visita
    y se actualiza sola: la caché lleva la huella del build. */
-const CACHE = 'lingorea-802dfa4998';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './puerta-tucana.mp4', './puerta-cine.mp4', './puerta-poster.jpg', './celebracion-3d.webp', './cuento-3d.webp', './poster-dia.webp', './poster-noche.webp', './clip-fiesta-1.mp4', './clip-fiesta-2.mp4', './cuento-mercado.webp', './cuento-viaje.webp', './estudio-biblioteca.webp', './viajera-pasaporte.webp', './ritual-amanecer.webp'];
+const CACHE = 'lingorea-ee784971b1';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './puerta-tucana.mp4', './puerta-cine.mp4', './puerta-poster.jpg', './celebracion-3d.webp', './cuento-3d.webp', './poster-dia.webp', './clip-fiesta-1.mp4', './clip-fiesta-2.mp4', './cuento-mercado.webp', './cuento-viaje.webp', './estudio-biblioteca.webp', './viajera-pasaporte.webp', './ritual-amanecer.webp'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {
