@@ -2276,6 +2276,80 @@ html.v36-hidden body .unit-banner .v36-her img{ animation-play-state:paused !imp
   body .unit-banner .v36-her img{ animation:none !important; }
 }
 </style>
+<style id="muse-v37">
+/* ---------- v37 · SUS ESCENAS NUEVAS, VIVAS ----------
+   Las cinco escenas 3D que Buc aprobó en bloque entran cada una
+   en su casa: portadas de cuento por mundo, la viajera al
+   Pasaporte, la biblioteca a la antesala del examen y el
+   amanecer al Ritual de la mañana. Y son VIVAS: tocar su imagen
+   la hace saludar con la voz de la casa en el idioma del curso.
+   Ningún texto vive sobre las escenas salvo la píldora mínima
+   de pista al pie; cero desenfoque sobre ella; solo transform
+   y opacity se mueven. */
+
+/* 1 · La portada del cuento se puede tocar — SOLO dentro de la
+   escena del cuento (.v25-stage): la misma .v30-cover en los
+   resultados del simulador sigue muda, como la dejó la v30. */
+#page .v25-stage .v30-cover{ pointer-events:auto; cursor:pointer; }
+
+/* 2 · Las bandas de escena: franja a todo lo ancho en el borde
+   superior de su tarjeta, en flujo — ningún texto ni botón
+   queda debajo de una foto, el solape es 0 por construcción. */
+.toefl-hero-card .v37-lib{ margin:-18px -18px 14px; height:118px;
+  position:relative; overflow:hidden; }
+.toefl-hero-card .v37-lib img{ width:100%; height:100%; display:block;
+  object-fit:cover; object-position:50% 26%; }
+#view > .v34-card .v37-rit{ margin:-16px -18px 12px; height:112px;
+  position:relative; overflow:hidden;
+  border-radius:var(--r-lg) var(--r-lg) 0 0; }
+#view > .v34-card .v37-rit img{ width:100%; height:100%; display:block;
+  object-fit:cover; object-position:50% 30%; }
+@media (max-width:360px){
+  .toefl-hero-card .v37-lib{ height:104px; }
+  #view > .v34-card .v37-rit{ height:100px; }
+}
+
+/* 3 · El retrato del Pasaporte se puede tocar: la figura de la
+   v36 gana posición para su pista y recorte para su brillo,
+   sin tocar su marco crema ni su inclinación. */
+#page .pp33 .v36-photo{ position:relative; overflow:hidden; cursor:pointer; }
+
+/* 4 · La pista mínima: su nombre y un «Tócame» al pie de cada
+   imagen viva, en píldora quieta que no tapa su rostro. */
+.v37-hint{ position:absolute; left:8px; bottom:8px; z-index:5;
+  pointer-events:none; padding:3px 9px; border-radius:999px;
+  background:rgba(14,22,6,.58); color:#FFF6DC;
+  font:700 10.5px/1.3 var(--font-text); letter-spacing:.03em;
+  white-space:nowrap; }
+
+/* En la foto del Pasaporte la pastilla sube sobre la foto: al pie de la
+   figura vive el pie «LINGOREA» de la v36 y no deben tocarse. */
+#page .pp33 .v36-photo .v37-hint{ bottom:25px; }
+
+/* 5 · El brillo de entrada: UNA sola pasada de luz cuando su
+   imagen viva aparece — se descubre sin carteles. */
+[data-v37tap]::after{ content:""; position:absolute; inset:0; z-index:4;
+  pointer-events:none;
+  background:linear-gradient(115deg, transparent 32%, rgba(255,246,214,.38) 50%, transparent 68%);
+  transform:translateX(-130%);
+  animation:v37shine 1.5s ease .4s 1 both; }
+@keyframes v37shine{ to{ transform:translateX(130%); } }
+
+/* 6 · El saltito al tocarla vive en su <img>, jamás en el
+   marco: la portada no pierde su sitio ni su giro (-2.5°), el
+   retrato no pierde su inclinación (-1.6°), las bandas no
+   pierden su franja. */
+@keyframes v37hop{ 0%{ transform:scale(1); }
+  35%{ transform:scale(1.05) translateY(-3px); }
+  100%{ transform:scale(1); } }
+.v37-hop > img{ animation:v37hop .45s var(--ease-out); }
+
+/* 7 · Movimiento reducido: ni brillo ni saltito — la voz sí. */
+@media (prefers-reduced-motion: reduce){
+  [data-v37tap]::after{ animation:none !important; opacity:0; }
+  .v37-hop > img{ animation:none !important; }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -7406,6 +7480,195 @@ sched33();
     document.addEventListener('visibilitychange', function(){
       document.documentElement.classList.toggle('v36-hidden', document.hidden);
     });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v37-js">
+/* v37 · SUS ESCENAS NUEVAS, VIVAS — decoración en runtime.
+   Observa el DOM (MutationObserver coalescido por rAF, la
+   receta de la casa) y viste CUATRO superficies con las escenas
+   3D aprobadas por Buc, sin tocar motores ni datos:
+   · cuentos (.v25-stage): la foto de la .v30-cover se elige por
+     el kind vivo de la escena (unitKinds de la casa): comida/
+     mercado {cafe, market} → cuento-mercado; viaje {airport,
+     beach} → cuento-viaje; el resto → la lectura de siempre;
+   · Pasaporte (.pp33): el <img> del retrato de la v36 pasa a
+     la viajera (la lectura vuelve a ser solo de los cuentos);
+   · antesala del examen (.toefl-hero-card): banda .v37-lib
+     con la biblioteca, sobre la fila de botones (la pose plana
+     de la v36 se queda presentando); en #simRoot, nada;
+   · Ritual (.v34-card): banda .v37-rit con el amanecer solo
+     en franjas de mañana (dawn/day); en dusk/night se retira.
+   LA INTERACCIÓN: un único oyente delegado marca las imágenes
+   vivas con [data-v37tap]; al tocarlas, ella saluda en voz
+   alta con speak() de la casa en el idioma del curso activo,
+   rotando un banco de saludos que la unidad 1 de cada curso
+   enseña (ni una palabra inventada: ver el docstring del
+   constructor). La rotación vive en una variable de sesión:
+   esta capa NO escribe estado ni clave alguna y lingorea_v5
+   queda intacto tras tocarlo todo. Si algo falla, cada
+   superficie queda como en v36. */
+(function(){
+  try{
+    var FOOD = { cafe: true, market: true };
+    var TRAVEL = { airport: true, beach: true };
+    var CUENTO = 'cuento-3d.webp';
+    var MERCADO = 'cuento-mercado.webp', VIAJE = 'cuento-viaje.webp';
+    var VIAJERA = 'viajera-pasaporte.webp';
+    var BIBLIO = 'estudio-biblioteca.webp';
+    var AMANECER = 'ritual-amanecer.webp';
+
+    var BANK = {
+      en: ['Hello!', 'Good morning!', 'Hi, how are you?',
+           'Nice to meet you too.', 'Thank you very much.',
+           'See you tomorrow!'],
+      fr: ['Bonjour !', 'Merci beaucoup !', "S'il vous plaît !",
+           'Merci beaucoup, au revoir.', 'Au revoir !'],
+      pt: ['Bom dia!', 'Boa tarde!', 'Boa noite, até amanhã!',
+           'Muito prazer!', 'Tudo bem?']
+    };
+    var taps = {};
+
+    function part(){
+      var d = new Date(), t = d.getHours() + d.getMinutes() / 60;
+      return t >= 5 && t < 8.5 ? 'dawn' : t >= 8.5 && t < 17.75 ? 'day'
+           : t >= 17.75 && t < 20 ? 'dusk' : 'night';
+    }
+    function curPart(){
+      return document.documentElement.dataset.daypart || part();
+    }
+    function herName(){
+      try{
+        if (typeof MASCOT !== 'undefined' && MASCOT && MASCOT.name) return MASCOT.name;
+      }catch(e){}
+      return 'LingoRea';
+    }
+    function courseKey(){
+      try{
+        if (typeof S !== 'undefined' && S && S.course && BANK[S.course]) return S.course;
+      }catch(e){}
+      try{
+        var c = course();
+        if (c && c.langTag){
+          var k = String(c.langTag).slice(0, 2).toLowerCase();
+          if (BANK[k]) return k;
+        }
+      }catch(e){}
+      return 'en';
+    }
+    function hint(el){
+      if (el.querySelector('.v37-hint')) return;
+      var s = document.createElement('span');
+      s.className = 'v37-hint';
+      s.textContent = herName() + ' · Tócame';
+      el.appendChild(s);
+    }
+    function markTap(el, stop){
+      if (!el.hasAttribute('data-v37tap')){
+        el.setAttribute('data-v37tap', '1');
+        if (stop) el.setAttribute('data-v37stop', '1');
+      }
+      hint(el);
+    }
+    function greet(el){
+      var k = courseKey(), bank = BANK[k];
+      var i = taps[k] || 0;
+      taps[k] = i + 1;
+      try{ if (typeof speak === 'function') speak(bank[i % bank.length]); }catch(e){}
+      if (el){
+        el.classList.remove('v37-hop');
+        void el.offsetWidth;
+        el.classList.add('v37-hop');
+        setTimeout(function(){ el.classList.remove('v37-hop'); }, 520);
+      }
+    }
+    document.addEventListener('click', function(e){
+      try{
+        var t = e.target && e.target.closest ? e.target.closest('[data-v37tap]') : null;
+        if (!t) return;
+        if (t.hasAttribute('data-v37stop')) e.stopPropagation();
+        greet(t);
+      }catch(err){}
+    });
+
+    function coverFor(kind){
+      if (FOOD[kind]) return MERCADO;
+      if (TRAVEL[kind]) return VIAJE;
+      return CUENTO;
+    }
+    function decorateStory(){
+      var stage = document.querySelector('#page .v25-stage');
+      if (!stage) return;
+      var cover = stage.querySelector('.v30-cover');
+      if (!cover) return; /* la v30 aún no la pone: el próximo pase la viste */
+      var want = coverFor(stage.getAttribute('data-kind') || '');
+      var img = cover.querySelector('img');
+      if (img && img.getAttribute('src') !== want) img.src = want;
+      markTap(cover, false);
+    }
+    function decoratePassport(){
+      var fig = document.querySelector('#page .pp33 .v36-photo');
+      if (!fig) return;
+      var img = fig.querySelector('img');
+      if (img && img.getAttribute('src') !== VIAJERA){
+        img.src = VIAJERA;
+        img.alt = herName() + ' viajera';
+      }
+      markTap(fig, false);
+    }
+    function band(cls, src, alt){
+      var d = document.createElement('div');
+      d.className = cls;
+      var img = document.createElement('img');
+      img.src = src;
+      img.alt = alt;
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      d.appendChild(img);
+      markTap(d, true);
+      return d;
+    }
+    function decorateSim(){
+      var card = document.querySelector('#view .toefl-hero-card');
+      if (!card || card.querySelector('.v37-lib')) return;
+      card.insertBefore(
+        band('v37-lib', BIBLIO, herName() + ' estudiando en la biblioteca'),
+        card.firstChild);
+    }
+    function decorateRitual(){
+      var card = document.querySelector('#view > .v34-card');
+      if (!card) return;
+      var p = curPart();
+      var morning = (p === 'dawn' || p === 'day');
+      var b = card.querySelector('.v37-rit');
+      if (!morning){ if (b) b.remove(); return; }
+      if (!b){
+        card.insertBefore(
+          band('v37-rit', AMANECER, herName() + ' saludando el amanecer'),
+          card.firstChild);
+      }
+    }
+
+    var ticking = false;
+    function decorate(){
+      ticking = false;
+      try{ decorateStory(); }catch(e){}
+      try{ decoratePassport(); }catch(e){}
+      try{ decorateSim(); }catch(e){}
+      try{ decorateRitual(); }catch(e){}
+    }
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(decorate);
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true,
+      attributes: true, attributeFilter: ['data-kind'] });
+    var moH = new MutationObserver(schedule);
+    moH.observe(document.documentElement, { attributes: true,
+      attributeFilter: ['data-daypart'] });
     schedule();
   }catch(e){}
 })();
