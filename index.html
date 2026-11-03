@@ -2395,6 +2395,20 @@ body .mission-hero .masc, body .w-stage .masc{ max-width:120px; max-height:120px
    la huella del index — y con ella el sello del service worker — se mueva en
    pareja y toda PWA instalada refresque el póster desde el SHELL. */
 </style>
+<style id="muse-v41">
+/* ============ MUSE v41 · LA FAMILIA 3D COMPLETA, EN LAS DOS CASAS ============ */
+/* Sin reglas a propósito: esta capa NO cambia presentación alguna. Su
+   trabajo vive en el bloque JS hermano: registrar los canjes de la
+   familia 3D de la nueva maestra (biblioteca, viajera, amanecer,
+   mercado y viaje refrescan sus bytes bajo el mismo nombre) y
+   extender la tabla de escenarios de la v37 con ciudad, casa y
+   naturaleza, para que las ocho piezas presidan en esta casa igual
+   que en la app nueva (decisión de Buc, 2026-11-03: «las 8 en
+   ambas, extiende la casa»). La huella del index se mueve en
+   pareja con el sello del service worker, y el SHELL crece de 19
+   a 22 con los tres archivos nuevos. Si algo falla, todo queda
+   como en la v40 y la tabla como en la v37. */
+</style>
 </head>
 <body>
 <div class="app">
@@ -7826,6 +7840,55 @@ queueDecorate();
    (900×900, 95,460 B, MD5 a57b53268a72599d3f7bc7cb9d015fd1), servido por el
    mismo DIA de la v31 — y de noche, por la regla de la v38, el mismo póster
    con su velo. Este bloque solo deja constancia en el index. */
+</script>
+<script id="muse-v41-js">
+/* ============ MUSE v41 · LA FAMILIA 3D COMPLETA, EN LAS DOS CASAS ============ */
+/* Extensión de la tabla de escenarios de la v37, SIN tocar su
+   código: la v37 elige la foto del cuento (.v25-stage) por el kind
+   vivo y manda ciudad {city}, casa {home} y naturaleza {park} a la
+   lectura de siempre; esta capa observa el mismo escenario con la
+   misma receta de la casa (MutationObserver coalescido por rAF,
+   registrado después que el de la v37: en cada tanda su pase corre
+   primero) y corrige SOLO esos tres kinds a sus escenas propias
+   de la familia 3D de la nueva maestra. El observer de la v37
+   solo escucha cambios de [data-kind] y de hijos — nunca el src —
+   así que la corrección no se revierte ni entra en bucle; los
+   demás kinds quedan byte a byte como la v37 los deja. Si esta
+   capa fallara, cada cuento queda exactamente como en la v37.
+   Los demás canjes de la tanda (biblioteca, viajera, amanecer,
+   mercado y viaje) son solo bytes bajo el mismo nombre: no
+   necesitan código. Esta capa no escribe estado ni clave alguna;
+   lingorea_v5 queda intacto. Decisión de Buc, 2026-11-03. */
+(function(){
+  try{
+    var EXTRA = { city: 'cuento-ciudad.webp',
+                  home: 'cuento-casa.webp',
+                  park: 'cuento-naturaleza.webp' };
+    function fix(){
+      var stage = document.querySelector('#page .v25-stage');
+      if (!stage) return;
+      var want = EXTRA[stage.getAttribute('data-kind') || ''];
+      if (!want) return;
+      var cover = stage.querySelector('.v30-cover');
+      if (!cover) return; /* la v30 aún no la pone: el próximo pase la viste */
+      var img = cover.querySelector('img');
+      if (img && img.getAttribute('src') !== want) img.src = want;
+    }
+    var ticking = false;
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        ticking = false;
+        try{ fix(); }catch(e){}
+      });
+    }
+    var mo = new MutationObserver(schedule);
+    mo.observe(document.body, { childList: true, subtree: true,
+      attributes: true, attributeFilter: ['data-kind'] });
+    schedule();
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
