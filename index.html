@@ -2409,6 +2409,17 @@ body .mission-hero .masc, body .w-stage .masc{ max-width:120px; max-height:120px
    a 22 con los tres archivos nuevos. Si algo falla, todo queda
    como en la v40 y la tabla como en la v37. */
 </style>
+<style id="muse-v42">
+/* ============ MUSE v42 · LA ÚLTIMA PALABRA DE LA TABLA (corrección de la v41) ============ */
+/* Sin reglas a propósito: esta capa NO cambia presentación alguna. Su
+   trabajo vive en el bloque JS hermano: darle a la extensión de tabla
+   de la v41 la última palabra estructural que la auditoría
+   independiente de la v41 exigió (la v37 reafirma su respaldo tras la
+   corrección y la v41, que no observaba el src, quedaba ciega). La
+   huella del index se mueve en pareja con el sello del service
+   worker; el SHELL no cambia (siguen los 22 de la v41). Si esta capa
+   fallara, los cuentos quedan exactamente como los deja la v41. */
+</style>
 </head>
 <body>
 <div class="app">
@@ -7886,6 +7897,96 @@ queueDecorate();
     var mo = new MutationObserver(schedule);
     mo.observe(document.body, { childList: true, subtree: true,
       attributes: true, attributeFilter: ['data-kind'] });
+    schedule();
+  }catch(e){}
+})();
+</script>
+<script id="muse-v42-js">
+/* ============ MUSE v42 · LA ÚLTIMA PALABRA DE LA TABLA ============ */
+/* Corrección de la v41 tras su auditoría independiente (NO PASA,
+   hallazgo ALTA): la extensión de tabla no tenía efecto neto porque
+   la v37 REAFIRMA su respaldo después de la corrección de la v41.
+
+   Causa raíz, medida contra los bytes vivos (EN u4, kind city):
+   el escenario nace con cuento-3d.webp, la v41 corrige a
+   cuento-ciudad.webp y un pase tardío de decorate() de la v37 lo
+   revierte (a +22 ms en la reproducción local; +174 ms en la
+   corrida del auditor). El pase tardío existe porque el rAF de la
+   v37 puede quedar encolado DESPUÉS del de la v41: la coalescencia
+   por rAF ordena los pases por la tanda que los encoló, no por el
+   orden de registro — la tanda que la propia decoración de la v37
+   genera (su marca data-v37tap y el span de su saludo) encola su
+   siguiente pase tras el pase ya pendiente de la v41. Y agotadas
+   las mutaciones de hijos, lo único que sigue cambiando es el src,
+   que la v41 NO observa (su filtro es childList + [data-kind]):
+   la corrección queda ciega y la reversión es definitiva. La v37
+   tiene además un canal de disparo que la v41 no posee: su moH
+   escucha [data-daypart] sobre <html> (fuera del subárbol de body
+   que la v41 observa), alimentado por la apply() con debounce de
+   la v16.
+
+   El arreglo le da a la corrección la última palabra estructural
+   sin tocar el código de la v37 ni su conducta para los demás
+   kinds: esta capa observa el atributo src de las imágenes y, si
+   la v37 escribe su respaldo (cuento-3d.webp) sobre la portada de
+   un cuento city/home/park, lo re-corrige en la misma entrega de
+   mutaciones — antes de que el marco se pinte, con lo que también
+   desaparece el destello que el auditor observó. Guarda anti-bucle:
+   solo se escribe cuando el src difiere del querido; la escritura
+   propia se observa a sí misma y resulta en no-op, así que el
+   sistema se asienta. Se conserva el barrido por tanda (childList +
+   [data-kind], coalescido por rAF) para el nacimiento del escenario
+   y los cambios de kind, y se espeja el canal [data-daypart] de la
+   v37. Los demás kinds quedan byte a byte como la v37 los deja;
+   esta capa no escribe estado ni clave alguna: lingorea_v5 intacto.
+   Decisión de Buc, 2026-11-03; corrección de la auditoría, 2026-11-03. */
+(function(){
+  try{
+    var EXTRA = { city: 'cuento-ciudad.webp',
+                  home: 'cuento-casa.webp',
+                  park: 'cuento-naturaleza.webp' };
+    function fixImg(img){
+      if (!img || img.tagName !== 'IMG' || !img.closest) return;
+      var stage = img.closest('#page .v25-stage');
+      if (!stage) return;
+      if (!img.closest('.v30-cover')) return;
+      var want = EXTRA[stage.getAttribute('data-kind') || ''];
+      if (!want) return;
+      if (img.getAttribute('src') !== want) img.src = want;
+    }
+    function scan(){
+      var stage = document.querySelector('#page .v25-stage');
+      if (!stage) return;
+      var want = EXTRA[stage.getAttribute('data-kind') || ''];
+      if (!want) return;
+      var cover = stage.querySelector('.v30-cover');
+      if (!cover) return; /* la v30 aún no la pone: el próximo pase la viste */
+      var img = cover.querySelector('img');
+      if (img && img.getAttribute('src') !== want) img.src = want;
+    }
+    var ticking = false;
+    function schedule(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        ticking = false;
+        try{ scan(); }catch(e){}
+      });
+    }
+    var mo = new MutationObserver(function(recs){
+      for (var i = 0; i < recs.length; i++){
+        var r = recs[i];
+        if (r.type === 'attributes' && r.attributeName === 'src'){
+          try{ fixImg(r.target); }catch(e){}
+        }
+      }
+      schedule();
+    });
+    mo.observe(document.body, { childList: true, subtree: true,
+      attributes: true, attributeFilter: ['src', 'data-kind'] });
+    var moH = new MutationObserver(schedule);
+    moH.observe(document.documentElement, { attributes: true,
+      attributeFilter: ['data-daypart'] });
     schedule();
   }catch(e){}
 })();
