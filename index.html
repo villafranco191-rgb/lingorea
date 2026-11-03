@@ -2375,6 +2375,18 @@ html[data-daypart="night"] #view > .v31-card .v31-shade,
     linear-gradient(180deg, rgba(14,22,7,.16) 0%, rgba(14,22,7,0) 32%,
       rgba(14,22,7,0) 50%, rgba(9,14,4,.66) 100%); }
 </style>
+<style id="muse-v39">
+/* ============ MUSE v39 · TARJETA BILINGÜE + ELLA NÍTIDA EN SU MARCO ============ */
+/* Parche A: el equivalente del chip, en el idioma del curso, legible en móvil. */
+.v27-chip .v39-eq{ font-weight:600; font-size:.9em; opacity:.68; white-space:nowrap; }
+/* Parche B: techos de presentación de la tucana plana (poses nativas 247–295 px).
+   Solo max-*: la figura siempre completa dentro de su marco, sin recorte ni reescalado grosero. */
+body .v23-her img, body .v36-her img{ max-height:96px; }
+body .v24-her img, body .v25-her img, body .v26-her img{ max-height:96px; }
+body .v27-her img{ max-height:96px; }
+body .hero .mz, body .end .mz, body .welcome .mz{ max-width:120px; max-height:120px; }
+body .mission-hero .masc, body .w-stage .masc{ max-width:120px; max-height:120px; }
+</style>
 </head>
 <body>
 <div class="app">
@@ -7742,6 +7754,62 @@ sched33();
     moP.observe(document.documentElement, { attributes: true, attributeFilter: ['data-daypart'] });
     schedule();
   }catch(e){}
+})();
+</script>
+<script id="muse-v39-js">
+/* ============ MUSE v39 · TARJETA BILINGÜE (decora la v27 sin reescribirla) ============ */
+(function(){
+"use strict";
+if(window.__museV39) return; window.__museV39 = 1;
+/* Vocabulario cerrado de la ofrenda: equivalentes por idioma de curso (EN/FR/PT). */
+var EQ = {
+ "en": {"ofrenda":"offering","cempasúchil":"marigold","calavera":"skull","altar":"altar","vela":"candle","pan de muerto":"Day of the Dead bread","copal":"incense","recuerdo":"remembrance","difuntos":"the departed","foto":"photo","flor":"flower","camino":"path"},
+ "fr": {"ofrenda":"offrande","cempasúchil":"souci","calavera":"crâne","altar":"autel","vela":"bougie","pan de muerto":"pain des morts","copal":"encens","recuerdo":"souvenir","difuntos":"les défunts","foto":"photo","flor":"fleur","camino":"chemin"},
+ "pt": {"ofrenda":"oferenda","cempasúchil":"cravo-de-defunto","calavera":"caveira","altar":"altar","vela":"vela","pan de muerto":"pão dos mortos","copal":"incenso","recuerdo":"lembrança","difuntos":"os falecidos","foto":"foto","flor":"flor","camino":"caminho"}
+};
+var timers = {};
+function courseKey(){
+  try{ var c = course(); var k = String((c && c.langTag) || "").slice(0,2).toLowerCase(); if(EQ[k]) return k; }catch(e){}
+  try{ if(typeof S !== "undefined" && S && EQ[S.course]) return S.course; }catch(e){}
+  return null;
+}
+function decorate(){
+  var card = document.querySelector(".v27-card"); if(!card) return;
+  var k = courseKey(), table = k ? EQ[k] : null;
+  var chips = card.querySelectorAll(".v27-chip");
+  for(var i = 0; i < chips.length; i++){
+    var chip = chips[i], w = chip.getAttribute("data-say27") || "";
+    var eq = table ? table[w] : null;
+    var span = chip.querySelector(".v39-eq");
+    if(eq){
+      if(!span){ span = document.createElement("span"); span.className = "v39-eq"; chip.appendChild(span); }
+      var txt = "· " + eq;
+      if(span.textContent !== txt) span.textContent = txt;
+      if(chip.getAttribute("data-v39-eq") !== eq) chip.setAttribute("data-v39-eq", eq);
+    } else {
+      if(span) span.remove();
+      if(chip.hasAttribute("data-v39-eq")) chip.removeAttribute("data-v39-eq");
+    }
+  }
+}
+var queued = false;
+function queueDecorate(){ if(queued) return; queued = true; requestAnimationFrame(function(){ queued = false; decorate(); }); }
+new MutationObserver(queueDecorate).observe(document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:["data-course"] });
+/* El toque habla el EQUIVALENTE en la voz del curso (speak() de la casa). La captura va
+   antes que el manejador burbuja de v27; sin equivalente no se intercepta nada. */
+document.addEventListener("click", function(ev){
+  var t = ev.target;
+  var chip = t && t.closest ? t.closest(".v27-chip") : null;
+  if(!chip) return;
+  var eq = chip.getAttribute("data-v39-eq");
+  if(!eq) return;
+  try{ speak(eq); }catch(e){ return; }
+  ev.stopPropagation(); ev.preventDefault();
+  chip.classList.add("v27-playing");
+  if(timers[eq]) clearTimeout(timers[eq]);
+  timers[eq] = setTimeout(function(){ chip.classList.remove("v27-playing"); }, 2600);
+}, true);
+queueDecorate();
 })();
 </script>
 </body>
